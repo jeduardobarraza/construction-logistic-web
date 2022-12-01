@@ -460,6 +460,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   loadSetsByProject = () => {
     const setByProject: any = {};
     let setList: any[] = this.obj ? this.obj.detail : [];
+    console.log(setList);
     (this.obj?.detail || []).map((set: any) => {
       if (!setByProject[set.group]) setByProject[set.group] = [];
       setByProject[set.group].push(set);
