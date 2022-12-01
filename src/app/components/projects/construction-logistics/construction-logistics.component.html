@@ -158,7 +158,7 @@
                                 </div>
                                 <div style="display: flex">
                                     <!-- <div *ngFor="let set of setsItems"> -->
-                                    <div *ngFor="let item of setsList[saleUnitTitle]">
+                                    <div *ngFor="let item of setsList[saleUnitTitle]; let j = index">
                                         <div class="unitSetForm">
                                             <div *ngFor="let set of item.sets; let i = index">
                                                 <div class="itemCell">
@@ -171,20 +171,29 @@
                           </span>
                                                 </div>
                                                 <!--</div> -->
-                                                <div class="itemCell">
-                                                    <div *ngIf="item">
-                                                        <span>{{ set.amount }} </span>
+                                                <div *ngFor="let saleUnitTitle of saleUnitsTitles">
+                                                    <div *ngFor="
+                              let saleUnit of saleUnitsList[saleUnitTitle]
+                            ">
+                                                        <div class="itemCell">
+                                                            <div *ngIf="item.name == saleUnit.name">
+                                                                <span>{{ set.amount }} </span>
+                                                            </div>
+                                                            <div *ngIf="item.name != saleUnit.name">
+                                                                <span> 0 </span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="itemCell">
+                                                <div class="itemCell" style="margin-top: 20px">
+                                                    <span>{{ set.amount }}</span>
+                                                </div>
+                                                <!-- <div class="itemCell">
                                                     <span>{{ set.amount }}</span>
                                                 </div>
                                                 <div class="itemCell">
                                                     <span>{{ set.amount }}</span>
-                                                </div>
-                                                <div class="itemCell">
-                                                    <span>{{ set.amount }}</span>
-                                                </div>
+                                                </div> -->
                                                 <!-- </div> -->
                                             </div>
                                         </div>
@@ -201,7 +210,7 @@
 
                 <div class="setsLabel">
                     <div class="totalSets">
-                        <div style="height: 60px"></div>
+                        <div style="height: 93px"></div>
                         <div class="totalColumnSets">
                             <div *ngFor="let set of setsItems">
                                 <div *ngFor="let item of setsList[set]">
