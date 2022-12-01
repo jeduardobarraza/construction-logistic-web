@@ -1,0 +1,44 @@
+<div class="app-modal-container">
+    <div class="app-modal-label logisticLabel">
+        <p>Facturación</p>
+    </div>
+    <div class="app-modal-content">
+        <div class="divFlex">
+            <span>¿Desea generar Factura?</span>
+            <div style="height: 100%">
+                <section class="alignRadio">
+                    <mat-checkbox color="primary" [(ngModel)]="byUnits">
+                        Por unidades
+                    </mat-checkbox>
+                    <mat-checkbox color="primary" [(ngModel)]="squareMeter">
+                        Por Mt²
+                    </mat-checkbox>
+                </section>
+            </div>
+        </div>
+
+        <div class="divFlex">
+            <span>
+        <b> Información Carga Fiscal </b>
+      </span>
+            <div class="divTax">
+                <div>
+                    <span class="ivaMarg"> IVA % </span>
+                    <input type="text" class="ivaInput" />
+                </div>
+                <div>
+                    <span class="ivaMarg"> AIU % </span>
+                    <input type="text" class="ivaInput" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-modal-actions">
+        <button align="end" mat-stroked-button color="primary" mat-dialog-close>
+      Cancelar
+    </button>
+        <button align="end" mat-raised-button color="primary" (click)="getInvoicePDF(byUnits, squareMeter)">
+      Generar
+    </button>
+    </div>
+</div>

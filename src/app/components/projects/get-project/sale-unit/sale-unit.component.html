@@ -1,0 +1,22 @@
+<div class="app-modal-container">
+    <div class="app-modal-label">
+        <p>Lista de Módulos para (Grupo {{ data.title }})</p>
+    </div>
+    <div class="app-modal-content" fxFlex="100%">
+        <div style="margin-bottom: 10px; justify-content: flex-end; display: flex">
+            <button mat-icon-button color="primary" (click)="openLibrary()" matTooltip="Biblioteca">
+        <mat-icon style="font-size: 30px">local_library</mat-icon>
+      </button>
+        </div>
+        <div fxFlex="100%">
+            <ag-grid-angular style="height: 300px; width: auto" fxFlex="100%" id="ag_table" #agGridDetail class="ag-theme-balham" [rowData]="salesUnitDetail" (cellClicked)="onCellClicked($event)" [columnDefs]="columnDefsModule" [gridOptions]="gridOptionsModule" [allowContextMenuWithControlKey]="true"
+                (gridReady)="onGridReady($event)" [singleClickEdit]="true">
+            </ag-grid-angular>
+        </div>
+    </div>
+    <div class="app-modal-actions">
+        <button align="end" mat-raised-button color="primary" (click)="onSave()" mat-dialog-close>
+      Continuar
+    </button>
+    </div>
+</div>

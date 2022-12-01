@@ -1,0 +1,24 @@
+<div class="title-container">
+    <h2 class="app-title">Logística de Obras</h2>
+    <div class="inline-panel">
+        <button mat-button color="primary" class="mat-elevation-z0" (click)="viewLibrary()">
+      <mat-icon class="main-button" [matTooltip]="viewLibraryTooltip">
+        local_library
+      </mat-icon>
+    </button>
+        <button mat-button color="primary" class="mat-elevation-z0" (click)="onAddClick()">
+      <mat-icon class="main-button" [matTooltip]="addProjectTooltip">
+        add_circle
+      </mat-icon>
+    </button>
+    </div>
+</div>
+<!-- <mat-form-field appearance="outline" class="no-padding">
+    <mat-label>Seleccione una opción: </mat-label>
+    <mat-select [(ngModel)]="selectedView" name="viewsList">
+        <mat-option [value]="VIEWS_LIST[0]"> Obras </mat-option>
+        <mat-option [value]="VIEWS_LIST[1]"> Pedidos </mat-option>
+    </mat-select>
+</mat-form-field> -->
+<app-projects *ngIf="selectedView === VIEWS_LIST[0]" #projectsCmp></app-projects>
+<app-orders *ngIf="selectedView === VIEWS_LIST[1]"></app-orders>

@@ -1,0 +1,38 @@
+<div class="app-modal-container">
+    <div class="app-modal-label logisticLabel" style="align-items: baseline">
+        <p>Cortes de obra</p>
+    </div>
+
+    <div class="app-modal-content" style="padding: 20px">
+        <section>
+            <mat-checkbox color="primary">
+                <mat-list style="padding: 0px">
+                    <mat-list-item style="margin-left: -4%; margin-right: 180px">
+                        <p mat-line>Recorrido 1 Date</p>
+                        <button fxFlex="6%" mat-icon-button style="cursor: pointer">
+              <mat-icon style="color: red">clear</mat-icon>
+            </button>
+                        <button fxFlex="6%" mat-icon-button style="cursor: pointer">
+              <mat-icon style="color: #ffc107">360</mat-icon>
+            </button>
+                        <button fxFlex="5%" mat-icon-button style="cursor: pointer">
+              <mat-icon style="color: #5bc0de">search</mat-icon>
+            </button>
+                    </mat-list-item>
+                </mat-list>
+            </mat-checkbox>
+        </section>
+    </div>
+
+    <div class="app-modal-actions">
+        <button align="end" mat-stroked-button color="primary" mat-dialog-close>
+      Cerrar
+    </button>
+        <button align="end" mat-raised-button color="primary" mat-dialog-close (click)="getInvoice('')">
+      Generar Factura
+    </button>
+        <button align="end" mat-raised-button color="primary" mat-dialog-close (click)="LocationUnitSale('')">
+      Nuevo recorrido
+    </button>
+    </div>
+</div>

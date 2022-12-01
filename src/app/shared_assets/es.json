@@ -1,0 +1,164 @@
+{
+    "app": {
+        "title": "Logística de Obras",
+        "projects": {
+            "title": "Obras",
+            "library": {
+                "title": "Biblioteca",
+                "tabs": {
+                    "module": "Módulos",
+                    "piece": "Piezas",
+                    "component": "Componentes"
+                }
+            },
+            "logistic": {
+                "invoicing": "Facturación",
+                "route": {
+                    "workCuts": "Cortes de obra",
+                    "newRoute": {
+                        "nameWork": "Nombre de la obra",
+                        "date": "Date",
+                        "route": "Recorrido"
+                    },
+                    "invoice": {
+                        "title": "Facturación",
+                        "byUnits": "Por unidades",
+                        "squareMeter": "Por Mt²"
+                    },
+                    "invoiceTable": {
+                        "byUnit": "Por Unidades",
+                        "squareMeter": "Por Mt²",
+                        "byUnitSquareMeter": "Por Unidades y Mt²",
+                        "invoice": "Factura",
+                        "item": "ITEM",
+                        "supplyUnitValue": "VR. UNITARIO SUMINISTRO",
+                        "supplyUnitInstallation": "VR. UNITARIO INSTALACION",
+                        "mtUnit": "Mt² Unidad",
+                        "mtSupplyUnitValue": "VR. UNITARIO SUMINISTRO Mt²",
+                        "mtSupplyUnitInstallation": "VR. UNITARIO INSTALACION Mt²",
+                        "quantity": "CANTIDAD",
+                        "supplySubtotal": "SUBTOTAL SUMINISTRO",
+                        "installationSubtotal": "SUBTOTAL INSTALACION",
+                        "utility": "Utilidad 5%",
+                        "totalSupplyInstallation": "TOTAL SUMINISTRO E INSTALACION",
+
+                        "direction": "Bosque Transv. 54 No. 19-52",
+                        "city": "Cartagena de Indias - Colombia",
+                        "businessName": "CIFRIC SAS",
+                        "cityDate": "Cartagena de Indias, D.T. y C., date",
+                        "name": "JEFFREY ALONSO ESPINEL P",
+                        "construction": "PORTALES DE SAN JOSE 123",
+                        "owesTo": "DEBE A",
+                        "cordially": "Cordialmente",
+                        "signature": "JAIME CIFUENTES",
+                        "nota": "En caso de ser aprobada esta cotización, sírvase hacer consignación o transferencia en la cuenta Bancolombia: cuenta de ahorro No. 78671515322 a nombre de CIFRIC SAS. El comprobante de consignación o transferencia, favor enviarlo vía email a servicioalcliente@latelier.com.co"
+
+                    }
+                },
+                "tabs": {
+                    "salesUnits": "Unidades de Venta",
+                    "module": "Módulos",
+                    "piece": "Piezas",
+                    "orders": "Pedidos",
+                    "remission": "Remisiones"
+                },
+                "total": {
+                    "setsByAsk": "MODULOS POR PEDIR",
+                    "itemByAsk": "ARTICULOS POR PEDIR",
+                    "totalOrders": "TOTAL PEDIDOS",
+                    "total": "TOTAL"
+                },
+                "ordersTable": {
+                    "orderNumber": "# de Pedido",
+                    "orderStatus": "Estado de Pedido",
+                    "workshopStatus": "Estado Taller"
+                },
+                "manufacturingOrder": {
+                    "title": "ORDEN DE FABRICACIÓN",
+                    "salesUnits": "Unidades de Venta",
+                    "pieceList": "Lista de Piezas",
+                    "salesUnitLocation": {
+                        "nameWork": "Nombre de la obra",
+                        "date": "Fecha"
+                    },
+                    "orderN": "PEDIDO Nº",
+                    "confN": "CONF Nº",
+                    "date": "Fecha",
+                    "product": "Producto",
+                    "construction": "Obra",
+                    "material": "Material",
+                    "finish": "Acabado",
+                    "amount": "Cantidad",
+                    "thick": "Espesor",
+                    "width": "Ancho",
+                    "length": "Largo",
+                    "componentName": "Nombre del Componente",
+                    "observations": "Observaciones",
+                    "producedBy": "Elaborado por"
+                }
+            }
+        },
+        "orders": {
+            "title": "Pedidos"
+        }
+    },
+    "formControls": {
+        "description": "Descripción",
+        "btnCancel": "Cancelar",
+        "btnClose": "Cerrar",
+        "selectOne": "Seleccione una opción:"
+    },
+    "tableColumns": {
+        "projectsTable": {
+            "tlProjectName": "Obra",
+            "tlClientName": "Nombre cliente",
+            "articles": "Artículos",
+            "responsible": "Diseño"
+        },
+        "setsTable": {
+            "name": "Nombre",
+            "reference": "Referencia",
+            "dimension": "Dimensiones",
+            "tags": "Etiqueta(s)"
+        },
+        "piecesTable": {
+            "name": "Nombre",
+            "reference": "Referencia",
+            "dimensions": "Dimensiones",
+            "tags": "Etiqueta(s)"
+        },
+        "modulesTable": {}
+    },
+    "msg": {
+        "piece": {
+            "created": "Pieza creada satisfactoriamente",
+            "updated": "Pieza actualizada satisfactoriamente",
+            "errorCreated": "Error al crear la pieza: {{error_msg}}"
+        },
+        "invoice": {
+            "generate": "¿ Desea generar Factura?",
+            "tax": "Información Carga Fiscal"
+        }
+    },
+    "button": {
+        "viewLibrary": "Ver biblioteca",
+        "addProject": "Crear obra",
+        "constructionLogistic": "Ver Logística de Obra",
+        "file": "Archivar",
+        "delete": "Eliminar",
+        "home": "Inicio",
+        "invoiceHistory": "Histórico Factura",
+        "route": "Recorridos",
+        "newOrder": "Nuevo Pedido",
+        "pieceList": "Lista de Piezas",
+        "saleUnitLocation": "Ubicación de las Unidades de Ventas",
+        "close": "Cerrar",
+        "cancel": "Cancelar",
+        "accept": "Aceptar",
+        "saveDraft": "Guardar Borrador",
+        "generate": "Generar",
+        "generateInvoice": "Generar Factura",
+        "newRouteButton": "Nuevo recorrido",
+        "print": "Imprimir"
+    }
+}

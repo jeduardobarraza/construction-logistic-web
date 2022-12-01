@@ -1,0 +1,93 @@
+<div class="app-modal-container">
+    <div class="app-modal-label" style="flex-shrink: 0">
+        <p>
+            <strong *ngIf="id === 'O'"> Por Unidades y Mt² </strong>
+            <strong *ngIf="id === 'U'"> Por unidades </strong>
+            <strong *ngIf="id === 'S'"> Por Mt² </strong>
+        </p>
+    </div>
+    <div class="app-modal-content" style="width: 100%; max-height: 500px" fxLayout="column">
+        <table>
+            <tr>
+                <th class="textCenter">ITEM</th>
+
+                <th class="textCenter" *ngIf="id === 'S' || id === 'O'">Mt² Unidad</th>
+                <th class="textCenter" *ngIf="id === 'S' || id === 'O'">
+                    VR. UNITARIO SUMINISTRO Mt²
+                </th>
+                <th class="textCenter" *ngIf="id === 'S' || id === 'O'">
+                    VR. UNITARIO INSTALACION Mt²
+                </th>
+
+                <th class="textCenter" *ngIf="id === 'U' || id === 'O'">
+                    VR. UNITARIO SUMINISTRO
+                </th>
+                <th class="textCenter" *ngIf="id === 'U' || id === 'O'">
+                    VR. UNITARIO INSTALACION
+                </th>
+
+                <th class="textCenter">CANTIDAD</th>
+                <th class="textCenter">SUBTOTAL SUMINISTRO</th>
+                <th class="textCenter">SUBTOTAL INSTALACION</th>
+            </tr>
+            <tr>
+                <td class="textStart">P1_0,60 x 2,50</td>
+                <td class="textCenter" *ngIf="id === 'S' || id === 'O'">1.5</td>
+                <td class="textLast" *ngIf="id === 'S' || id === 'O'">$ 133.455</td>
+                <td class="textLast" *ngIf="id === 'S' || id === 'O'">$ 133.455</td>
+                <td class="textLast" *ngIf="id === 'U' || id === 'O'">$ 200.183</td>
+                <td class="textLast" *ngIf="id === 'U' || id === 'O'">$ 200.183</td>
+                <td class="textEnd">30</td>
+                <td class="textLast">$ 6.005.490</td>
+                <td class="textLast">$ 6.005.490</td>
+            </tr>
+            <tr>
+                <th class="textEnd" colspan="4" *ngIf="id === 'U'">Subtotal</th>
+                <th class="textEnd" colspan="5" *ngIf="id === 'S'">Subtotal</th>
+                <th class="textEnd" colspan="7" *ngIf="id === 'O'">Subtotal</th>
+                <td class="textLast">$ 20000</td>
+                <td class="textLast">$ 20000</td>
+            </tr>
+            <tr>
+                <th class="textEnd" colspan="4" *ngIf="id === 'U'">Utilidad 5%</th>
+                <th class="textEnd" colspan="5" *ngIf="id === 'S'">Utilidad 5%</th>
+                <th class="textEnd" colspan="7" *ngIf="id === 'O'">Utilidad 5%</th>
+                <td class="textLast">$ 20000</td>
+                <td class="textLast">$ 20000</td>
+            </tr>
+            <tr>
+                <th class="textEnd" colspan="4" *ngIf="id === 'U'">IVA 19%</th>
+                <th class="textEnd" colspan="5" *ngIf="id === 'S'">IVA 19%</th>
+                <th class="textEnd" colspan="7" *ngIf="id === 'O'">IVA 19%</th>
+                <td class="textLast">$ 20000</td>
+                <td class="textLast">$ 20000</td>
+            </tr>
+            <tr>
+                <th class="textEnd" colspan="4" *ngIf="id === 'U'">Total</th>
+                <th class="textEnd" colspan="5" *ngIf="id === 'S'">Total</th>
+                <th class="textEnd" colspan="7" *ngIf="id === 'O'">Total</th>
+                <td class="textLast">$ 20000</td>
+                <td class="textLast">$ 20000</td>
+            </tr>
+            <tr>
+                <th class="textEnd" colspan="4" *ngIf="id === 'U'">
+                    TOTAL SUMINISTRO E INSTALACION
+                </th>
+                <th class="textEnd" colspan="5" *ngIf="id === 'S'">
+                    TOTAL SUMINISTRO E INSTALACION
+                </th>
+                <th class="textEnd" colspan="7" *ngIf="id === 'O'">
+                    TOTAL SUMINISTRO E INSTALACION
+                </th>
+                <th class="textLast" colspan="2">$ 20000</th>
+            </tr>
+        </table>
+    </div>
+    <div class="app-modal-actions">
+        <button mat-stroked-button color="warn" mat-dialog-close>Cerrar</button>
+        <button mat-stroked-button color="primary" (click)="getInvoicePDF()">
+      <mat-icon>local_printshop</mat-icon>
+      Imprimir
+    </button>
+    </div>
+</div>

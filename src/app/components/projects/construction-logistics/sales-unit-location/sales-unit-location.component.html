@@ -1,0 +1,115 @@
+<div class="app-modal-container">
+    <div class="app-modal-label labelLocation" *ngIf="id !== 'R'" style="
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      align-items: center;
+    ">
+        <span style="font-size: larger"> Nombre de la obra </span>
+        <span style="font-size: initial"> Fecha </span>
+    </div>
+    <div class="app-modal-label labelLocation" style="
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    " *ngIf="id === 'R'">
+        <div style="
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-around;
+        align-items: center;
+      ">
+            <span style="font-size: larger"> Nombre de la obra </span>
+            <span style="font-size: initial"> Fecha </span>
+        </div>
+        <div>
+            <span style="font-size: initial"> Recorrido #0000 </span>
+        </div>
+    </div>
+
+    <div class="app-modal-content">
+        <div class="formLabel">
+            <div class="totalUnitSale">
+                <div class="sumInst"></div>
+                <div class="inputRowAdd">
+                    <div class="inputFormRow" *ngFor="let item of inputRows; index as i">
+                        <mat-form-field appearance="outline" style="width: 70%">
+                            <input matInput />
+                        </mat-form-field>
+                        <div class="addButton">
+                            <mat-icon class="delAddIcon" color="primary" (click)="addItem()">add
+                            </mat-icon>
+                            <mat-icon class="delAddIcon" color="primary" (click)="removeItem(i)" *ngIf="inputRows.length !== 1">
+                                delete_forever
+                            </mat-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="totalUnit">
+                    <span style="font-size: large"> TOTAL </span>
+                </div>
+            </div>
+
+            <div style="display: flex">
+                <div class="unitSale">
+                    <div class="unitSaleForm">
+                        <div class="borderLabel">
+                            <span>
+                <b>muebles hogar</b>
+              </span>
+                        </div>
+                        <div style="display: flex">
+                            <div>
+                                <div class="itemCell">
+                                    <span> Cocina C25 </span>
+                                    <span>
+                    {{
+                    <!-- ((saleUnit.dimensions?.width | number) || '-') + -->
+                    ' x '
+                    <!-- +
+                        ((saleUnit.dimensions?.height | number) || '-') -->
+                    }}
+                  </span>
+                                </div>
+                                <div class="itemCell">
+                                    <span> mm2 </span>
+                                </div>
+                                <div class="itemCell">
+                                    <span> $ </span>
+                                </div>
+                                <div class="itemCell">
+                                    <span> $ </span>
+                                </div>
+                                <div *ngFor="let item of inputRows; index as i">
+                                    <mat-form-field class="inputCell" appearance="outline">
+                                        <input matInput />
+                                    </mat-form-field>
+                                </div>
+                                <div class="itemCell total-value">
+                                    <span> 60 </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-modal-actions">
+        <button align="end" mat-stroked-button color="primary" mat-dialog-close>
+      Cancelar
+    </button>
+        <button *ngIf="id !== 'R'" align="end" mat-raised-button color="primary" mat-dialog-close (click)="manufacturingOrder(obj, 'obj')">
+      Aceptar
+    </button>
+        <button *ngIf="id === 'R'" align="end" mat-raised-button color="primary" mat-dialog-close (click)="getRoute('')">
+      Guardar Borrador
+    </button>
+        <button *ngIf="id === 'R'" align="end" mat-raised-button color="primary" mat-dialog-close (click)="logisticProject(obj, '')">
+      Generar
+    </button>
+    </div>
+</div>

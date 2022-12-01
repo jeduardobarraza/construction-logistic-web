@@ -1,0 +1,15 @@
+<div class="app-modal-container">
+    <h1 mat-dialog-title>Eliminar Proyecto</h1>
+    <div mat-dialog-content class="mat-typography">
+        Está seguro que desea eliminar el proyecto: "{{data.Name}}"?
+    </div>
+    <br />
+    <div mat-dialog-actions align="end">
+        <button mat-stroked-button mat-dialog-close (click)="onNoClick()">
+      Cancelar
+    </button>
+        <button mat-raised-button type="submit" (click)="onConfirmClick()">
+      Confirmar
+    </button>
+    </div>
+</div>

@@ -1,0 +1,148 @@
+<div class="app-modal-container">
+    <div class="labelStyle">
+        <span> ORDEN DE FABRICACIÓN </span>
+        <span *ngIf="show"> Unidades de Venta </span>
+        <span *ngIf="!show"> Lista de Piezas </span>
+    </div>
+    <div class="app-modal-content content">
+        <div class="logo">
+            <div>
+                <img src="assets/logo/latelier.png" />
+                <h3 class="cfric">CFRIC SAS-900.445.452-0</h3>
+            </div>
+            <div class="orderN">
+                <div class="confN">
+                    <h3 style="margin: 0px">PEDIDO Nº</h3>
+                    <h3 style="margin: 0px">CONF Nº</h3>
+                </div>
+                <div class="divCell">
+                    <span class="spanCell">
+            <b> {{ obj.orderNumber }} </b>
+          </span>
+                    <span class="spanCell">
+            <b> {{ obj.confNumber }} </b>
+          </span>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex">
+            <span class="materialCell"> Fecha </span>
+            <span class="dateCell">
+        <b> {{ obj.orderDate | date }} </b>
+      </span>
+        </div>
+        <div style="display: flex">
+            <span class="materialCell"> Producto </span>
+            <span class="dateCell">
+        <b> {{ obj.product }} </b>
+      </span>
+            <div class="inline-panel">
+                <button [matTooltip]="pieceListTooltip" *ngIf="show" mat-button color="primary" class="mat-elevation-z0" (click)="show = !show">
+          <mat-icon class="main-button"> filter_1 </mat-icon>
+        </button>
+            </div>
+        </div>
+        <div class="marginDiv" *ngIf="show">
+            <span class="materialCell"> Obra </span>
+            <ng-select class="constrCell"> </ng-select>
+
+            <div class="inline-panel">
+                <button mat-dialog-close (click)="LocationUnitSale('')" mat-button color="primary" class="mat-elevation-z0" [matTooltip]="saleUnitLocationTooltip">
+          <mat-icon class="main-button"> arrow_drop_down_circle </mat-icon>
+        </button>
+            </div>
+        </div>
+        <div class="marginDiv" *ngIf="!show">
+            <span class="materialCell"> Obra </span>
+            <div class="divSizeConst">
+                <span class="unitSaleCell">
+          <b>{{ obj.projectId }}</b>
+        </span>
+            </div>
+        </div>
+        <div style="display: flex">
+            <span class="materialCell"> Material </span>
+            <span class="finishCell">
+        <b> {{ obj.material }} </b>
+      </span>
+            <span class="materialCell"> Acabado </span>
+            <span class="finishCell">
+        <b> {{ obj.finish }} </b>
+      </span>
+        </div>
+        <div style="margin-top: 15px">
+            <div style="display: flex" *ngFor="let item of saleUnits">
+                <div class="unitSaleDiv">
+                    <span class="unitSaleCell"> {{ item }} Name of unit sale </span>
+                </div>
+                <div class="amount">
+                    <span class="amountCell"> Cantidad </span>
+                    <input class="inputAmo" type="text" />
+                </div>
+            </div>
+            <div style="display: flex">
+                <div class="divSize">
+                    <span class="unitSaleCell"> Cantidad </span>
+                </div>
+                <div class="divSize">
+                    <span class="unitSaleCell"> Espesor </span>
+                </div>
+                <div class="divSize">
+                    <span class="unitSaleCell"> Ancho </span>
+                </div>
+                <div class="divSize">
+                    <span class="unitSaleCell"> Largo </span>
+                </div>
+                <div class="divSizeL">
+                    <span class="unitSaleCell"> Nombre del Componente </span>
+                </div>
+                <div class="divSizeL">
+                    <span class="unitSaleCell"> Observaciones </span>
+                </div>
+            </div>
+            <div class="hgtCell">
+                <div class="divSize">
+                    <span class="unitSaleCell"> </span>
+                </div>
+                <div class="divSize">
+                    <span class="unitSaleCell"> </span>
+                </div>
+                <div class="divSize">
+                    <span class="unitSaleCell"> </span>
+                </div>
+                <div class="divSize">
+                    <span class="unitSaleCell"> </span>
+                </div>
+                <div class="divSizeL">
+                    <span class="unitSaleCell"> </span>
+                </div>
+                <div class="divSizeL">
+                    <input class="inputAmo" type="text" />
+                </div>
+            </div>
+        </div>
+
+        <div class="prodCell">
+            <div style="margin-right: 10px">
+                <h3>Elaborado por</h3>
+            </div>
+            <span class="authorCell">
+        <b> {{ obj.author }}</b>
+      </span>
+        </div>
+    </div>
+    <div class="app-modal-actions">
+        <button align="end" mat-stroked-button color="primary" *ngIf="!show" (click)="show = !show">
+      Cancelar
+    </button>
+        <button align="end" mat-stroked-button color="primary" mat-dialog-close *ngIf="show">
+      Cancelar
+    </button>
+        <button align="end" mat-raised-button color="primary" mat-dialog-close>
+      Guardar Borrador
+    </button>
+        <button align="end" mat-raised-button color="primary" mat-dialog-close (click)="getRoute('')">
+      Generar
+    </button>
+    </div>
+</div>

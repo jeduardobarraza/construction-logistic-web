@@ -1,0 +1,290 @@
+<div class="app-modal-container">
+    <div class="app-modal-label logisticLabel">
+        <p>Logística de Obras - {{ obj.tlProjectName }}</p>
+        <button mat-icon-button color="primary" [matTooltip]="homeTooltip" mat-dialog-close>
+      <mat-icon class="iconHome">home</mat-icon>
+    </button>
+    </div>
+    <div class="app-modal-content" style="height: 95%">
+        <mat-tab-group mat-stretch-tabs style="height: 100%">
+            <mat-tab>
+                <ng-template mat-tab-label> Unidades de Venta </ng-template>
+
+                <div class="historyButton">
+                    <button mat-icon-button color="primary" [matTooltip]="saveLocations" (click)="addProjectLocation()">
+            <mat-icon>done_outline</mat-icon>
+          </button>
+                    <button mat-icon-button color="primary" [matTooltip]="invoiceHistoryTooltip" (click)="getInvoiceHistory('')">
+            <mat-icon>my_library_books</mat-icon>
+          </button>
+                    <button mat-icon-button color="primary" [matTooltip]="routeTooltip" mat-dialog-close (click)="getRoute('')">
+            <mat-icon>broken_image</mat-icon>
+          </button>
+                </div>
+                <div class="formLabel">
+                    <div class="totalUnitSale">
+                        <div class="sumInst">
+                            <div style="margin-bottom: 25px; text-align: right">
+                                <span>Área</span>
+                            </div>
+                            <div style="margin-bottom: 25px">
+                                <span>Valor suministro</span>
+                            </div>
+                            <div style="margin-bottom: 12px">
+                                <span>Valor instalación</span>
+                            </div>
+                        </div>
+                        <div class="inputRowAdd">
+                            <div class="inputFormRow" *ngFor="let location of locations; index as i">
+                                <mat-form-field appearance="outline" style="width: 70%">
+                                    <input matInput [(ngModel)]="location.location" autocomplete="off" required />
+                                    <!--[(ngModel)]="location.detail[i].location" /> -->
+                                </mat-form-field>
+                                <div class="addButton">
+                                    <mat-icon class="delAddIcon" color="primary" (click)="addItem(i)">add
+                                    </mat-icon>
+                                    <mat-icon class="delAddIcon" color="primary" (click)="removeItem(i)" *ngIf="locations.length !== 1">
+                                        delete_forever
+                                    </mat-icon>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="totalUnit">
+                            <span style="font-size: large"> TOTAL </span>
+                            <span style="font-size: large"> TOTAL PEDIDOS </span>
+                            <span style="font-size: large"> ARTICULOS POR PEDIR </span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex">
+                        <div class="unitSale" *ngFor="let saleUnitTitle of saleUnitsTitles">
+                            <div class="unitSaleForm">
+                                <div class="borderLabel">
+                                    <span>
+                    <b> {{ saleUnitTitle }} </b>
+                  </span>
+                                </div>
+                                <div style="display: flex">
+                                    <div *ngFor="
+                      let saleUnit of saleUnitsList[saleUnitTitle];
+                      index as i
+                    ">
+                                        <div class="itemCell">
+                                            <span> {{ saleUnit.name }} </span>
+                                            <span>
+                        {{
+                          ((saleUnit.dimensions?.width | number) || '-') +
+                            ' x ' +
+                            ((saleUnit.dimensions?.height | number) || '-')
+                        }}
+                      </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <span>
+                        {{ (saleUnit.dimensions?.area | number) || '-' }} mm2
+                      </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <span>$ {{ saleUnit.supplyValue | number }} </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <span>$ {{ saleUnit.installValue | number }} </span>
+                                        </div>
+                                        <div *ngFor="let location of locations; index as i">
+                                            <mat-form-field class="inputCell" appearance="outline">
+                                                <div *ngFor="let unit of location.saleUnits; index as j">
+                                                    <div *ngIf="unit.saleUnit.name == saleUnit.name">
+                                                        <input style="text-align: center" matInput type="number" [(ngModel)]="unit.quantity" [disabled]="location.location == ''" autocomplete="off" (ngModelChange)="totalLocations()" />
+                                                    </div>
+                                                </div>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="itemCell total-value">
+                                            <span> {{ saleUnit.quantity | number }} </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <div *ngFor="let unit of totals">
+                                                <div *ngIf="unit.saleUnit.name == saleUnit.name">
+                                                    <span>{{ unit.quantity | number }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="itemCell">
+                                            <div *ngFor="let unit of totalsToOrder">
+                                                <div *ngIf="unit.saleUnit.name == saleUnit.name">
+                                                    <span>{{ unit.quantity | number }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label> Módulos </ng-template>
+
+                <div class="setsLabel">
+                    <div class="totalSets">
+                        <div style="height: 93px"></div>
+                        <br />
+                        <div *ngFor="let saleUnitTitle of saleUnitsTitles">
+                            <div *ngFor="let saleUnit of saleUnitsList[saleUnitTitle]">
+                                <div class="totalColumnSets">
+                                    <div class="itemSetCell">
+                                        <span> {{ saleUnit.name }} </span>
+                                    </div>
+                                    <div class="itemSetCell">
+                                        <span> {{ saleUnit.quantity }} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="totalUnit" style="margin-top: 20px">
+                            <span style="font-size: large"> TOTAL </span>
+                            <span style="font-size: large"> TOTAL PEDIDOS </span>
+                            <span style="font-size: large"> MODULOS POR PEDIR </span>
+                        </div>
+                    </div>
+                    <div style="display: flex">
+                        <div class="unitSale" *ngFor="let saleUnitTitle of saleUnitsTitles">
+                            <div class="unitSaleForm">
+                                <div class="borderLabel">
+                                    <span> {{ saleUnitTitle }} </span>
+                                </div>
+                                <div style="display: flex">
+                                    <!-- <div *ngFor="let set of setsItems"> -->
+                                    <div *ngFor="let item of setsList[saleUnitTitle]">
+                                        <div class="unitSetForm">
+                                            <div *ngFor="let set of item.sets; let i = index">
+                                                <div class="itemCell">
+                                                    <!-- <span>{{ set.name }}</span> -->
+                                                    <span> {{ set.name }} </span>
+                                                    <span>
+                            {{ set.dimensions.height }}x{{
+                              set.dimensions.width
+                            }}
+                          </span>
+                                                </div>
+                                                <!--</div> -->
+                                                <div class="itemCell">
+                                                    <div *ngIf="item">
+                                                        <span>{{ set.amount }} </span>
+                                                    </div>
+                                                </div>
+                                                <div class="itemCell">
+                                                    <span>{{ set.amount }}</span>
+                                                </div>
+                                                <div class="itemCell">
+                                                    <span>{{ set.amount }}</span>
+                                                </div>
+                                                <div class="itemCell">
+                                                    <span>{{ set.amount }}</span>
+                                                </div>
+                                                <!-- </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label> Piezas </ng-template>
+
+                <div class="setsLabel">
+                    <div class="totalSets">
+                        <div style="height: 60px"></div>
+                        <div class="totalColumnSets">
+                            <div *ngFor="let set of setsItems">
+                                <div *ngFor="let item of setsList[set]">
+                                    <div class="totalColumnSets">
+                                        <div class="itemCell" style="min-width: 80px">
+                                            <span> {{ item.name }} </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <span> {{ item.quantity }} </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="totalPiece">
+                            <span style="font-size: large"> TOTAL </span>
+                        </div>
+                    </div>
+                    <div style="display: flex">
+                        <div class="unitSale" *ngFor="let saleUnitTitle of saleUnitsTitles">
+                            <div class="unitSaleForm">
+                                <div class="borderLabel">
+                                    <span> {{ saleUnitTitle }} </span>
+                                </div>
+
+                                <div style="display: flex">
+                                    <div *ngFor="let piece of piecesList">
+                                        <div class="itemCell">
+                                            <span> {{ piece.name }} </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <span> {{ piece.quantity }} </span>
+                                        </div>
+                                        <!-- <div style="margin-top: 10px"></div> -->
+                                        <div class="itemCell">
+                                            <span> {{ piece.dimensions.area }} </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <span> {{ piece.dimensions.area }} </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <span> {{ piece.dimensions.area }} </span>
+                                        </div>
+                                        <!-- <div class="itemCell">
+                                            <span> {{ piece.dimensions.area }} </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <span> {{ piece.dimensions.area }} </span>
+                                        </div> -->
+
+                                        <div class="itemCell" style="margin-top: 20px">
+                                            <span> 60 </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab>
+                <div class="inline-panel">
+                    <button mat-button color="primary" [matTooltip]="newOrderTooltip" class="mat-elevation-z0" (click)="manufacturingOrder(obj, '')">
+            <mat-icon class="main-button"> add_circle </mat-icon>
+          </button>
+                </div>
+
+                <ng-template mat-tab-label> Pedidos </ng-template>
+                <div style="height: 550px">
+                    <ag-grid-angular style="height: 100%" class="ag-theme-balham" [animateRows]="true" (cellClicked)="onCellClicked($event)" [columnDefs]="columnDefsOrders" [defaultColDef]="defaultColDefOrders" [singleClickEdit]="true">
+                    </ag-grid-angular>
+                </div>
+                <ngx-loading [show]="loading" [config]="{
+            primaryColour: 'red',
+            secondaryColour: '#673ab7',
+            tertiaryColour: 'gray',
+            backdropBorderRadius: '3px'
+          }">
+                </ngx-loading>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label> Remisiones </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

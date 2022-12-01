@@ -1,0 +1,108 @@
+<div class="app-modal-container">
+    <div class="app-modal-label">
+        <p>
+            {{ title }}
+        </p>
+    </div>
+    <div class="app-modal-content" fxLayoutGap="10px" fxLayout="column">
+        <div fxLayout="row" fxAlign="space-between" fxLayoutGap="10px">
+            <mat-form-field fxFlex="55%" appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="Nombre" [(ngModel)]="obj.name" autocomplete="off" required />
+            </mat-form-field>
+            <mat-form-field fxFlex="45%" appearance="outline">
+                <mat-label>Referencia</mat-label>
+                <input matInput placeholder="Referencia" [(ngModel)]="obj.reference" autocomplete="off" required />
+            </mat-form-field>
+            <!-- <mat-form-field fxFlex="45%" appearance="outline">
+                <mat-label>Descripción</mat-label>
+                <input matInput placeholder="Referencia" [(ngModel)]="obj.description" required />
+            </mat-form-field> -->
+        </div>
+        <mat-tab-group mat-stretch-tabs class="full-height">
+            <mat-tab label="Generales">
+                <div fxLayoutGap="10px" fxLayout="column" style="margin-top: 20px">
+                    <span>Dimensiones:</span>
+                    <div fxLayoutGap="10px" fxLayout="row">
+                        <mat-form-field fxFlex="25%" appearance="outline">
+                            <mat-label>Alto (mm)</mat-label>
+                            <input matInput placeholder="Alto" [(ngModel)]="dimensions.height" />
+                        </mat-form-field>
+                        <mat-form-field fxFlex="25%" appearance="outline">
+                            <mat-label>Ancho (mm)</mat-label>
+                            <input matInput placeholder="Ancho" [(ngModel)]="dimensions.width" />
+                        </mat-form-field>
+                        <mat-form-field fxFlex="25%" appearance="outline">
+                            <mat-label>Espesor (mm) </mat-label>
+                            <input matInput placeholder="Espesor" [(ngModel)]="dimensions.depth" />
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxFlex="grow" fxLayout="row">
+                    <mat-form-field fxFlex="grow" appearance="outline" style="width: 100%">
+                        <mat-label>Etiqueta(s)</mat-label>
+                        <mat-chip-list #chipList aria-label="tags input">
+                            <mat-chip *ngFor="let tag of tagList" (removed)="removeTag(tag)">
+                                {{ tag }}
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="Nueva etiqueta..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addTag($event)" />
+                        </mat-chip-list>
+                    </mat-form-field>
+                </div>
+            </mat-tab>
+            <mat-tab label="Propiedades">
+                <button mat-icon-button color="primary" color="primary" (click)="addRow()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+                <div fxFlex="100%">
+                    <ag-grid-angular style="height: 200px; width: auto" fxFlex="100%" #agGridProperty class="ag-theme-balham" [rowData]="propertiesList" (cellClicked)="onCellClicked($event)" [columnDefs]="columnDefsPieza" [gridOptions]="gridOptionsPieza" [allowContextMenuWithControlKey]="true"
+                        [singleClickEdit]="true" [singleClickEdit]="true">
+                    </ag-grid-angular>
+                </div>
+            </mat-tab>
+            <!-- <mat-tab label="Sub Módulos">
+                <button mat-icon-button color="primary" color="primary" (click)="openLibrary()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+                <div fxFlex="100%">
+                    <ag-grid-angular style="height: 300px; width: auto" fxFlex="100%" #agGridSubSet class="ag-theme-balham" [rowData]="propertiesList" (cellClicked)="onCellClicked($event)" [columnDefs]="columnDefsPieza" [gridOptions]="gridOptionsPieza" [allowContextMenuWithControlKey]="true"
+                        [singleClickEdit]="true">
+                    </ag-grid-angular>
+                </div>
+            </mat-tab>
+            <mat-tab label="Piezas/Componentes">
+                <button mat-icon-button color="primary" color="primary" (click)="openLibrary()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+                <div fxFlex="100%">
+                    <ag-grid-angular style="height: 300px; width: auto" fxFlex="100%" #agGridPiece class="ag-theme-balham" [rowData]="propertiesList" (cellClicked)="onCellClicked($event)" [columnDefs]="columnDefsPieza" [gridOptions]="gridOptionsPieza" [allowContextMenuWithControlKey]="true"
+                        [singleClickEdit]="true">
+                    </ag-grid-angular>
+                </div>
+            </mat-tab> -->
+        </mat-tab-group>
+    </div>
+    <div class="app-modal-actions">
+        <button align="end" mat-stroked-button color="primary" mat-dialog-close>
+      Cancelar
+    </button>
+        <button align="end" mat-raised-button color="primary" type="submit" [disabled]="
+        !obj.name ||
+        !obj.reference ||
+        !dimensions.width ||
+        !dimensions.depth ||
+        !dimensions.height
+      " (click)="onSave()">
+      Guardar
+    </button>
+    </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{
+    primaryColour: 'red',
+    secondaryColour: '#673ab7',
+    tertiaryColour: 'gray',
+    backdropBorderRadius: '3px'
+  }"></ngx-loading>

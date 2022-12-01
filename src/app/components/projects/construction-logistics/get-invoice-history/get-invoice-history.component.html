@@ -1,0 +1,25 @@
+<div class="app-modal-container">
+    <div class="app-modal-label logisticLabel">
+        <p>Facturación</p>
+    </div>
+
+    <div class="app-modal-content" style="padding: 10px">
+        <mat-list style="padding: 0px">
+            <mat-list-item style="padding: 0px">
+                <p mat-line>Factura 001 Date</p>
+                <button fxFlex="6%" mat-icon-button style="cursor: pointer">
+          <mat-icon style="color: red">clear</mat-icon>
+        </button>
+                <button fxFlex="5%" mat-icon-button style="cursor: pointer" (click)="getInvoicePDF()">
+          <mat-icon style="color: #5bc0de">search</mat-icon>
+        </button>
+            </mat-list-item>
+        </mat-list>
+    </div>
+
+    <div class="app-modal-actions">
+        <button align="end" mat-raised-button color="primary" mat-dialog-close>
+      Cerrar
+    </button>
+    </div>
+</div>

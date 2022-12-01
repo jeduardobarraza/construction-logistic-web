@@ -1,0 +1,28 @@
+.alignRadio {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    height: 70%;
+    justify-content: space-evenly;    
+    font-size: large;
+}
+.ivaInput {
+    width: 30%;
+    height: 20px;
+}
+.ivaMarg {
+    margin-right: 10px;
+}
+.divTax {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 10px;
+}
+.divFlex {
+    display: flex; 
+    flex-direction: column; 
+    height: 50%;
+    margin: 10px;
+}

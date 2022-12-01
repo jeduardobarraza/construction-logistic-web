@@ -1,0 +1,25 @@
+# Ignore artifacts:
+dist
+**/dist
+
+#config
+.github
+.eslintrc.js
+.prettierrc
+**/.aws
+README.md
+nest-cli.json
+tsconfig.json
+
+#spec
+docs/*
+
+#yml
+**/*.yml
+
+#coverage
+coverage/*
+**/coverage
+
+#i18n
+#src/contents/*

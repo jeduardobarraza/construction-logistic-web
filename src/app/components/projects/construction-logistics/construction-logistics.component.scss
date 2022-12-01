@@ -1,0 +1,223 @@
+.addButton {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.delAddIcon {
+    cursor: pointer;
+    font-size: 30px;
+    height: 30px
+}
+
+.formLabel {
+    display: flex;
+    justify-content: space-around;
+    width: fit-content;
+}
+
+.historyButton {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.iconHome {
+    font-size: 40px;
+    height: auto;
+    width: auto;
+    line-height: 30px;
+}
+
+.inputCell {
+    max-width: 135px;
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 60px;
+}
+
+.inputRowAdd {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputFormRow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-bottom: 5px;
+    height: 55px;
+}
+
+.logisticForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.logisticFormRow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-bottom: 5px;
+}
+
+.logisticRowAdd {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.logisticLabel {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pieceForm {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    // height:90%;
+    margin-bottom: 40px;
+}
+
+.pieceHeaderForm {
+    display: flex;
+    flex-direction: column;
+    height: 150px;
+}
+
+.setAddRowForm {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.setsLabel {
+    display: flex;
+    justify-content: space-around;
+    width: fit-content;
+    margin-top: 40px;
+}
+
+.sumInst {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 250px
+}
+
+.totalColumnForm {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    height: 55px;
+}
+
+.totalColumnSets {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    // height:40px;
+}
+
+.totalPiece {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 50px;
+}
+
+.totalPieceForm {
+    display: flex;
+    flex-direction: column;
+    //height: 100%;
+}
+
+.totalPieceInput {
+    display: flex;
+    flex-direction: column;
+    height: 60px;
+}
+
+.totalSets {
+    display: grid;
+    justify-items: end;
+    width: 200px;
+    margin-right: 10px;
+}
+
+.totalSetsForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.totalUnit {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 130px;
+    margin-top: 5px;
+}
+
+.totalUnitSale {
+    display: grid;
+    justify-items: end;
+    margin-right: 10px;
+    width: 200px
+}
+
+.unitSale {
+    // display:grid;
+    justify-items: center;
+}
+
+.unitSaleForm {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.unitSetForm {
+    display: flex;
+    flex-direction: row;
+    margin-right: 10px;
+}
+
+.itemCell {
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.1px;
+    padding: 10px;
+    text-align: center;
+    margin: 3px;
+}
+
+.itemSetCell {
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.1px;
+    padding: 10px;
+    text-align: center;
+    margin: 3px;
+    height: 18px;
+}
+
+.borderLabel {
+    display: flex;
+    justify-content: center;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.1px;
+    margin-bottom: 5px;
+    padding: 10px;
+    align-items: center;
+}
+
+.total-value {
+    font-weight: bold;
+}

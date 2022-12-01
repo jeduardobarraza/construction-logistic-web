@@ -1,0 +1,93 @@
+.labelLocation {    
+    display: flex;
+    flex-direction: column;    
+    color: teal;   
+    justify-content: space-around;
+    align-items: flex-start;
+    height: 80px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.formLabel {
+    display:flex;
+    justify-content:space-around;
+    width:fit-content;
+}
+.totalUnit {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    justify-content:space-around;
+    height:50px;
+    margin-top: 5px;    
+}
+.totalUnitSale {
+    display: grid; 
+    justify-items: end;
+    margin-right: 10px; 
+    width: 200px
+}
+.unitSale {    
+     justify-items:center;
+ }
+ .unitSaleForm {
+     display:flex;    
+     flex-direction: column;
+     margin-right: 10px;
+ }
+.sumInst {
+    display:flex; 
+    flex-direction:column; 
+    justify-content:flex-end; 
+    height:252px
+}
+.inputRowAdd {
+    display: flex;    
+    flex-direction: column;  
+}
+.inputFormRow {
+    display:flex; 
+    flex-wrap:wrap;
+    justify-content: space-evenly;
+    margin-bottom: 5px;
+    height: 55px;
+}
+.addButton {
+    display:flex;
+    align-items:center;
+    height:100%;
+}
+.delAddIcon {
+    cursor: pointer; 
+    font-size: 30px; 
+    height: 30px
+}
+.borderLabel {
+    display:flex; 
+    justify-content:center;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.1px;
+    margin-bottom: 5px;
+    padding: 10px;
+    align-items: center;
+}
+.itemCell{
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.1px;
+    padding: 10px;
+    text-align: center;
+    margin: 3px;
+}
+.inputCell {
+    max-width: 135px; 
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 60px;
+}
+.total-value{
+    font-weight: bold;
+}

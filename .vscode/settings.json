@@ -1,0 +1,19 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript"],
+  "editor.formatOnSave": true,
+  "prettier.semi": false,
+  "cSpell.ignorePaths": [
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    ".vscode-insiders",
+    "src/i18n/es.json",
+    "src/app/services/service-constants.ts"
+  ],
+  "cSpell.words": ["Colour", "darkorange", "Datos", "Toastr", "Usuario"]
+}

@@ -1,0 +1,9 @@
+:host ::ng-deep .no-padding{
+    .mat-form-field-wrapper{
+        padding: 0 !important;
+    }
+}
+
+.main-button{
+    transform: scale(1.5);
+}
