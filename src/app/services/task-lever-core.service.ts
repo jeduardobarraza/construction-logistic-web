@@ -6,7 +6,7 @@ import { IApiHelperOptions } from '../interfaces/api-helper-options.interface';
 import { TASK_LEVER_CORE_ENDPOINTS } from './service-constants';
 
 const CALL_CONTROLLER = 'call';
-const DOMAIN = 'https://www.tasklever.com/desktopmodules/TL_ServidorDeApis/api';
+const DOMAIN = 'http://www.tasklever.com/desktopmodules/TL_ServidorDeApis/api';
 @Injectable({
   providedIn: 'root'
 })

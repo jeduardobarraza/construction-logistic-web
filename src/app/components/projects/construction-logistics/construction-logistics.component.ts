@@ -15,6 +15,8 @@ import { GetRouteComponent } from './get-route/get-route.component';
 import { GetInvoiceHistoryComponent } from './get-invoice-history/get-invoice-history.component';
 import { IProjectLocation } from 'src/app/interfaces/projectLocation.interface';
 import { ToastrService } from 'ngx-toastr';
+import { IProjectRoute } from '../../../interfaces/projectRoute.interface';
+import { I } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-construction-logistics',
   templateUrl: './construction-logistics.component.html',
@@ -38,6 +40,14 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     projectId: '',
     projectName: '',
     projectLocationId: '',
+    detail: []
+  };
+  route: IProjectRoute = {
+    routeId: '',
+    projectId: '',
+    projectName: '',
+    routeNumber: '',
+    routeDate: '',
     detail: []
   };
   saleUnitLocation: any = {
@@ -64,7 +74,11 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   saleUnitsTitles: any[] = [];
 
   inputRows = [{ position: 1 }];
-
+  inputRowsRoute = [{ position: 1 }];
+  floor = false;
+  tower = false;
+  numberOfTowers = 0;
+  numberOfFloors = 0;
   pdfInstance: any;
   pdfPageHandler: any = {
     line: 20,
@@ -76,6 +90,11 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   homeTooltip = 'Inicio';
   newOrderTooltip = 'Nuevo Pedido';
   saveLocations = 'Guardar localizaciones';
+  saveRoute = 'Guardar Recorrido';
+  floorLocation = 'Piso';
+  towerLocation = 'Torre';
+  towerList: string[] = [];
+  floorList: string[] = [];
 
   ordersTable = {
     orderNumber: '# de Pedido',
@@ -86,10 +105,15 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   locations: any[] = [];
   locationsList: any[] = [];
   locationsQuantity: any[] = [];
+  locationsRoute: any[] = [];
+  locationsListRoute: any[] = [];
+  locationsQuantityRoute: any[] = [];
   saleUnitList: any[] = [];
   create: boolean = true;
   totals: any[] = [];
   totalsToOrder: any[] = [];
+
+  routes: any[] = [];
 
   constructor(
     private api: ConstructionLogisticsService,
@@ -107,11 +131,14 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     }
 
     this.location.projectId = obj.projectId;
+    this.route.projectId = obj.projectId;
     this.location.projectName = obj.tlProjectName;
+    this.route.projectName = obj.tlProjectName;
     console.log(this.location);
     console.log(this.saleUnitsList);
     this.asignLocation(this.saleUnitsList);
     this.listOrders();
+    this.listRoutes();
   }
   asignLocation(list: any) {
     for (let set of this.setsItems) {
@@ -131,6 +158,21 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       await this.loadPieces();
       await this.loadOrderByProject();
     });
+  }
+
+  changeTower() {
+    let torre = '';
+    for (let i = 0; i < this.numberOfTowers; i++) {
+      torre = 'Torre ' + (i + 1);
+      this.towerList[i] = torre;
+    }
+  }
+  changeFloor() {
+    let piso = '';
+    for (let i = 0; i < this.numberOfFloors; i++) {
+      piso = 'Piso ' + (i + 1);
+      this.floorList[i] = piso;
+    }
   }
   addItem(index: number) {
     let clonedSaleUnits = cloneDeep(this.locations[0].saleUnits);
@@ -177,8 +219,8 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     }
     this.location.detail = this.locations;
     let condition: boolean = false;
-    for (let i = 0; i < this.locationsQuantity.length; i++) {
-      for (let j = 0; j < this.locations.length; j++) {
+    for (let i = 0; i < this.locationsQuantityRoute.length; i++) {
+      for (let j = 0; j < this.locationsRoute.length; j++) {
         condition = false;
         for (let k = 0; k < this.locations[j].saleUnits.length; k++) {
           if (
@@ -203,12 +245,9 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     console.log(this.locations);
     this.totalLocations();
   };
-
+  ///////////
   addProjectLocation = async () => {
-    // console.log(this.locations);
-    // console.log(this.locationsList);
     this.location.detail = this.locations;
-    // console.log(this.location);
     this.totalLocations();
     let validate: boolean = true;
     for (let saleUnitTitle of this.saleUnitsTitles) {
@@ -223,15 +262,6 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
         }
       }
     }
-
-    // for (let location of this.locations) {
-    //   for (let i = 0; i < location.saleUnits.length; i++) {
-    //     if (this.totalsToOrder[i].saleUnit.name==location.saleUnits[i].name) {
-    //       this.totalsToOrder[i].quantity+=location.saleUnits[i].quantity;
-    //     }
-    //   }
-    // }
-    // console.log()
     if (validate) {
       if (this.create) {
         await this.api.createLocation(this.location.projectId, this.location);
@@ -251,7 +281,68 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
         'El numero de Unidades de venta es mayor a los contratados'
       );
   };
+  /////////
+  listRoutes = async () => {
+    for (let saleUnitTitle of this.saleUnitsTitles) {
+      for (let saleUnit of this.saleUnitsList[saleUnitTitle]) {
+        this.locationsQuantityRoute.push(saleUnit);
+      }
+    }
 
+    this.locationsListRoute = await this.api.getProjectRoute(
+      this.obj.projectId
+    );
+    if (this.locationsListRoute.length > 0) {
+      for (let route of this.locationsListRoute) {
+        console.log(route);
+        if (route.projectId == this.obj.projectId) {
+          this.create = false;
+          this.route.routeId = route.routeId;
+          for (let detail of route.detail) {
+            this.locationsRoute.push(detail);
+          }
+        }
+      }
+    }
+    if (this.create) {
+      this.create = true;
+      this.locationsRoute = [{ location: '', saleUnits: [] }];
+      // for (let unit of this.locationsQuantity) {
+      //   this.locations[0].saleUnits.push({ quantity: 0, saleUnit: unit });
+      // }
+    }
+    this.route.detail = this.locationsRoute;
+    let condition: boolean = false;
+    for (let i = 0; i < this.locationsQuantityRoute.length; i++) {
+      for (let j = 0; j < this.locationsRoute.length; j++) {
+        condition = false;
+        for (let k = 0; k < this.locationsRoute[j].saleUnits.length; k++) {
+          if (
+            this.locationsQuantityRoute[i].name ==
+            this.locationsRoute[j].saleUnits[k].name
+          ) {
+            condition = true;
+          }
+        }
+        if (condition == false) {
+          this.locationsRoute[j].saleUnits.push({
+            quantity: 0,
+            saleUnit: this.locationsQuantityRoute[i]
+          });
+        }
+      }
+    }
+
+    console.log(this.locationsQuantityRoute);
+    console.log(this.locationsRoute);
+    this.route.detail = this.locationsRoute;
+    console.log(this.route);
+  };
+  /////////
+  updateRoute() {
+    console.log('updateRoute function');
+  }
+  /////////
   totalLocations() {
     this.totals = cloneDeep(this.locations[0].saleUnits);
     this.totalsToOrder = cloneDeep(this.locations[0].saleUnits);
@@ -481,7 +572,15 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   };
 
   loadPieces = async () => {
-    const pieceList = await this.api.getPiecesByType('');
+    const pieceByProject: any = {};
+    let pieceList: any[] = this.obj ? this.obj.detail : [];
+    console.log(pieceList);
+    (this.obj?.detail || []).map((piece: any) => {
+      if (!pieceByProject[piece.group]) pieceByProject[piece.group] = [];
+      pieceByProject[piece.group].push(set);
+    });
+    console.log(pieceByProject);
+    //const pieceList = await this.api.getPiecesByType('');
     this.agGrid.api.setRowData(pieceList);
     this.loading = false;
     this.piecesList = pieceList;
