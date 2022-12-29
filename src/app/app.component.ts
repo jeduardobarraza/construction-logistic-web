@@ -40,6 +40,7 @@ export class AppComponent implements AfterViewInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
+      id: 'P',
       project
     };
 

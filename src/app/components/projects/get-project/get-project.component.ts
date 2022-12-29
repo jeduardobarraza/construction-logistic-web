@@ -18,6 +18,7 @@ import { ISaleUnit } from 'src/app/interfaces/saleUnit.interface';
 import { IConstruction } from '../../../interfaces/construction.interface';
 import { DefaultTitleStrategy } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AppApiService } from 'src/app/services/app-api.service';
 
 @Component({
   selector: 'app-get-project',
@@ -25,12 +26,14 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./get-project.component.scss']
 })
 export class GetProjectComponent implements OnInit {
-  clientListControl = new FormControl('');
+  clientListControl = new FormControl();
+  projectListControl = new FormControl();
+  responListControl = new FormControl();
   stateListControl = new FormControl('');
   filteredOptions: Observable<any[]> = new Observable<any[]>();
   loading: boolean = false;
   productGroupsList: any[] = [];
-  tittle = 'Nueva Obra';
+  tittle = '';
 
   @ViewChild('agGridSubSet') agGridSubSet!: AgGridAngular;
   @ViewChild('agGridPiece') agGridPiece!: AgGridAngular;
@@ -70,8 +73,8 @@ export class GetProjectComponent implements OnInit {
     detail: []
   };
 
-  clientList: any[] = [];
-  projectList: any[] = [];
+  clientList: any;
+  projectList: any;
   group: string = '';
   user: number;
   users: any[] = [];
@@ -97,14 +100,67 @@ export class GetProjectComponent implements OnInit {
   componentBath: any[] = [];
   componentOther: any[] = [];
 
+  responList: any;
+
+  comboClients: any[] = [];
+  comboProject: any[] = [];
+  comboCountries: any[] = [];
+  cmbRespo: any[] = [];
+  prospect_get = new ClsProspect();
+
+  id_cliente: number = -1;
+  nom_project_aux: any;
+
+  id: any;
+
   constructor(
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<GetProjectComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public constructionLogisticApi: ConstructionLogisticsService,
     public taskLeverCoreApi: TaskLeverCoreService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private api: AppApiService,
   ) {
+
+    this.id = data.id;
+
+    if (this.id) {
+      this.tittle = 'Nueva Obra'
+    } else {
+      this.tittle = 'Editar Obra'
+    }
+
+    if (this.prospect_get.id > 0) {
+      this.id_cliente = this.prospect_get.id_cliente;
+      // this.clienteSelected = true;
+      // this.projectSelected = true;
+    } else {
+      this.prospect_get.id_project = -1;
+    }
+
+    this.clientList = this.clientListControl.valueChanges.pipe(
+      startWith(''),
+      map((value) =>
+        typeof value === 'string' ? value : value.nombre_completo
+      ),
+      map((valor) => (valor ? this._filter(valor) : this.comboClients))
+    );
+    this.projectList = this.projectListControl.valueChanges.pipe(
+      startWith(''),
+      map((value) =>
+        typeof value === 'string' ? value : value.nombre
+      ),
+      map((valor) => (valor ? this._filterProject(valor) : this.comboProject))
+    );
+    this.responList = this.responListControl.valueChanges.pipe(
+      startWith(''),
+      map((value) =>
+        typeof value === 'string' ? value : value.nombre
+      ),
+      map((valor) => (valor ? this._filterRespn(valor) : this.comboProject))
+    );
+
     this.user = data.usuario;
     this.users = data.usuarios;
 
@@ -178,7 +234,7 @@ export class GetProjectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getClients();
+    this.getClient();
     if (this.obj.projectId) {
       if (!this.groupList[0].checked) this.addDoorItem(0);
       if (!this.groupList[1].checked) this.addClosetItem(0);
@@ -202,26 +258,93 @@ export class GetProjectComponent implements OnInit {
     // );
   }
 
-  getClients = async () => {
-    const clientList =
-      await this.taskLeverCoreApi.getClientsWithConfirmations();
-    this.clientList = clientList;
-  };
+  displayFn(cliente: { id: number; nombre_completo: any }) {
+    console.log(cliente);
+    if (cliente) {
+      this.id_cliente = cliente.id;
+      console.log('id_cliente [displayFN]: ' + this.id_cliente);
+      this.SearchProject(this.id_cliente);
+    }
+    return cliente ? cliente.nombre_completo : cliente;
+  }
+
+  SearchProject(id_cliente: number) {
+    this.api.ObtenerObrasClienteConfirmadas(id_cliente).subscribe((data: any) => {
+      this.comboProject = data;
+    });
+  }
+
+  // displayFnProject(project: any): string {
+  //   console.log('Method displayFnProject');
+  //   console.log(project);
+  //   if (project) {
+  //     this.prospect_get.id_project = project.id;
+  //     console.log(
+  //       'prospect_get.id_project [displayFnProject]: ' +
+  //       this.prospect_get.id_project
+  //     );
+  //   }
+  //   return project ? project.nombre : project;
+  // }
+
+  getClient() {
+    const params = {
+      id: 0,
+      idEst: 'A'
+    };
+
+    this.api.getClients(params.id, params.idEst).subscribe((data: any) => {
+      this.comboClients = data;
+    });
+
+    this.SearchProject(this.prospect_get.id_cliente);
+    this.api.GetCountries().subscribe((data: any) => {
+      this.comboCountries = data;
+    });
+
+    this.api.ObtenerUsuarios('COMERCIAL-DISEÑO')
+      .subscribe((data: any) => {
+        this.cmbRespo = data;
+      });
+  }
+
+
+
+
+  // getClients = async () => {
+  //   const clientList =
+  //     await this.taskLeverCoreApi.getClientsWithConfirmations();
+  //   this.clientList = clientList;
+  // };
+
+  private _filterRespn(value: string): string[] {
+    const responValue = value.toLowerCase();
+    return this.cmbRespo.filter((respon) =>
+      respon?.displayname.toLowerCase().includes(responValue)
+    );
+  }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.clientList.filter((client) =>
+    return this.comboClients.filter((client) =>
       client?.nombre_completo.toLowerCase().includes(filterValue)
     );
   }
+  private _filterProject(value: any): any[] {
+    console.log('Method _filterProject');
+    const filterProjectValue = value.toLowerCase();
+    return this.comboProject.filter((project) =>
+      project?.nombre.toLowerCase().includes(filterProjectValue)
+    );
+  }
 
-  // getProjects = async () => {
-  //   const projectList = await this.constructionLogisticApi.getProjects();
+  getProjects = async () => {
+    const projectList = await this.constructionLogisticApi.getProjects();
 
-  //   this.projectList = projectList;
-  //   console.log(this.projectList);
-  // };
+    this.projectList = projectList;
+    console.log(this.projectList);
+  };
 
   saveProjectObra() {
     return null;
@@ -519,4 +642,79 @@ export class GetProjectComponent implements OnInit {
     this.toastr.success('Proyecto creado satisfactoriamente');
     window.location.reload();
   };
+}
+
+export class ClsProspect {
+  id: number = 0;
+  consecutivo: string = '000001';
+  prioridad: string = '';
+  responsable: number = 0;
+  medio_contacto: string = '';
+  observaciones: string = '';
+  otro_articulo: string = '';
+  nota: string = '';
+  //Cliente
+  id_cliente: number = 0;
+  nit_cliente: string = '';
+  tipo_cliente: string = 'N';
+  tipo_cliente_string: string = '';
+  tipo_documento_cliente: string = '';
+  tipo_documento_cliente_string: string = '';
+  nombres_cliente: string = '';
+  nombre_completo_cliente: string = '';
+  apellido_1_cliente: string = '';
+  apellido_2_cliente: string = '';
+  alias_cotizacion_cliente: string = '';
+  email_cliente: string = '';
+  telefono_1_cliente: string = '';
+  telefono_2_cliente: string = '';
+  pais_cliente: string = 'COLOMBIA';
+  departamento_cliente: string = 'BOLÍVAR';
+  ciudad_cliente: string = 'CARTAGENA';
+  tipo_residencia_cliente: string = '';
+  localidad_cliente: string = '';
+  localidad_cliente_2: string = '';
+  direccion_cliente: string = '';
+  punto_referencia_cliente: string = '';
+  medio_enterado_cliente: string = '';
+  //Obra
+  id_project: number = 0;
+  nombre_obra: string = '';
+  direccion_cliente_obra: boolean = false;
+  pais_obra: string = 'COLOMBIA';
+  departamento_obra: string = 'BOLÍVAR';
+  ciudad_obra: string = 'CARTAGENA';
+  tipo_residencia_obra: string = '';
+  localidad_obra: string = '';
+  localidad_obra_2: string = '';
+  direccion_obra: string = '';
+  punto_referencia_obra: string = '';
+  nombre_interesado: string = '';
+  telefono_interesado: string = '';
+  email_interesado: string = '';
+  observaciones_obra: string = '';
+  //Facturación
+  razon_social_fact!: '';
+  tipo_documento_fact!: '';
+  tipo_documento_fact_string: string = '';
+  nit_fact!: '';
+  telefono_fact!: '';
+  email_fact!: '';
+  tipo_residencia_fact!: '';
+  localidad_cliente_fact!: '';
+  direccion_fact!: '';
+  //SISO
+  siso_nombre: string = '';
+  siso_telefono: string = '';
+  siso_correo: string = '';
+  requiere_siso: boolean = false;
+
+  fechalog!: Date;
+  fechalog_string: string = '';
+  id_usuario: number = 0;
+  usuario: string = '';
+
+  fecha_separador!: Date;
+
+  constructor() { }
 }
