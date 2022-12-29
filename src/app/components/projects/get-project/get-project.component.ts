@@ -29,7 +29,7 @@ export class GetProjectComponent implements OnInit {
   clientListControl = new FormControl();
   projectListControl = new FormControl();
   responListControl = new FormControl();
-  stateListControl = new FormControl('');
+  statuListControl = new FormControl();
   filteredOptions: Observable<any[]> = new Observable<any[]>();
   loading: boolean = false;
   productGroupsList: any[] = [];
@@ -101,6 +101,7 @@ export class GetProjectComponent implements OnInit {
   componentOther: any[] = [];
 
   responList: any;
+  statusList: any;
 
   comboClients: any[] = [];
   comboProject: any[] = [];
@@ -112,6 +113,8 @@ export class GetProjectComponent implements OnInit {
   nom_project_aux: any;
 
   id: any;
+
+  combStatus: any[] = [{ statu: 'Producción' }, { statu: 'Instalación' }, { statu: 'Entrega' }, { statu: 'Recibido' }];
 
   constructor(
     private dialog: MatDialog,
@@ -159,6 +162,13 @@ export class GetProjectComponent implements OnInit {
         typeof value === 'string' ? value : value.nombre
       ),
       map((valor) => (valor ? this._filterRespn(valor) : this.comboProject))
+    );
+    this.statusList = this.statuListControl.valueChanges.pipe(
+      startWith(''),
+      map((value) =>
+        typeof value === 'string' ? value : value.status
+      ),
+      map((valor) => (valor ? this._filter(valor) : this.combStatus))
     );
 
     this.user = data.usuario;
