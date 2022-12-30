@@ -28,7 +28,7 @@ export class AppApiService {
     controller: string = 'call'
   ) => {
     console.log(params, '***params/postQuery/ApiServices' + endpoint);
-    const url = `http://www.tasklever.com/desktopmodules/TL_ServidorDeApis/api/${controller}/${endpoint}`;
+    const url = `https://www.tasklever.com/desktopmodules/TL_ServidorDeApis/api/${controller}/${endpoint}`;
     return this.http.post(url, params, httpOptions);
   };
 
@@ -37,7 +37,7 @@ export class AppApiService {
   }
 
   getQuery(query: string, controller: string = 'call') {
-    const url = `http://www.tasklever.com/desktopmodules/TL_ServidorDeApis/api/${controller}/${query}`;
+    const url = `https://www.tasklever.com/desktopmodules/TL_ServidorDeApis/api/${controller}/${query}`;
     return this.http.get(url);
   }
 
@@ -62,7 +62,9 @@ export class AppApiService {
   }
 
   ObtenerObrasClienteConfirmadas(id_cliente: number) {
-    return this.getQuery(`ObtenerObrasClienteConfirmadas?id_cliente=${id_cliente}&skipSeparatorDate=false&excluirDadosDeBaja=true&desdeRecaudos=true`);
+    return this.getQuery(
+      `ObtenerObrasClienteConfirmadas?id_cliente=${id_cliente}&skipSeparatorDate=false&excluirDadosDeBaja=true&desdeRecaudos=true`
+    );
   }
 
   GetClientProject(id_cliente: number) {
