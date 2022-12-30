@@ -139,7 +139,7 @@ export class GetSetComponent implements OnInit {
         cellEditor: 'agTextCellEditor'
       },
       {
-        headerName: 'Valor',
+        headerName: 'Parámetro',
         field: 'value',
         filter: true,
         width: 300,

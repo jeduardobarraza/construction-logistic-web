@@ -105,7 +105,7 @@ export class GetComponentComponent implements OnInit {
         editable: true
       },
       {
-        headerName: 'Valor',
+        headerName: 'Parámetro',
         field: 'value',
         filter: true,
         width: 250,

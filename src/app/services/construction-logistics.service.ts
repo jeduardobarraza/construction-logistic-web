@@ -5,6 +5,7 @@ import { ISet } from '../interfaces/set.interface';
 import { ApiHelperService } from './api-helper.service';
 import { IConstruction } from '../interfaces/construction.interface';
 import { IProjectLocation } from '../interfaces/projectLocation.interface';
+import { IProjectRoute } from '../interfaces/projectRoute.interface';
 
 const CONSTRUCTION_CONTROLLER = 'project';
 const PIECE_CONTROLLER = 'piece';
@@ -13,6 +14,7 @@ const SALE_UNIT_CONTROLLER = 'saleUnit';
 const ORDER_CONTROLLER = 'order';
 const PROJECT_CONTROLLER = 'project';
 const LOCATION_CONTROLLER = 'locations';
+const ROUTE_CONTROLLER = 'route';
 
 @Injectable({
   providedIn: 'root'
@@ -74,7 +76,7 @@ export class ConstructionLogisticsService {
   deleteSet = (setId: string) =>
     this.apiHelper.deleteAsync(SET_CONTROLLER, { path: '' + setId });
 
-  ////////////////
+  ////////////////piece
 
   getPieceList = () => this.apiHelper.getAsync(PIECE_CONTROLLER);
 
@@ -87,7 +89,7 @@ export class ConstructionLogisticsService {
   deletePiece = (pieceId: string) =>
     this.apiHelper.deleteAsync(PIECE_CONTROLLER, { path: '' + pieceId });
 
-  //////////////////
+  //////////////////orders
 
   getProjectOrdersWithQuantity = async (projectId: any) => {
     const orders = await this.apiHelper.getAsync(PROJECT_CONTROLLER, {
@@ -103,7 +105,7 @@ export class ConstructionLogisticsService {
 
   getOrder = () => this.apiHelper.getAsync(ORDER_CONTROLLER);
 
-  //////////////////
+  //////////////////locations
   getProjectLocation = (projectId: any) =>
     this.apiHelper.getAsync(PROJECT_CONTROLLER, {
       path: '' + projectId + '/locations'
@@ -122,6 +124,19 @@ export class ConstructionLogisticsService {
   ) =>
     this.apiHelper.updateAsync(PROJECT_CONTROLLER, {
       path: '' + projectId + '/locations/' + projectLocationId,
+      body
+    });
+
+  //////////////////routes
+
+  getProjectRoute = (projectId: any) =>
+    this.apiHelper.getAsync(PROJECT_CONTROLLER, {
+      path: '' + projectId + '/route'
+    });
+
+  createRoute = (projectId: any, body: IProjectRoute) =>
+    this.apiHelper.postAsync(PROJECT_CONTROLLER, {
+      path: '' + projectId + '/route',
       body
     });
 }
