@@ -28,7 +28,7 @@ export class AppApiService {
     controller: string = 'call'
   ) => {
     console.log(params, '***params/postQuery/ApiServices' + endpoint);
-    const url = `https://www.tasklever.com/desktopmodules/TL_ServidorDeApis/api/${controller}/${endpoint}`;
+    const url = `http://www.tasklever.com/desktopmodules/TL_ServidorDeApis/api/${controller}/${endpoint}`;
     return this.http.post(url, params, httpOptions);
   };
 
@@ -37,7 +37,7 @@ export class AppApiService {
   }
 
   getQuery(query: string, controller: string = 'call') {
-    const url = `https://www.tasklever.com/desktopmodules/TL_ServidorDeApis/api/${controller}/${query}`;
+    const url = `http://www.tasklever.com/desktopmodules/TL_ServidorDeApis/api/${controller}/${query}`;
     return this.http.get(url);
   }
 
