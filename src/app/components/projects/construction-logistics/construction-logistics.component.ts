@@ -110,8 +110,11 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   locationsQuantityRoute: any[] = [];
   saleUnitList: any[] = [];
   create: boolean = true;
+  createRoute: boolean = true;
   totals: any[] = [];
   totalsToOrder: any[] = [];
+  totalsRoute: any[] = [];
+  totalsToRegistry: any[] = [];
 
   routes: any[] = [];
 
@@ -282,6 +285,38 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       );
   };
   /////////
+  totalLocations() {
+    this.totals = cloneDeep(this.locations[0].saleUnits);
+    this.totalsToOrder = cloneDeep(this.locations[0].saleUnits);
+    this.totals.map((saleUnit: any) => {
+      saleUnit.quantity = 0;
+    });
+    this.totalsToOrder.map((saleUnit: any) => {
+      saleUnit.quantity = 0;
+    });
+    console.log(this.totalsToOrder);
+
+    for (let location of this.locations) {
+      for (let i = 0; i < location.saleUnits.length; i++) {
+        if (location.saleUnits[i].quantity > 0) {
+          this.totals[i].quantity += location.saleUnits[i].quantity;
+        }
+      }
+    }
+
+    for (let saleUnitTitle of this.saleUnitsTitles) {
+      for (let saleUnit of this.saleUnitsList[saleUnitTitle]) {
+        console.log(saleUnit);
+        for (let i = 0; i < this.totals.length; i++) {
+          if (this.totals[i].saleUnit.name == saleUnit.name) {
+            this.totalsToOrder[i].quantity =
+              saleUnit.quantity - this.totals[i].quantity;
+          }
+        }
+      }
+    }
+  }
+  /////////
   listRoutes = async () => {
     for (let saleUnitTitle of this.saleUnitsTitles) {
       for (let saleUnit of this.saleUnitsList[saleUnitTitle]) {
@@ -296,7 +331,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       for (let route of this.locationsListRoute) {
         console.log(route);
         if (route.projectId == this.obj.projectId) {
-          this.create = false;
+          this.createRoute = false;
           this.route.routeId = route.routeId;
           for (let detail of route.detail) {
             this.locationsRoute.push(detail);
@@ -304,8 +339,8 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
         }
       }
     }
-    if (this.create) {
-      this.create = true;
+    if (this.createRoute) {
+      this.createRoute = true;
       this.locationsRoute = [{ location: '', saleUnits: [] }];
       // for (let unit of this.locationsQuantity) {
       //   this.locations[0].saleUnits.push({ quantity: 0, saleUnit: unit });
@@ -339,25 +374,60 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     console.log(this.route);
   };
   /////////
+  addProjectRoute = async () => {
+    this.route.detail = this.locationsRoute;
+    this.updateRoute();
+    let validate: boolean = true;
+    this.route.routeDate = new Date().toDateString();
+    this.route.routeNumber = '1';
+    for (let saleUnitTitle of this.saleUnitsTitles) {
+      for (let saleUnit of this.saleUnitsList[saleUnitTitle]) {
+        console.log(saleUnit);
+        for (let unit of this.totals) {
+          if (unit.saleUnit.name == saleUnit.name) {
+            if (unit.quantity > saleUnit.quantity) {
+              validate = false;
+            }
+          }
+        }
+      }
+    }
+    if (validate) {
+      if (this.createRoute) {
+        await this.api.createRoute(this.route.projectId, this.route);
+        this.toastr.success('Recorrido creado con éxito!');
+        console.log('route Create');
+      } else {
+        await this.api.updateRoute(
+          this.route.projectId,
+          this.route.routeId,
+          this.route
+        );
+        this.toastr.success('Recorrido actualizado con éxito!');
+        console.log('route Update');
+      }
+    } else
+      this.toastr.error(
+        'El numero de Unidades de venta es mayor a los contratados'
+      );
+  };
+  ////////
   updateRoute() {
     console.log('updateRoute function');
-  }
-  /////////
-  totalLocations() {
-    this.totals = cloneDeep(this.locations[0].saleUnits);
-    this.totalsToOrder = cloneDeep(this.locations[0].saleUnits);
-    this.totals.map((saleUnit: any) => {
+    this.totalsRoute = cloneDeep(this.locationsRoute[0].saleUnits);
+    this.totalsToRegistry = cloneDeep(this.locationsRoute[0].saleUnits);
+    this.totalsRoute.map((saleUnit: any) => {
       saleUnit.quantity = 0;
     });
-    this.totalsToOrder.map((saleUnit: any) => {
+    this.totalsToRegistry.map((saleUnit: any) => {
       saleUnit.quantity = 0;
     });
-    console.log(this.totalsToOrder);
+    console.log(this.totalsToRegistry);
 
-    for (let location of this.locations) {
+    for (let location of this.locationsRoute) {
       for (let i = 0; i < location.saleUnits.length; i++) {
         if (location.saleUnits[i].quantity > 0) {
-          this.totals[i].quantity += location.saleUnits[i].quantity;
+          this.totalsRoute[i].quantity += location.saleUnits[i].quantity;
         }
       }
     }
@@ -365,15 +435,16 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     for (let saleUnitTitle of this.saleUnitsTitles) {
       for (let saleUnit of this.saleUnitsList[saleUnitTitle]) {
         console.log(saleUnit);
-        for (let i = 0; i < this.totals.length; i++) {
-          if (this.totals[i].saleUnit.name == saleUnit.name) {
-            this.totalsToOrder[i].quantity =
-              saleUnit.quantity - this.totals[i].quantity;
+        for (let i = 0; i < this.totalsRoute.length; i++) {
+          if (this.totalsRoute[i].saleUnit.name == saleUnit.name) {
+            this.totalsToRegistry[i].quantity =
+              saleUnit.quantity - this.totalsRoute[i].quantity;
           }
         }
       }
     }
   }
+  /////////
 
   manufacturingOrder = async (type: string, obj: any) => {
     const dialogConfig = new MatDialogConfig();
