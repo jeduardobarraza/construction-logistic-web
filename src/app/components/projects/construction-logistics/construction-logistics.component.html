@@ -147,7 +147,7 @@
                 <ng-template mat-tab-label> Recorridos </ng-template>
 
                 <div class="historyButton">
-                    <button mat-icon-button color="primary" [matTooltip]="saveRoute" (click)="updateRoute()">
+                    <button mat-icon-button color="primary" [matTooltip]="saveRoute" (click)="addProjectRoute()">
             <mat-icon>done_outline</mat-icon>
           </button>
                 </div>
@@ -165,7 +165,7 @@
                             </div>
                         </div>
                         <div class="inputRowAdd">
-                            <div class="inputFormRow" *ngFor="let location of locations; index as i">
+                            <div class="inputFormRow" *ngFor="let location of locationsRoute; index as i">
                                 <mat-form-field appearance="outline" style="width: 50%">
                                     <input matInput [(ngModel)]="location.location" autocomplete="off" required />
                                 </mat-form-field>
@@ -220,7 +220,7 @@
                                         <div class="itemCell">
                                             <span>$ {{ saleUnit.installValue | number }} </span>
                                         </div>
-                                        <div *ngFor="let location of locations; index as i">
+                                        <div *ngFor="let location of locationsRoute; index as i">
                                             <mat-form-field class="inputCell" appearance="outline">
                                                 <div *ngFor="let unit of location.saleUnits; index as j">
                                                     <div *ngIf="unit.saleUnit.name == saleUnit.name">

@@ -139,4 +139,10 @@ export class ConstructionLogisticsService {
       path: '' + projectId + '/route',
       body
     });
+
+  updateRoute = (projectId: string, routeId: any, body: IProjectLocation) =>
+    this.apiHelper.updateAsync(PROJECT_CONTROLLER, {
+      path: '' + projectId + '/locations/' + routeId,
+      body
+    });
 }
