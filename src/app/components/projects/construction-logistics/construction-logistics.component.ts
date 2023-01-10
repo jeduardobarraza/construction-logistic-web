@@ -378,7 +378,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     this.route.detail = this.locationsRoute;
     this.updateRoute();
     let validate: boolean = true;
-    this.route.routeDate = new Date().toDateString();
+    this.route.routeDate = new Date().toLocaleDateString();
     this.route.routeNumber = '1';
     for (let saleUnitTitle of this.saleUnitsTitles) {
       for (let saleUnit of this.saleUnitsList[saleUnitTitle]) {
