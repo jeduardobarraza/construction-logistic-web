@@ -26,10 +26,13 @@ import { AppApiService } from 'src/app/services/app-api.service';
   styleUrls: ['./get-project.component.scss']
 })
 export class GetProjectComponent implements OnInit {
+
   clientListControl = new FormControl();
   projectListControl = new FormControl();
   responListControl = new FormControl();
-  stateListControl = new FormControl('');
+  statuListControl = new FormControl();
+  confirmListControl = new FormControl();
+
   filteredOptions: Observable<any[]> = new Observable<any[]>();
   loading: boolean = false;
   productGroupsList: any[] = [];
@@ -75,6 +78,10 @@ export class GetProjectComponent implements OnInit {
 
   clientList: any;
   projectList: any;
+  responList: any;
+  statusList: any;
+  confirmList: any;
+
   group: string = '';
   user: number;
   users: any[] = [];
@@ -100,17 +107,17 @@ export class GetProjectComponent implements OnInit {
   componentBath: any[] = [];
   componentOther: any[] = [];
 
-  responList: any;
-
   comboClients: any[] = [];
   comboProject: any[] = [];
   comboCountries: any[] = [];
   cmbRespo: any[] = [];
+  comboConf: any[] = [];
+  combStatus: any[] = [{ statu: 'Producción' }, { statu: 'Instalación' }, { statu: 'Entrega' }, { statu: 'Recibido' }];
+
   prospect_get = new ClsProspect();
 
   id_cliente: number = -1;
-  nom_project_aux: any;
-
+  id_project: number = -1;
   id: any;
 
   constructor(
@@ -156,9 +163,24 @@ export class GetProjectComponent implements OnInit {
     this.responList = this.responListControl.valueChanges.pipe(
       startWith(''),
       map((value) =>
-        typeof value === 'string' ? value : value.nombre
+        typeof value === 'string' ? value : value.displayname
       ),
-      map((valor) => (valor ? this._filterRespn(valor) : this.comboProject))
+      map((valor) => (valor ? this._filterRespn(valor) : this.cmbRespo))
+    );
+    this.statusList = this.statuListControl.valueChanges.pipe(
+      startWith(''),
+      map((value) =>
+        typeof value === 'string' ? value : value.status
+      ),
+      map((valor) => (valor ? this._filter(valor) : this.combStatus))
+    );
+
+    this.confirmList = this.confirmListControl.valueChanges.pipe(
+      startWith(''),
+      map((value) =>
+        typeof value === 'string' ? value : value.consecutivo
+      ),
+      map((valor) => (valor ? this._filterConfirm(valor) : this.comboConf))
     );
 
     this.user = data.usuario;
@@ -256,7 +278,9 @@ export class GetProjectComponent implements OnInit {
     //   startWith(''),
     //   map((value) => this._filter(value || ''))
     // );
+
   }
+
 
   displayFn(cliente: { id: number; nombre_completo: any }) {
     console.log(cliente);
@@ -287,6 +311,24 @@ export class GetProjectComponent implements OnInit {
   //   return project ? project.nombre : project;
   // }
 
+  displayFnProject(project: any): string {
+    console.log('Method displayFnProject');
+    console.log(project);
+    if (project) {
+      this.id_project = project.id;
+      console.log('this.id: ' + this.id);
+      this.getConfirmaciones(this.id_project);
+    }
+    return project ? project.nombre : project;
+  }
+
+  getConfirmaciones(id: number) {
+    this.api.ObtenerConfirmacionesAgrup(this.id_project)
+      .subscribe((data: any) => {
+        this.comboConf = data;
+      });
+  }
+
   getClient() {
     const params = {
       id: 0,
@@ -298,6 +340,7 @@ export class GetProjectComponent implements OnInit {
     });
 
     this.SearchProject(this.prospect_get.id_cliente);
+
     this.api.GetCountries().subscribe((data: any) => {
       this.comboCountries = data;
     });
@@ -306,6 +349,9 @@ export class GetProjectComponent implements OnInit {
       .subscribe((data: any) => {
         this.cmbRespo = data;
       });
+
+    this.getConfirmaciones(this.id_project);
+
   }
 
 
@@ -336,6 +382,14 @@ export class GetProjectComponent implements OnInit {
     const filterProjectValue = value.toLowerCase();
     return this.comboProject.filter((project) =>
       project?.nombre.toLowerCase().includes(filterProjectValue)
+    );
+  }
+
+  private _filterConfirm(value: any): any[] {
+    console.log('Method _filterConfirm');
+    const filterConfirmValue = value.toLowerCase();
+    return this.comboConf.filter((confirm) =>
+      confirm?.consecutivo.toLowerCase().includes(filterConfirmValue)
     );
   }
 
