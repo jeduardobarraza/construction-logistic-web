@@ -142,7 +142,7 @@ export class ConstructionLogisticsService {
 
   updateRoute = (projectId: string, routeId: any, body: IProjectLocation) =>
     this.apiHelper.updateAsync(PROJECT_CONTROLLER, {
-      path: '' + projectId + '/locations/' + routeId,
+      path: '' + projectId + '/route/' + routeId,
       body
     });
 }
