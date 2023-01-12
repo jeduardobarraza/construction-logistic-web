@@ -486,7 +486,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       GetManufacturingOrderComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   getInvoiceHistory = async (type: string, obj: any = null) => {
@@ -505,7 +505,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       GetInvoiceHistoryComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   getRoute = async (type: string, obj: any = null) => {
@@ -521,7 +521,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     dialogConfig.width = '500px';
     dialogConfig.panelClass = 'custom-modal';
     const dialogRef = this.dialog.open(GetRouteComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   onCellClicked(e: any) {
@@ -662,7 +662,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     this.setsList = setByProject;
     this.setsItems = Object.keys(setByProject).sort();
     console.log('setByProject', setByProject);
-    console.log(this.setsList);
+    console.log('this.setsList', this.setsList);
     console.log(this.setsItems);
   };
 

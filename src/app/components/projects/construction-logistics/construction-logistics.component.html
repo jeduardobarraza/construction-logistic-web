@@ -231,7 +231,7 @@
                                             <mat-form-field class="inputCell" appearance="outline">
                                                 <div *ngFor="let unit of location.saleUnits; index as j">
                                                     <div *ngIf="unit.saleUnit.name == saleUnit.name">
-                                                        <input style="text-align: center" matInput type="number" [(ngModel)]="unit.quantity" [disabled]="location.location == ''" autocomplete="off" (ngModelChange)="updateRoute()" />
+                                                        <input style="text-align: center" matInput type="number" [(ngModel)]="unit.quantity" [disabled]="location.location == ''" autocomplete="off" (ngModelChange)="totalLocations()" />
                                                     </div>
                                                 </div>
                                             </mat-form-field>
@@ -266,9 +266,9 @@
 
                 <div class="setsLabel">
                     <div class="totalSets">
-                        <div style="height: 93px"></div>
+                        <div style="height: 95px"></div>
                         <br />
-                        <div *ngFor="let saleUnitTitle of saleUnitsTitles">
+                        <div *ngFor="let saleUnitTitle of saleUnitsTitles" class="modulSets">
                             <div *ngFor="let saleUnit of saleUnitsList[saleUnitTitle]">
                                 <div class="totalColumnSets">
                                     <div class="itemSetCell">
@@ -348,20 +348,20 @@
                 <div class="setsLabel">
                     <div class="totalSets">
                         <div style="height: 93px"></div>
-                        <div class="totalColumnSets">
-                            <div *ngFor="let set of setsItems">
-                                <div *ngFor="let item of setsList[set]">
-                                    <div class="totalColumnSets">
-                                        <div class="itemCell" style="min-width: 80px">
-                                            <span> {{ item.name }} </span>
-                                        </div>
-                                        <div class="itemCell">
-                                            <span> {{ item.quantity }} </span>
-                                        </div>
+
+                        <div *ngFor="let set of setsItems" class="pieceSets">
+                            <div *ngFor="let item of setsList[set]">
+                                <div class="totalColumnSets">
+                                    <div class="itemCell">
+                                        <span> {{ item.name }} </span>
+                                    </div>
+                                    <div class="itemCell">
+                                        <span> {{ item.quantity }} </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="totalPiece">
                             <span style="font-size: large"> TOTAL </span>
                         </div>
@@ -372,7 +372,6 @@
                                 <div class="borderLabel">
                                     <span> {{ saleUnitTitle }} </span>
                                 </div>
-
                                 <div style="display: flex">
                                     <div *ngFor="let pieces of piecesList">
                                         <div *ngIf="pieces.group == saleUnitTitle">

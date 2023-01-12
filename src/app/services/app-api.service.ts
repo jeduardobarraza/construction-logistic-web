@@ -67,6 +67,10 @@ export class AppApiService {
     );
   }
 
+  ObtenerConfirmacionesAgrup(id: number) {
+    return this.getQuery(`ObtenerConfirmacionesAgrup?id=${id}`);
+  }
+
   GetClientProject(id_cliente: number) {
     return this.getQuery(`ObtenerObrasCliente?id_cliente=${id_cliente}`);
   }

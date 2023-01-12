@@ -10,39 +10,51 @@
       <mat-form-field fxFlex="33%" appearance="outline">
         <mat-label>Responsable</mat-label>
         <input type="text" matInput placeholder="Responsable" [(ngModel)]="obj.responsible"
-          [formControl]="responListControl" [matAutocomplete]="autoU" required />
-        <mat-autocomplete fxFlex="35%" #autoU="matAutocomplete">
+          [formControl]="responListControl" [matAutocomplete]="autoR" required />
+        <mat-autocomplete fxFlex="35%" #autoR="matAutocomplete">
           <mat-option *ngFor="let r of responList | async" [value]="r.displayname">
             {{r.displayname}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+
+      <mat-form-field fxFlex="33%" appearance="outline" *ngIf="this.id !== 'P'">
+        <mat-label>Nombre del cliente</mat-label>
+        <input type="text" placeholder="Eliga un cliente" aria-label="Number" matInput [(ngModel)]="obj.tlClientName"
+          [formControl]="clientListControl" required />
+        <!-- <mat-autocomplete fxFlex="35%" #autoCl="matAutocomplete">
+          <mat-option *ngFor="let client of clientList | async" [value]="client.nombre_completo">
+            {{ client.nombre_completo }}
+          </mat-option>
+        </mat-autocomplete> -->
+      </mat-form-field>
       <mat-form-field fxFlex="33%" appearance="outline" *ngIf="this.id === 'P'">
         <mat-label>Nombre del cliente</mat-label>
         <input type="text" placeholder="Eliga un cliente" aria-label="Number" matInput [(ngModel)]="obj.tlClientName"
-          [formControl]="clientListControl" [matAutocomplete]="autoC" required />
-        <mat-autocomplete fxFlex="35%" #autoC="matAutocomplete" [displayWith]="displayFn.bind(this)">
+          [formControl]="clientListControl" [matAutocomplete]="autoCl" required />
+        <mat-autocomplete fxFlex="35%" #autoCl="matAutocomplete" [displayWith]="displayFn.bind(this)">
           <mat-option *ngFor="let client of clientList | async" [value]="client">
             {{ client.nombre_completo }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+
       <mat-form-field fxFlex="33%" appearance="outline" *ngIf="this.id !== 'P'">
-        <mat-label>Nombre del cliente</mat-label>
-        <input type="text" placeholder="Eliga un cliente" aria-label="Number" matInput [(ngModel)]="obj.tlClientName"
-          [formControl]="clientListControl" [matAutocomplete]="autoC" required />
-        <mat-autocomplete fxFlex="35%" #autoC="matAutocomplete">
-          <mat-option *ngFor="let client of clientList | async" [value]="client.nombre_completo">
-            {{ client.nombre_completo }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field fxFlex="33%" appearance="outline">
         <mat-label>Nombre del proyecto</mat-label>
         <input type="text" placeholder="Proyecto" aria-label="Number" matInput [(ngModel)]="obj.tlProjectName"
-          [formControl]="projectListControl" [matAutocomplete]="auto" required />
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let project of projectList | async" [value]="project.nombre">
+          [formControl]="projectListControl" required />
+        <!-- <mat-autocomplete #autoP="matAutocomplete" [displayWith]="displayFnProject.bind(this)">
+          <mat-option *ngFor="let project of projectList | async" [value]="project">
+            {{ project.nombre }}
+          </mat-option>
+        </mat-autocomplete> -->
+      </mat-form-field>
+      <mat-form-field fxFlex="33%" appearance="outline" *ngIf="this.id === 'P'">
+        <mat-label>Nombre del proyecto</mat-label>
+        <input type="text" placeholder="Proyecto" aria-label="Number" matInput [(ngModel)]="obj.tlProjectName"
+          [formControl]="projectListControl" [matAutocomplete]="autoP" required />
+        <mat-autocomplete #autoP="matAutocomplete" [displayWith]="displayFnProject.bind(this)">
+          <mat-option *ngFor="let project of projectList | async" [value]="project">
             {{ project.nombre }}
           </mat-option>
         </mat-autocomplete>
@@ -62,28 +74,36 @@
       </mat-form-field>
       <mat-form-field fxFlex="33%" appearance="outline">
         <mat-label>Número de confirmación</mat-label>
-        <input type="text" matInput placeholder="Confirmación" [(ngModel)]="obj.tlConfirmationNumber" autocomplete="off"
+        <input type="select" matInput placeholder="Confirmación" aria-label="Number"
+          [(ngModel)]="obj.tlConfirmationNumber" [formControl]="confirmListControl" [matAutocomplete]="autoCon"
           required />
+        <mat-autocomplete fxFlex="35%" #autoCon="matAutocomplete">
+          <mat-option *ngFor="let confirm of confirmList | async" [value]="confirm.consecutivo">
+            {{ confirm.consecutivo }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutGap="10px">
       <mat-form-field fxFlex="32.5%" appearance="outline">
         <mat-label>Usuario</mat-label>
-        <input type="text" matInput placeholder="Usuario" [(ngModel)]="obj.userName" autocomplete="off" required />
+        <input type="text" matInput placeholder="Usuario" [(ngModel)]="obj.userName" autocomplete="off"
+          [disabled]="this.id === 'P'" />
       </mat-form-field>
-      <!-- <mat-form-field fxFlex="32%" appearance="outline">
-                <mat-label>Estado del proyecto</mat-label>
-                <input placeholder="Eliga un estado" aria-label="Number" matInput [formControl]="stateListControl" [matAutocomplete]="auto" [(ngModel)]="obj.status" required />
-                <mat-autocomplete fxFlex="35%">
-                    <mat-option *ngFor="let state of stateList" [value]="state.status">
-                        {{ state.value }}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field> -->
-      <mat-form-field fxFlex="33%" appearance="outline">
+      <mat-form-field fxFlex="32%" appearance="outline">
+        <mat-label>Estado del proyecto</mat-label>
+        <input type="text" placeholder="Eliga un estado" aria-label="Number" matInput [formControl]="statuListControl"
+          [matAutocomplete]="autoS" [(ngModel)]="obj.status" required />
+        <mat-autocomplete #autoS="matAutocomplete" fxFlex="35%">
+          <mat-option *ngFor="let state of statusList | async" [value]="state.statu">
+            {{ state.statu }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <!-- <mat-form-field fxFlex="33%" appearance="outline">
         <mat-label>Estado del proyecto</mat-label>
         <input type="text" matInput placeholder="Estado" [(ngModel)]="obj.status" autocomplete="off" required />
-      </mat-form-field>
+      </mat-form-field> -->
     </div>
     <div class="app-modal-label" style="justify-content: space-around">
       <section>
