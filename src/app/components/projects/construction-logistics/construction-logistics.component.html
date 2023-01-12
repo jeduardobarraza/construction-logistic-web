@@ -142,11 +142,19 @@
                     </div>
                 </div>
             </mat-tab>
-            <!-- seccion de arqueo -->
+            <!-- route section -->
             <mat-tab>
                 <ng-template mat-tab-label> Recorridos </ng-template>
 
                 <div class="historyButton">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Choose an option</mat-label>
+                        <mat-select [disabled]="disableSelect.value">
+                            <mat-option value="option1">Option 1</mat-option>
+                            <mat-option value="option2" disabled>Option 2 (disabled)</mat-option>
+                            <mat-option value="option3">Option 3</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                     <button mat-icon-button color="primary" [matTooltip]="saveRoute" (click)="addProjectRoute()">
             <mat-icon>done_outline</mat-icon>
           </button>
@@ -169,13 +177,13 @@
                                 <mat-form-field appearance="outline" style="width: 50%">
                                     <input matInput [(ngModel)]="location.location" autocomplete="off" required />
                                 </mat-form-field>
-                                <!-- <div class="addButton">
-                                    <mat-icon class="delAddIcon" color="primary" (click)="addItem(i)">add
+                                <div class="addButton">
+                                    <mat-icon class="delAddIcon" color="primary" (click)="addRoute(i)">add
                                     </mat-icon>
-                                    <mat-icon class="delAddIcon" color="primary" (click)="removeItem(i)" *ngIf="locations.length !== 1">
+                                    <mat-icon class="delAddIcon" color="primary" (click)="removeRoute(i)" *ngIf="locations.length !== 1">
                                         delete_forever
                                     </mat-icon>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                         <div class="totalUnit">
@@ -183,7 +191,6 @@
                             <span style="font-size: large"> TOTAL PEDIDOS </span>
                             <span style="font-size: large"> ARTICULOS POR PEDIR </span>
                         </div>
-                        q
                     </div>
 
                     <div style="display: flex">
@@ -224,7 +231,7 @@
                                             <mat-form-field class="inputCell" appearance="outline">
                                                 <div *ngFor="let unit of location.saleUnits; index as j">
                                                     <div *ngIf="unit.saleUnit.name == saleUnit.name">
-                                                        <input style="text-align: center" matInput type="number" [(ngModel)]="unit.quantity" [disabled]="location.location == ''" autocomplete="off" (ngModelChange)="totalLocations()" />
+                                                        <input style="text-align: center" matInput type="number" [(ngModel)]="unit.quantity" [disabled]="location.location == ''" autocomplete="off" (ngModelChange)="updateRoute()" />
                                                     </div>
                                                 </div>
                                             </mat-form-field>
@@ -233,14 +240,14 @@
                                             <span> {{ saleUnit.quantity | number }} </span>
                                         </div>
                                         <div class="itemCell">
-                                            <div *ngFor="let unit of totals">
+                                            <div *ngFor="let unit of totalsRoute">
                                                 <div *ngIf="unit.saleUnit.name == saleUnit.name">
                                                     <span>{{ unit.quantity | number }}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="itemCell">
-                                            <div *ngFor="let unit of totalsToOrder">
+                                            <div *ngFor="let unit of totalsToRegistry">
                                                 <div *ngIf="unit.saleUnit.name == saleUnit.name">
                                                     <span>{{ unit.quantity | number }}</span>
                                                 </div>
@@ -253,7 +260,7 @@
                     </div>
                 </div>
             </mat-tab>
-            <!-- seccion de modulos -->
+            <!-- modules section -->
             <mat-tab>
                 <ng-template mat-tab-label> Módulos </ng-template>
 
@@ -274,10 +281,10 @@
                             </div>
                         </div>
 
-                        <div class="totalUnit" style="margin-top: 20px">
+                        <div style="margin-top: 20px">
                             <span style="font-size: large"> TOTAL </span>
-                            <span style="font-size: large"> TOTAL PEDIDOS </span>
-                            <span style="font-size: large"> MODULOS POR PEDIR </span>
+                            <!-- <span style="font-size: large"> TOTAL PEDIDOS </span>
+                            <span style="font-size: large"> MODULOS POR PEDIR </span> -->
                         </div>
                     </div>
                     <div style="display: flex">
@@ -334,7 +341,7 @@
                     </div>
                 </div>
             </mat-tab>
-
+            <!-- pieces section -->
             <mat-tab>
                 <ng-template mat-tab-label> Piezas </ng-template>
 
@@ -367,32 +374,59 @@
                                 </div>
 
                                 <div style="display: flex">
-                                    <div *ngFor="let piece of piecesList">
-                                        <div class="itemCell">
-                                            <span> {{ piece.name }} </span>
-                                        </div>
-                                        <div class="itemCell">
-                                            <span> {{ piece.quantity }} </span>
-                                        </div>
-                                        <!-- <div style="margin-top: 10px"></div> -->
-                                        <div class="itemCell">
+                                    <div *ngFor="let pieces of piecesList">
+                                        <div *ngIf="pieces.group == saleUnitTitle">
+                                            <div *ngFor="let piece of pieces.pieces; let i = index">
+                                                <div class="itemCell">
+                                                    <!-- <span>{{ set.name }}</span> -->
+                                                    <span> {{ piece.name }} </span>
+                                                    <span>
+                            {{ piece.dimensions.height }}x{{
+                              piece.dimensions.width
+                            }}
+                          </span>
+                                                </div>
+                                                <div *ngFor="let saleUnitTitle of saleUnitsTitles">
+                                                    <div *ngFor="
+                              let saleUnit of saleUnitsList[saleUnitTitle]
+                            ">
+                                                        <div class="itemCell">
+                                                            <div *ngIf="pieces.name == saleUnit.name">
+                                                                <span>{{ piece.amount }} </span>
+                                                            </div>
+                                                            <div *ngIf="pieces.name != saleUnit.name">
+                                                                <span> 0 </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="itemCell">
+                                                    <span> {{ piece.name }} </span>
+                                                </div>
+                                                <div class="itemCell">
+                                                    <span> {{ piece.quantity }} </span>
+                                                </div>
+                                                <div style="margin-top: 10px"></div>
+                                                <div class="itemCell">
+                                                    <span> {{ piece.dimensions.area }} </span>
+                                                </div>
+                                                <div class="itemCell">
+                                                    <span> {{ piece.dimensions.area }} </span>
+                                                </div>
+                                                <div class="itemCell">
+                                                    <span> {{ piece.dimensions.area }} </span>
+                                                </div> -->
+                                                <!-- <div class="itemCell">
                                             <span> {{ piece.dimensions.area }} </span>
                                         </div>
                                         <div class="itemCell">
                                             <span> {{ piece.dimensions.area }} </span>
-                                        </div>
-                                        <div class="itemCell">
-                                            <span> {{ piece.dimensions.area }} </span>
-                                        </div>
-                                        <!-- <div class="itemCell">
-                                            <span> {{ piece.dimensions.area }} </span>
-                                        </div>
-                                        <div class="itemCell">
-                                            <span> {{ piece.dimensions.area }} </span>
-                                        </div> -->
+                                        </div>-->
 
-                                        <div class="itemCell" style="margin-top: 20px">
-                                            <span> 60 </span>
+                                                <div class="itemCell" style="margin-top: 20px">
+                                                    <span> {{ piece.amount }} </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

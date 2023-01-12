@@ -17,6 +17,7 @@ import { IProjectLocation } from 'src/app/interfaces/projectLocation.interface';
 import { ToastrService } from 'ngx-toastr';
 import { IProjectRoute } from '../../../interfaces/projectRoute.interface';
 import { I } from '@angular/cdk/keycodes';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-construction-logistics',
   templateUrl: './construction-logistics.component.html',
@@ -118,6 +119,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
 
   routes: any[] = [];
 
+  disableSelect = new FormControl(false);
   constructor(
     private api: ConstructionLogisticsService,
     private dialog: MatDialog,
@@ -222,8 +224,8 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     }
     this.location.detail = this.locations;
     let condition: boolean = false;
-    for (let i = 0; i < this.locationsQuantityRoute.length; i++) {
-      for (let j = 0; j < this.locationsRoute.length; j++) {
+    for (let i = 0; i < this.locationsQuantity.length; i++) {
+      for (let j = 0; j < this.locations.length; j++) {
         condition = false;
         for (let k = 0; k < this.locations[j].saleUnits.length; k++) {
           if (
@@ -249,6 +251,23 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     this.totalLocations();
   };
   ///////////
+
+  addRoute(index: number) {
+    let clonedSaleUnits = cloneDeep(this.locationsRoute[0].saleUnits);
+    clonedSaleUnits.map((saleUnit: any) => {
+      saleUnit.quantity = 0;
+    });
+    this.locationsRoute.splice(index + 1, 0, {
+      location: '',
+      saleUnits: clonedSaleUnits
+    });
+  }
+
+  removeRoute(index: number) {
+    this.inputRowsRoute.splice(index, 1);
+    this.locationsRoute.splice(index, 1);
+  }
+
   addProjectLocation = async () => {
     this.location.detail = this.locations;
     this.totalLocations();
@@ -345,25 +364,26 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       // for (let unit of this.locationsQuantity) {
       //   this.locations[0].saleUnits.push({ quantity: 0, saleUnit: unit });
       // }
-    }
-    this.route.detail = this.locationsRoute;
-    let condition: boolean = false;
-    for (let i = 0; i < this.locationsQuantityRoute.length; i++) {
-      for (let j = 0; j < this.locationsRoute.length; j++) {
-        condition = false;
-        for (let k = 0; k < this.locationsRoute[j].saleUnits.length; k++) {
-          if (
-            this.locationsQuantityRoute[i].name ==
-            this.locationsRoute[j].saleUnits[k].name
-          ) {
-            condition = true;
+
+      this.route.detail = this.locationsRoute;
+      let condition: boolean = false;
+      for (let i = 0; i < this.locationsQuantityRoute.length; i++) {
+        for (let j = 0; j < this.locationsRoute.length; j++) {
+          condition = false;
+          for (let k = 0; k < this.locationsRoute[j].saleUnits.length; k++) {
+            if (
+              this.locationsQuantityRoute[i].name ==
+              this.locationsRoute[j].saleUnits[k].name
+            ) {
+              condition = true;
+            }
           }
-        }
-        if (condition == false) {
-          this.locationsRoute[j].saleUnits.push({
-            quantity: 0,
-            saleUnit: this.locationsQuantityRoute[i]
-          });
+          if (condition == false) {
+            this.locationsRoute[j].saleUnits.push({
+              quantity: 0,
+              saleUnit: this.locationsQuantityRoute[i]
+            });
+          }
         }
       }
     }
@@ -372,18 +392,19 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     console.log(this.locationsRoute);
     this.route.detail = this.locationsRoute;
     console.log(this.route);
+    this.updateRoute();
   };
   /////////
   addProjectRoute = async () => {
     this.route.detail = this.locationsRoute;
     this.updateRoute();
     let validate: boolean = true;
-    this.route.routeDate = new Date().toLocaleDateString();
+    this.route.routeDate = new Date().toISOString();
     this.route.routeNumber = '1';
     for (let saleUnitTitle of this.saleUnitsTitles) {
       for (let saleUnit of this.saleUnitsList[saleUnitTitle]) {
         console.log(saleUnit);
-        for (let unit of this.totals) {
+        for (let unit of this.totalsRoute) {
           if (unit.saleUnit.name == saleUnit.name) {
             if (unit.quantity > saleUnit.quantity) {
               validate = false;
@@ -411,7 +432,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
         'El numero de Unidades de venta es mayor a los contratados'
       );
   };
-  ////////
+
   updateRoute() {
     console.log('updateRoute function');
     this.totalsRoute = cloneDeep(this.locationsRoute[0].saleUnits);
@@ -443,6 +464,9 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
         }
       }
     }
+    console.log(this.totalsRoute);
+    console.log(this.totalsToRegistry);
+    console.log(this.saleUnitsTitles);
   }
   /////////
 
