@@ -301,105 +301,106 @@
                                                 <div class="itemCell">
                                                     <!-- <span>{{ set.name }}</span> -->
                                                     <span> {{ set.name }} </span>
-                                                    <span>
-                            {{ set.dimensions.height }}x{{
+                                                    <span>{{ set.dimensions.height }}x{{
                               set.dimensions.width
-                            }}
-                          </span>
-                                                </div>
-                                                <!--</div> -->
-                                                <div *ngFor="let saleUnitTitle of saleUnitsTitles">
-                                                    <div *ngFor="
+                            }}</span
+                          >
+                        </div>
+                        <!--</div> -->
+                        <div *ngFor="let saleUnitTitle of saleUnitsTitles">
+                          <div
+                            *ngFor="
                               let saleUnit of saleUnitsList[saleUnitTitle]
-                            ">
-                                                        <div class="itemCell">
-                                                            <div *ngIf="item.name == saleUnit.name">
-                                                                <span>{{ set.amount }} </span>
-                                                            </div>
-                                                            <div *ngIf="item.name != saleUnit.name">
-                                                                <span> 0 </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                            "
+                          >
+                            <div class="itemCell">
+                              <div *ngIf="item.name == saleUnit.name">
+                                <span>{{ set.amount }} </span>
                                                 </div>
-                                                <div class="itemCell" style="margin-top: 20px">
-                                                    <span>{{ set.amount }}</span>
+                                                <div *ngIf="item.name != saleUnit.name">
+                                                    <span> 0 </span>
                                                 </div>
-                                                <!-- <div class="itemCell">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="itemCell" style="margin-top: 20px">
+                                        <span>{{ set.amount }}</span>
+                                    </div>
+                                    <!-- <div class="itemCell">
                                                     <span>{{ set.amount }}</span>
                                                 </div>
                                                 <div class="itemCell">
                                                     <span>{{ set.amount }}</span>
                                                 </div> -->
-                                                <!-- </div> -->
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <!-- </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </mat-tab>
-            <!-- pieces section -->
-            <mat-tab>
-                <ng-template mat-tab-label> Piezas </ng-template>
+    </div>
+</div>
+</div>
+</mat-tab>
+<!-- pieces section -->
+<mat-tab>
+    <ng-template mat-tab-label> Piezas </ng-template>
 
-                <div class="setsLabel">
-                    <div class="totalSets">
-                        <div style="height: 93px"></div>
+    <div class="setsLabel">
+        <div class="totalSets">
+            <div style="height: 93px"></div>
 
-                        <div *ngFor="let set of setsItems" class="pieceSets">
-                            <div *ngFor="let item of setsList[set]">
-                                <div class="totalColumnSets">
-                                    <div class="itemCell">
-                                        <span> {{ item.name }} </span>
-                                    </div>
-                                    <div class="itemCell">
-                                        <span> {{ item.quantity }} </span>
-                                    </div>
-                                </div>
-                            </div>
+            <div *ngFor="let set of setsItems" class="pieceSets">
+                <div *ngFor="let item of setsList[set]">
+                    <div class="totalColumnSets">
+                        <div class="itemCell">
+                            <span> {{ item.name }} </span>
                         </div>
-
-                        <div class="totalPiece">
-                            <span style="font-size: large"> TOTAL </span>
+                        <div class="itemCell">
+                            <span> {{ item.quantity }} </span>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="totalPiece">
+                <span style="font-size: large"> TOTAL </span>
+            </div>
+        </div>
+        <div style="display: flex">
+            <div class="unitSale" *ngFor="let saleUnitTitle of saleUnitsTitles">
+                <div class="unitSaleForm">
+                    <div class="borderLabel">
+                        <span> {{ saleUnitTitle }} </span>
+                    </div>
                     <div style="display: flex">
-                        <div class="unitSale" *ngFor="let saleUnitTitle of saleUnitsTitles">
-                            <div class="unitSaleForm">
-                                <div class="borderLabel">
-                                    <span> {{ saleUnitTitle }} </span>
-                                </div>
-                                <div style="display: flex">
-                                    <div *ngFor="let pieces of piecesList">
-                                        <div *ngIf="pieces.group == saleUnitTitle">
-                                            <div *ngFor="let piece of pieces.pieces; let i = index">
-                                                <div class="itemCell">
-                                                    <!-- <span>{{ set.name }}</span> -->
-                                                    <span> {{ piece.name }} </span>
-                                                    <span>
+                        <div *ngFor="let pieces of piecesList">
+                            <div *ngIf="pieces.group == saleUnitTitle">
+                                <div *ngFor="let piece of pieces.pieces; let i = index">
+                                    <div class="itemCell">
+                                        <!-- <span>{{ set.name }}</span> -->
+                                        <span> {{ piece.name }} </span>
+                                        <span>
                             {{ piece.dimensions.height }}x{{
                               piece.dimensions.width
                             }}
                           </span>
-                                                </div>
-                                                <div *ngFor="let saleUnitTitle of saleUnitsTitles">
-                                                    <div *ngFor="
+                                    </div>
+                                    <div *ngFor="let saleUnitTitle of saleUnitsTitles">
+                                        <div *ngFor="
                               let saleUnit of saleUnitsList[saleUnitTitle]
                             ">
-                                                        <div class="itemCell">
-                                                            <div *ngIf="pieces.name == saleUnit.name">
-                                                                <span>{{ piece.amount }} </span>
-                                                            </div>
-                                                            <div *ngIf="pieces.name != saleUnit.name">
-                                                                <span> 0 </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            <div class="itemCell">
+                                                <div *ngIf="pieces.name == saleUnit.name">
+                                                    <span>{{ piece.amount }} </span>
                                                 </div>
-                                                <!-- <div class="itemCell">
+                                                <div *ngIf="pieces.name != saleUnit.name">
+                                                    <span> 0 </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="itemCell">
                                                     <span> {{ piece.name }} </span>
                                                 </div>
                                                 <div class="itemCell">
@@ -415,48 +416,48 @@
                                                 <div class="itemCell">
                                                     <span> {{ piece.dimensions.area }} </span>
                                                 </div> -->
-                                                <!-- <div class="itemCell">
+                                    <!-- <div class="itemCell">
                                             <span> {{ piece.dimensions.area }} </span>
                                         </div>
                                         <div class="itemCell">
                                             <span> {{ piece.dimensions.area }} </span>
                                         </div>-->
 
-                                                <div class="itemCell" style="margin-top: 20px">
-                                                    <span> {{ piece.amount }} </span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="itemCell" style="margin-top: 20px">
+                                        <span> {{ piece.amount }} </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </mat-tab>
-            <mat-tab>
-                <div class="inline-panel">
-                    <button mat-button color="primary" [matTooltip]="newOrderTooltip" class="mat-elevation-z0" (click)="manufacturingOrder(obj, '')">
+            </div>
+        </div>
+    </div>
+</mat-tab>
+<mat-tab>
+    <div class="inline-panel">
+        <button mat-button color="primary" [matTooltip]="newOrderTooltip" class="mat-elevation-z0" (click)="manufacturingOrder(obj, '')">
             <mat-icon class="main-button"> add_circle </mat-icon>
           </button>
-                </div>
+    </div>
 
-                <ng-template mat-tab-label> Pedidos </ng-template>
-                <div style="height: 550px">
-                    <ag-grid-angular style="height: 100%" class="ag-theme-balham" [animateRows]="true" (cellClicked)="onCellClicked($event)" [columnDefs]="columnDefsOrders" [defaultColDef]="defaultColDefOrders" [singleClickEdit]="true">
-                    </ag-grid-angular>
-                </div>
-                <ngx-loading [show]="loading" [config]="{
+    <ng-template mat-tab-label> Pedidos </ng-template>
+    <div style="height: 550px">
+        <ag-grid-angular style="height: 100%" class="ag-theme-balham" [animateRows]="true" (cellClicked)="onCellClicked($event)" [columnDefs]="columnDefsOrders" [defaultColDef]="defaultColDefOrders" [singleClickEdit]="true">
+        </ag-grid-angular>
+    </div>
+    <ngx-loading [show]="loading" [config]="{
             primaryColour: 'red',
             secondaryColour: '#673ab7',
             tertiaryColour: 'gray',
             backdropBorderRadius: '3px'
           }">
-                </ngx-loading>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label> Remisiones </ng-template>
-            </mat-tab>
-        </mat-tab-group>
-    </div>
+    </ngx-loading>
+</mat-tab>
+<mat-tab>
+    <ng-template mat-tab-label> Remisiones </ng-template>
+</mat-tab>
+</mat-tab-group>
+</div>
 </div>

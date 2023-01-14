@@ -136,6 +136,7 @@ export class GetComponentComponent implements OnInit {
   addRow() {
     this.propertiesList.push({ property: '', value: '' });
     this.agGridProperty.api.setRowData(this.propertiesList);
+    console.log('this.propertiesList>>', this.propertiesList);
   }
 
   delRow(param: any) {
@@ -172,23 +173,27 @@ export class GetComponentComponent implements OnInit {
 
   validateProperty() {
     const properties: any[] = [];
-    for (let i = 0; i < this.propertiesList.length; i++) {
-      if (
-        this.propertiesList[i].property != '' &&
-        this.propertiesList[i].value != ''
-      )
-        properties.push(this.propertiesList[i]);
+    if (this.propertiesList.length > 1) {
+      for (let i = 0; i < this.propertiesList.length; i++) {
+        if (
+          this.propertiesList[i].property != '' &&
+          this.propertiesList[i].value != ''
+        )
+          properties.push(this.propertiesList[i]);
+      }
+      this.propertiesList = properties;
+      console.log(this.propertiesList);
+      console.log(properties);
     }
-    this.propertiesList = properties;
-    console.log(this.propertiesList);
-    return properties;
+    //return properties;
   }
 
   onSave = async () => {
+    this.validateProperty();
     this.loading = true;
     const pieceTags = this.tagList.join(';');
     const { height, width, depth } = this.dimensions;
-    const [{ property, value }] = this.validateProperty();
+    const [{ property, value }] = this.propertiesList;
     let pieceObject = {
       ...this.obj,
       tags: pieceTags,

@@ -26,7 +26,6 @@ import { AppApiService } from 'src/app/services/app-api.service';
   styleUrls: ['./get-project.component.scss']
 })
 export class GetProjectComponent implements OnInit {
-
   clientListControl = new FormControl();
   projectListControl = new FormControl();
   responListControl = new FormControl();
@@ -112,7 +111,12 @@ export class GetProjectComponent implements OnInit {
   comboCountries: any[] = [];
   cmbRespo: any[] = [];
   comboConf: any[] = [];
-  combStatus: any[] = [{ statu: 'Producción' }, { statu: 'Instalación' }, { statu: 'Entrega' }, { statu: 'Recibido' }];
+  combStatus: any[] = [
+    { statu: 'Producción' },
+    { statu: 'Instalación' },
+    { statu: 'Entrega' },
+    { statu: 'Recibido' }
+  ];
 
   prospect_get = new ClsProspect();
 
@@ -127,15 +131,15 @@ export class GetProjectComponent implements OnInit {
     public constructionLogisticApi: ConstructionLogisticsService,
     public taskLeverCoreApi: TaskLeverCoreService,
     private toastr: ToastrService,
-    private api: AppApiService,
+    private api: AppApiService
   ) {
-
     this.id = data.id;
+    console.log(data);
 
     if (this.id) {
-      this.tittle = 'Nueva Obra'
+      this.tittle = 'Nueva Obra';
     } else {
-      this.tittle = 'Editar Obra'
+      this.tittle = 'Editar Obra';
     }
 
     if (this.prospect_get.id > 0) {
@@ -155,31 +159,23 @@ export class GetProjectComponent implements OnInit {
     );
     this.projectList = this.projectListControl.valueChanges.pipe(
       startWith(''),
-      map((value) =>
-        typeof value === 'string' ? value : value.nombre
-      ),
+      map((value) => (typeof value === 'string' ? value : value.nombre)),
       map((valor) => (valor ? this._filterProject(valor) : this.comboProject))
     );
     this.responList = this.responListControl.valueChanges.pipe(
       startWith(''),
-      map((value) =>
-        typeof value === 'string' ? value : value.displayname
-      ),
+      map((value) => (typeof value === 'string' ? value : value.displayname)),
       map((valor) => (valor ? this._filterRespn(valor) : this.cmbRespo))
     );
     this.statusList = this.statuListControl.valueChanges.pipe(
       startWith(''),
-      map((value) =>
-        typeof value === 'string' ? value : value.status
-      ),
+      map((value) => (typeof value === 'string' ? value : value.status)),
       map((valor) => (valor ? this._filter(valor) : this.combStatus))
     );
 
     this.confirmList = this.confirmListControl.valueChanges.pipe(
       startWith(''),
-      map((value) =>
-        typeof value === 'string' ? value : value.consecutivo
-      ),
+      map((value) => (typeof value === 'string' ? value : value.consecutivo)),
       map((valor) => (valor ? this._filterConfirm(valor) : this.comboConf))
     );
 
@@ -278,9 +274,7 @@ export class GetProjectComponent implements OnInit {
     //   startWith(''),
     //   map((value) => this._filter(value || ''))
     // );
-
   }
-
 
   displayFn(cliente: { id: number; nombre_completo: any }) {
     console.log(cliente);
@@ -293,9 +287,11 @@ export class GetProjectComponent implements OnInit {
   }
 
   SearchProject(id_cliente: number) {
-    this.api.ObtenerObrasClienteConfirmadas(id_cliente).subscribe((data: any) => {
-      this.comboProject = data;
-    });
+    this.api
+      .ObtenerObrasClienteConfirmadas(id_cliente)
+      .subscribe((data: any) => {
+        this.comboProject = data;
+      });
   }
 
   // displayFnProject(project: any): string {
@@ -323,7 +319,8 @@ export class GetProjectComponent implements OnInit {
   }
 
   getConfirmaciones(id: number) {
-    this.api.ObtenerConfirmacionesAgrup(this.id_project)
+    this.api
+      .ObtenerConfirmacionesAgrup(this.id_project)
       .subscribe((data: any) => {
         this.comboConf = data;
       });
@@ -345,17 +342,14 @@ export class GetProjectComponent implements OnInit {
       this.comboCountries = data;
     });
 
-    this.api.ObtenerUsuarios('COMERCIAL-DISEÑO')
-      .subscribe((data: any) => {
-        this.cmbRespo = data;
-      });
+    this.api.ObtenerUsuarios('COMERCIAL-DISEÑO').subscribe((data: any) => {
+      this.cmbRespo = data;
+    });
 
     this.getConfirmaciones(this.id_project);
-
   }
 
-
-
+  updateData() {}
 
   // getClients = async () => {
   //   const clientList =
@@ -687,14 +681,15 @@ export class GetProjectComponent implements OnInit {
     this.loading = false;
     this.dialogRef.close({ ok: true });
     window.location.reload();
+    this.toastr.success('Proyecto actualizado');
   };
 
   createProject = async (body: IConstruction) => {
     const result = await this.constructionLogisticApi.createProject(body);
     this.loading = false;
     this.dialogRef.close({ ok: true });
-    this.toastr.success('Proyecto creado satisfactoriamente');
     window.location.reload();
+    this.toastr.success('Nuevo proyecto creado');
   };
 }
 
@@ -770,5 +765,5 @@ export class ClsProspect {
 
   fecha_separador!: Date;
 
-  constructor() { }
+  constructor() {}
 }
