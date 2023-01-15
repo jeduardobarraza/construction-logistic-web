@@ -58,6 +58,13 @@
             <mat-form-field fxFlex="33%" appearance="outline">
                 <mat-label>Número de confirmación</mat-label>
                 <input type="select" matInput placeholder="Confirmación" aria-label="Number" [(ngModel)]="obj.tlConfirmationNumber" [formControl]="confirmListControl" [matAutocomplete]="autoCon" required />
+                <mat-select-trigger>
+                    {{confirmListControl.value?.[0] || ''}}
+                    <span *ngIf="(confirmListControl.value?.length || 0) > 1" class="example-additional-selection">
+            (+{{ (confirmListControl.value?.length || 0) - 1 }}
+            {{ confirmListControl.value?.length === 2 ? 'other' : 'others' }})
+          </span>
+                </mat-select-trigger>
                 <mat-autocomplete fxFlex="35%" #autoCon="matAutocomplete">
                     <mat-option *ngFor="let confirm of confirmList | async" [value]="confirm.consecutivo">
                         {{ confirm.consecutivo }}

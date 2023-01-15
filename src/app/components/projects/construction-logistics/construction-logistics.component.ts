@@ -673,14 +673,19 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     console.log(pieceList);
     (this.obj?.detail || []).map((piece: any) => {
       if (!pieceByProject[piece.group]) pieceByProject[piece.group] = [];
-      pieceByProject[piece.group].push(set);
+      pieceByProject[piece.group].push(piece);
     });
     console.log(pieceByProject);
+    for (let i = 0; pieceList.length < i; i++) {
+      for (let item in pieceList[i].pieces) {
+        this.piecesList.push(item);
+      }
+    }
     //const pieceList = await this.api.getPiecesByType('');
     this.agGrid.api.setRowData(pieceList);
     this.loading = false;
-    this.piecesList = pieceList;
-    console.log('piecesList', this.piecesList);
+    //this.piecesList = pieceList;
+    console.log('piecesList>>', this.piecesList);
   };
 
   loadOrders = async () => {

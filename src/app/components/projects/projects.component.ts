@@ -100,7 +100,7 @@ export class ProjectsComponent implements AfterViewInit {
     // if (colId === 'btnEdit') this.getSet(data);
     // if (colId === 'choose') this.selectedSet(data.type, data);
     if (colId === 'btnDelete')
-      this.openDialog('100ms', '50ms', data.projectId, data.tlProjectName);
+      this.openDialog('500ms', '100ms', data.projectId, data.tlProjectName);
     if (e.colDef.colId === 'btnLogistic') {
       this.logisticProject(e.data.type, e.data);
     }
