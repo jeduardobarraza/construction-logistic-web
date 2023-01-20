@@ -26,6 +26,8 @@ export class ConstructionLogisticsService {
   // Projects
   getProjects = () => this.apiHelper.getAsync(CONSTRUCTION_CONTROLLER);
 
+  getProjectById = (projectId: string) =>
+    this.apiHelper.getAsync(CONSTRUCTION_CONTROLLER, { path: projectId });
   // createProject = (body: IConstruction) => {
   //   console.log(body);
   //   this.apiHelper.postAsync(CONSTRUCTION_CONTROLLER, { body });
