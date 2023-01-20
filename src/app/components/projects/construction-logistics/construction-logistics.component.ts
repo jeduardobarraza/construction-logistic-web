@@ -36,6 +36,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   ordersByProject: any[] = [];
 
   setsItems: any[] = [];
+  piecesItems: any[] = [];
 
   location: IProjectLocation = {
     projectId: '',
@@ -73,6 +74,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   tableColumnsProperties = {};
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
   saleUnitsTitles: any[] = [];
+  pieceUnitsTitles: any[] = [];
 
   inputRows = [{ position: 1 }];
   inputRowsRoute = [{ position: 1 }];
@@ -133,6 +135,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       this.tagList = split(obj.tags, ';');
       this.transformSalesUnitView();
       this.loadSetsByProject();
+      this.loadPiecesByProject();
     }
 
     this.location.projectId = obj.projectId;
@@ -160,8 +163,8 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       console.log('>>>>>');
       await this.buildTableColumns();
       await this.loadOrdersQuantity();
-      await this.loadPieces();
       await this.loadOrderByProject();
+      // await this.loadOrders();
     });
   }
 
@@ -486,7 +489,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       GetManufacturingOrderComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   getInvoiceHistory = async (type: string, obj: any = null) => {
@@ -505,7 +508,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       GetInvoiceHistoryComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   getRoute = async (type: string, obj: any = null) => {
@@ -521,7 +524,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     dialogConfig.width = '500px';
     dialogConfig.panelClass = 'custom-modal';
     const dialogRef = this.dialog.open(GetRouteComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   onCellClicked(e: any) {
@@ -667,25 +670,19 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     console.log(this.setsItems);
   };
 
-  loadPieces = async () => {
+  loadPiecesByProject = async () => {
     const pieceByProject: any = {};
-    let pieceList: any[] = this.obj ? this.obj.detail : [];
-    console.log(pieceList);
+
     (this.obj?.detail || []).map((piece: any) => {
       if (!pieceByProject[piece.group]) pieceByProject[piece.group] = [];
       pieceByProject[piece.group].push(piece);
     });
-    console.log(pieceByProject);
-    for (let i = 0; pieceList.length < i; i++) {
-      for (let item in pieceList[i].pieces) {
-        this.piecesList.push(item);
-      }
-    }
-    //const pieceList = await this.api.getPiecesByType('');
-    this.agGrid.api.setRowData(pieceList);
-    this.loading = false;
-    //this.piecesList = pieceList;
-    console.log('piecesList>>', this.piecesList);
+
+    this.piecesList = pieceByProject;
+    console.log('pieceByProject', pieceByProject);
+    console.log('this.piecesList', this.piecesList);
+    console.log(this.piecesItems);
+
   };
 
   loadOrders = async () => {
@@ -699,6 +696,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   loadOrderByProject = async () => {
     const orderByProject = await this.api.getProjectOrders(this.obj.projectId);
     this.agGrid.api.setRowData(orderByProject);
+    this.loading = false;
     this.ordersByProject = orderByProject;
     console.log('ordersByProject', this.ordersByProject);
   };
