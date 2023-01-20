@@ -21,16 +21,16 @@
             <mat-form-field fxFlex="33%" appearance="outline" *ngIf="this.id !== 'P'">
                 <mat-label>Nombre del cliente</mat-label>
                 <input type="text" placeholder="Eliga un cliente" aria-label="Number" matInput [(ngModel)]="obj.tlClientName" [formControl]="clientListControl" required />
-                <!-- <mat-autocomplete fxFlex="35%" #autoCl="matAutocomplete">
-          <mat-option *ngFor="let client of clientList | async" [value]="client.nombre_completo">
-            {{ client.nombre_completo }}
-          </mat-option>
-        </mat-autocomplete> -->
+                <!-- <mat-autocomplete fxFlex="35%" autoActiveFirstOption #autoCl="matAutocomplete" [displayWith]="displayFn.bind(this)">
+                    <mat-option *ngFor="let client of clientList | async" [value]="client">
+                        {{ client.nombre_completo }}
+                    </mat-option>
+                </mat-autocomplete> -->
             </mat-form-field>
             <mat-form-field fxFlex="33%" appearance="outline" *ngIf="this.id === 'P'">
                 <mat-label>Nombre del cliente</mat-label>
                 <input type="text" placeholder="Eliga un cliente" aria-label="Number" matInput [(ngModel)]="obj.tlClientName" [formControl]="clientListControl" [matAutocomplete]="autoCl" required />
-                <mat-autocomplete fxFlex="35%" #autoCl="matAutocomplete" [displayWith]="displayFn.bind(this)">
+                <mat-autocomplete fxFlex="35%" autoActiveFirstOption #autoCl="matAutocomplete" [displayWith]="displayFn.bind(this)">
                     <mat-option *ngFor="let client of clientList | async" [value]="client">
                         {{ client.nombre_completo }}
                     </mat-option>
@@ -55,21 +55,25 @@
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-            <mat-form-field fxFlex="33%" appearance="outline">
+            <mat-form-field fxFlex="33%" appearance="outline" *ngIf="this.id !== 'P'">
                 <mat-label>Número de confirmación</mat-label>
-                <input type="select" matInput placeholder="Confirmación" aria-label="Number" [(ngModel)]="obj.tlConfirmationNumber" [formControl]="confirmListControl" [matAutocomplete]="autoCon" required />
-                <mat-select-trigger>
+                <input type="select" matInput placeholder="Confirmación" aria-label="Number" [(ngModel)]="obj.tlConfirmationNumber" [formControl]="confirmListControl" required />
+            </mat-form-field>
+            <mat-form-field fxFlex="33%" appearance="outline" *ngIf="this.id === 'P'">
+                <mat-label>Número de confirmación</mat-label>
+                <!--<input type="select" matInput placeholder="Confirmación" aria-label="Number" [(ngModel)]="obj.tlConfirmationNumber" [formControl]="confirmListControl" [matAutocomplete]="autoCon" required multiple />
+                 <mat-select-trigger>
                     {{confirmListControl.value?.[0] || ''}}
                     <span *ngIf="(confirmListControl.value?.length || 0) > 1" class="example-additional-selection">
             (+{{ (confirmListControl.value?.length || 0) - 1 }}
             {{ confirmListControl.value?.length === 2 ? 'other' : 'others' }})
           </span>
-                </mat-select-trigger>
-                <mat-autocomplete fxFlex="35%" #autoCon="matAutocomplete">
-                    <mat-option *ngFor="let confirm of confirmList | async" [value]="confirm.consecutivo">
+                </mat-select-trigger> -->
+                <mat-select [(ngModel)]="obj.tlConfirmationNumber" [formControl]="confirmListControl" multiple required>
+                    <mat-option *ngFor="let confirm of confirmList" [value]="confirm.consecutivo">
                         {{ confirm.consecutivo }}
                     </mat-option>
-                </mat-autocomplete>
+                </mat-select>
             </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around stretch">
@@ -106,7 +110,8 @@
         <div fxLayout="row" fxLayoutGap="10px">
             <mat-form-field fxFlex="32.5%" appearance="outline">
                 <mat-label>Usuario</mat-label>
-                <input type="text" matInput placeholder="Usuario" [(ngModel)]="obj.userName" autocomplete="off" [disabled]="this.id === 'P'" />
+                <!-- <input type="text" matInput placeholder="Usuario" [(ngModel)]="obj.userName" autocomplete="off" [disabled]="this.id !== 'P'" />-->
+                <input type="text" matInput placeholder="Usuario" [(ngModel)]="obj.userName" autocomplete="off" />
             </mat-form-field>
             <mat-form-field fxFlex="32%" appearance="outline">
                 <mat-label>Estado del proyecto</mat-label>

@@ -26,15 +26,15 @@
                     <div fxLayoutGap="10px" fxLayout="row">
                         <mat-form-field fxFlex="25%" appearance="outline">
                             <mat-label>Alto (mm)</mat-label>
-                            <input matInput placeholder="Alto" [(ngModel)]="dimensions.height" />
+                            <input matInput placeholder="Alto" [(ngModel)]="dimensions.height" autocomplete="off" />
                         </mat-form-field>
                         <mat-form-field fxFlex="25%" appearance="outline">
                             <mat-label>Ancho (mm)</mat-label>
-                            <input matInput placeholder="Ancho" [(ngModel)]="dimensions.width" />
+                            <input matInput placeholder="Ancho" [(ngModel)]="dimensions.width" autocomplete="off" />
                         </mat-form-field>
                         <mat-form-field fxFlex="25%" appearance="outline">
-                            <mat-label>Espesor (mm) </mat-label>
-                            <input matInput placeholder="Espesor" [(ngModel)]="dimensions.depth" />
+                            <mat-label>Profundidad (mm) </mat-label>
+                            <input matInput placeholder="Profundidad" [(ngModel)]="dimensions.depth" autocomplete="off" />
                         </mat-form-field>
                     </div>
                 </div>

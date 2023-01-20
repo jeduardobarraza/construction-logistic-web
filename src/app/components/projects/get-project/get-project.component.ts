@@ -64,7 +64,7 @@ export class GetProjectComponent implements OnInit {
     responsible: '',
     tlClientId: 0,
     tlClientName: '',
-    tlProjectId: 'Latelier',
+    tlProjectId: '',
     tlProjectName: '',
     tlProjectAddress: '',
     tlProjectEmails: '',
@@ -123,7 +123,14 @@ export class GetProjectComponent implements OnInit {
   id_cliente: number = -1;
   id_project: number = -1;
   id: any;
-
+  toppingList: string[] = [
+    'Extra cheese',
+    'Mushroom',
+    'Onion',
+    'Pepperoni',
+    'Sausage',
+    'Tomato'
+  ];
   constructor(
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<GetProjectComponent>,
@@ -135,7 +142,9 @@ export class GetProjectComponent implements OnInit {
   ) {
     this.id = data.id;
     console.log(data);
-
+    console.log(this.id);
+    const { obj } = data || {};
+    console.log(obj);
     if (this.id) {
       this.tittle = 'Nueva Obra';
     } else {
@@ -173,16 +182,14 @@ export class GetProjectComponent implements OnInit {
       map((valor) => (valor ? this._filter(valor) : this.combStatus))
     );
 
-    this.confirmList = this.confirmListControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => (typeof value === 'string' ? value : value.consecutivo)),
-      map((valor) => (valor ? this._filterConfirm(valor) : this.comboConf))
-    );
+    // this.confirmList = this.confirmListControl.valueChanges.pipe(
+    //   startWith(''),
+    //   map((value) => (typeof value === 'string' ? value : value.consecutivo)),
+    //   map((valor) => (valor ? this._filterConfirm(valor) : this.comboConf))
+    // );
 
     this.user = data.usuario;
     this.users = data.usuarios;
-
-    const { obj } = data || {};
 
     if (obj) {
       this.obj = obj;
@@ -312,6 +319,7 @@ export class GetProjectComponent implements OnInit {
     console.log(project);
     if (project) {
       this.id_project = project.id;
+      //this.obj.projectId = project.id;
       console.log('this.id: ' + this.id);
       this.getConfirmaciones(this.id_project);
     }
@@ -322,7 +330,9 @@ export class GetProjectComponent implements OnInit {
     this.api
       .ObtenerConfirmacionesAgrup(this.id_project)
       .subscribe((data: any) => {
-        this.comboConf = data;
+        //this.comboConf = data;
+        this.confirmList = data;
+        console.log(this.comboConf);
       });
   }
 
@@ -380,7 +390,7 @@ export class GetProjectComponent implements OnInit {
   }
 
   private _filterConfirm(value: any): any[] {
-    console.log('Method _filterConfirm');
+    console.log('Method _filterConfirm>>', value);
     const filterConfirmValue = value.toLowerCase();
     return this.comboConf.filter((confirm) =>
       confirm?.consecutivo.toLowerCase().includes(filterConfirmValue)
@@ -653,10 +663,22 @@ export class GetProjectComponent implements OnInit {
     return details;
   }
 
+  validateData() {
+    if (this.id) {
+      let client: any = this.obj.tlClientName;
+      let project: any = this.obj.tlProjectName;
+      this.obj.tlClientName = client.nombre_completo;
+      this.obj.tlClientId = client.id;
+      this.obj.tlProjectName = project.nombre;
+      this.obj.tlProjectId = project.id.toString();
+    }
+  }
+
   onSave() {
     this.loading = true;
     const articleSelected = this.findArticles();
     const saleUnitSelected = this.saleUnitSelected();
+    this.validateData();
     for (let i = 0; i < this.clientList.length; i++) {
       if (this.obj.tlClientName == this.clientList[i].nombre_completo)
         this.obj.tlClientId = this.clientList[i].id;
@@ -688,7 +710,7 @@ export class GetProjectComponent implements OnInit {
     const result = await this.constructionLogisticApi.createProject(body);
     this.loading = false;
     this.dialogRef.close({ ok: true });
-    window.location.reload();
+    //window.location.reload();
     this.toastr.success('Nuevo proyecto creado');
   };
 }

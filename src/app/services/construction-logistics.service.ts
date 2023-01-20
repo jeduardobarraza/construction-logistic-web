@@ -27,6 +27,24 @@ export class ConstructionLogisticsService {
 
   getProjects = () => this.apiHelper.getAsync(CONSTRUCTION_CONTROLLER);
 
+  getProjectById = (projectId: string) =>
+    this.apiHelper.getAsync(CONSTRUCTION_CONTROLLER, { path: projectId });
+  // createProject = (body: IConstruction) => {
+  //   console.log(body);
+  //   this.apiHelper.postAsync(CONSTRUCTION_CONTROLLER, { body });
+  // };
+
+  // updateProject = (projectId: string, body: IConstruction) =>
+  //   this.apiHelper.updateAsync(CONSTRUCTION_CONTROLLER, {
+  //     path: projectId,
+  //     body
+  //   });
+
+  // deleteProject = (projectId: string) =>
+  //   this.apiHelper.deleteAsync(CONSTRUCTION_CONTROLLER, {
+  //     path: '' + projectId
+  //   });
+
   createProject = (body: IConstruction) => {
     console.log(body);
     this.apiHelper.postAsync(CONSTRUCTION_CONTROLLER, { body });
