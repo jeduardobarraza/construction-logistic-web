@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { IPiece } from '../interfaces/piece.interface';
-//import { ISaleUnit } from '../interfaces/saleUnit.interface';
 import { ISet } from '../interfaces/set.interface';
 import { ApiHelperService } from './api-helper.service';
 import { IConstruction } from '../interfaces/construction.interface';
 import { IProjectLocation } from '../interfaces/projectLocation.interface';
 import { IProjectRoute } from '../interfaces/projectRoute.interface';
+import { IOrder } from '../interfaces/order.interface';
 
 const CONSTRUCTION_CONTROLLER = 'project';
 const PIECE_CONTROLLER = 'piece';
@@ -21,9 +21,10 @@ const ROUTE_CONTROLLER = 'route';
 })
 export class ConstructionLogisticsService {
   createProperty: any;
-  constructor(private apiHelper: ApiHelperService) {}
+  constructor(private apiHelper: ApiHelperService) { }
 
-  // Projects
+  ///////////////Projects
+
   getProjects = () => this.apiHelper.getAsync(CONSTRUCTION_CONTROLLER);
 
   getProjectById = (projectId: string) =>
@@ -60,11 +61,9 @@ export class ConstructionLogisticsService {
       path: '' + projectId
     });
 
-  // Pieces
-  getPiecesByType = (type: string) =>
-    this.apiHelper.getAsync(PIECE_CONTROLLER, { query: `type=${type}` });
 
-  // Sets
+  //////////////////Sets
+
   getSetsList = () => this.apiHelper.getAsync(SET_CONTROLLER);
 
   createSet = (body: ISet) => {
@@ -78,7 +77,11 @@ export class ConstructionLogisticsService {
   deleteSet = (setId: string) =>
     this.apiHelper.deleteAsync(SET_CONTROLLER, { path: '' + setId });
 
+
   ////////////////piece
+
+  getPiecesByType = (type: string) =>
+    this.apiHelper.getAsync(PIECE_CONTROLLER, { query: `type=${type}` });
 
   getPieceList = () => this.apiHelper.getAsync(PIECE_CONTROLLER);
 
@@ -90,6 +93,7 @@ export class ConstructionLogisticsService {
 
   deletePiece = (pieceId: string) =>
     this.apiHelper.deleteAsync(PIECE_CONTROLLER, { path: '' + pieceId });
+
 
   //////////////////orders
 
@@ -107,7 +111,14 @@ export class ConstructionLogisticsService {
 
   getOrder = () => this.apiHelper.getAsync(ORDER_CONTROLLER);
 
+  createOrder = (projectId: any, body: IOrder) =>
+    this.apiHelper.postAsync(PROJECT_CONTROLLER, {
+      path: '' + projectId + '/orders'
+    });
+
+
   //////////////////locations
+
   getProjectLocation = (projectId: any) =>
     this.apiHelper.getAsync(PROJECT_CONTROLLER, {
       path: '' + projectId + '/locations'
@@ -128,6 +139,7 @@ export class ConstructionLogisticsService {
       path: '' + projectId + '/locations/' + projectLocationId,
       body
     });
+
 
   //////////////////routes
 
