@@ -98,6 +98,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   towerLocation = 'Torre';
   towerList: string[] = [];
   floorList: string[] = [];
+  towerNumber: string = ''; ///////////////////////
 
   ordersTable = {
     orderNumber: '# de Pedido',
@@ -489,7 +490,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       GetManufacturingOrderComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => { });
+    dialogRef.afterClosed().subscribe(async () => {});
   };
 
   getInvoiceHistory = async (type: string, obj: any = null) => {
@@ -508,7 +509,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       GetInvoiceHistoryComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => { });
+    dialogRef.afterClosed().subscribe(async () => {});
   };
 
   getRoute = async (type: string, obj: any = null) => {
@@ -524,7 +525,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     dialogConfig.width = '500px';
     dialogConfig.panelClass = 'custom-modal';
     const dialogRef = this.dialog.open(GetRouteComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(async () => { });
+    dialogRef.afterClosed().subscribe(async () => {});
   };
 
   onCellClicked(e: any) {
@@ -682,7 +683,6 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     console.log('pieceByProject', pieceByProject);
     console.log('this.piecesList', this.piecesList);
     console.log(this.piecesItems);
-
   };
 
   loadOrders = async () => {

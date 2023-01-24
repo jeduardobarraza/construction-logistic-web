@@ -283,23 +283,24 @@ export class GetProjectComponent implements OnInit {
     // );
   }
 
-  displayFn(cliente: { id: number; nombre_completo: any }) {
+  displayFn(cliente: { id: number; cliente: any; obra: string }) {
     console.log(cliente);
     if (cliente) {
       this.id_cliente = cliente.id;
       console.log('id_cliente [displayFN]: ' + this.id_cliente);
-      this.SearchProject(this.id_cliente);
+      //this.SearchProject(this.id_cliente);
+      this.comboProject.push(cliente);
     }
-    return cliente ? cliente.nombre_completo : cliente;
+    return cliente ? cliente.cliente : cliente;
   }
 
-  SearchProject(id_cliente: number) {
-    this.api
-      .ObtenerObrasClienteConfirmadas(id_cliente)
-      .subscribe((data: any) => {
-        this.comboProject = data;
-      });
-  }
+  // SearchProject(id_cliente: number) {
+  //   this.api
+  //     .ObtenerObrasClienteConfirmadas(id_cliente)
+  //     .subscribe((data: any) => {
+  //       this.comboProject = data;
+  //     });
+  // }
 
   // displayFnProject(project: any): string {
   //   console.log('Method displayFnProject');
@@ -323,17 +324,15 @@ export class GetProjectComponent implements OnInit {
       console.log('this.id: ' + this.id);
       this.getConfirmaciones(this.id_project);
     }
-    return project ? project.nombre : project;
+    return project ? project.obra : project;
   }
 
   getConfirmaciones(id: number) {
-    this.api
-      .ObtenerConfirmacionesAgrup(this.id_project)
-      .subscribe((data: any) => {
-        //this.comboConf = data;
-        this.confirmList = data;
-        console.log(this.comboConf);
-      });
+    this.api.ObtenerConfirmacionesAgrup(id).subscribe((data: any) => {
+      //this.comboConf = data;
+      this.confirmList = data;
+      console.log(this.comboConf);
+    });
   }
 
   getClient() {
@@ -342,11 +341,11 @@ export class GetProjectComponent implements OnInit {
       idEst: 'A'
     };
 
-    this.api.getClients(params.id, params.idEst).subscribe((data: any) => {
+    this.api.getClients().subscribe((data: any) => {
       this.comboClients = data;
     });
 
-    this.SearchProject(this.prospect_get.id_cliente);
+    //this.SearchProject(this.prospect_get.id_cliente);
 
     this.api.GetCountries().subscribe((data: any) => {
       this.comboCountries = data;
@@ -356,7 +355,7 @@ export class GetProjectComponent implements OnInit {
       this.cmbRespo = data;
     });
 
-    this.getConfirmaciones(this.id_project);
+    this.getConfirmaciones(this.id_cliente);
   }
 
   updateData() {}
@@ -378,14 +377,14 @@ export class GetProjectComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.comboClients.filter((client) =>
-      client?.nombre_completo.toLowerCase().includes(filterValue)
+      client?.cliente.toLowerCase().includes(filterValue)
     );
   }
   private _filterProject(value: any): any[] {
     console.log('Method _filterProject');
     const filterProjectValue = value.toLowerCase();
     return this.comboProject.filter((project) =>
-      project?.nombre.toLowerCase().includes(filterProjectValue)
+      project?.obra.toLowerCase().includes(filterProjectValue)
     );
   }
 
