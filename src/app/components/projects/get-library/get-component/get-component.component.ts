@@ -48,6 +48,7 @@ export class GetComponentComponent implements OnInit {
     properties: [{ property: '', value: '' }],
     quantity: 1
   };
+  validate: boolean = false;
 
   tagList: string[] = [];
 
@@ -91,8 +92,16 @@ export class GetComponentComponent implements OnInit {
         };
       }
     }
-
+    this.validation();
     this.settingsInit();
+  }
+
+  async validation() {
+    if (this.obj.pieceId) {
+      this.validate = await this.constructionLogisticsApi.validatePieceInUse(
+        this.obj.pieceId
+      );
+    }
   }
 
   settingsInit = async () => {

@@ -88,7 +88,7 @@
         <button align="end" mat-stroked-button color="primary" mat-dialog-close (click)="cancel()">
       Cancelar
     </button>
-        <button align="end" mat-raised-button color="primary" type="submit" [disabled]="!obj.name || !obj.reference" (click)="onSave()">
+        <button align="end" mat-raised-button color="primary" type="submit" [disabled]="!obj.name || !obj.reference || validate" (click)="onSave()">
       Guardar
     </button>
     </div>

@@ -49,6 +49,7 @@ export class GetPieceComponent implements OnInit {
     quantity: 1
   };
 
+  validate: boolean = false;
   tagList: string[] = [];
 
   delCellRenderer = function () {
@@ -91,8 +92,16 @@ export class GetPieceComponent implements OnInit {
         };
       }
     }
-
+    this.validation();
     this.settingsInit();
+  }
+
+  async validation() {
+    if (this.obj.pieceId) {
+      this.validate = await this.constructionLogisticsApi.validatePieceInUse(
+        this.obj.pieceId
+      );
+    }
   }
 
   settingsInit = async () => {

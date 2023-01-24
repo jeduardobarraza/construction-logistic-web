@@ -17,6 +17,7 @@ import { GetPieceComponent } from './get-piece/get-piece.component';
 import { GetComponentComponent } from './get-component/get-component.component';
 import { ApiHelperService } from '../../../services/api-helper.service';
 import { TransitionCheckState } from '@angular/material/checkbox';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-get-library',
@@ -82,11 +83,20 @@ export class GetLibraryComponent implements AfterViewInit {
     modulesTable: {}
   };
 
+  dimensionCellRender = (params: any) => {
+    const width = get(params, 'data.dimensions.width', 0);
+    const depth = get(params, 'data.dimensions.depth', 0);
+    const height = get(params, 'data.dimensions.height', 0);
+    const dimensionString = `${width} X ${height} X ${depth}`;
+    return dimensionString;
+  };
+
   constructor(
     private api: ConstructionLogisticsService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<GetLibraryComponent>
+    private dialogRef: MatDialogRef<GetLibraryComponent>,
+    private toastr: ToastrService
   ) {
     this.hidePieces = data?.hidePieces;
     this.viewMode = data?.viewMode || '';
@@ -116,8 +126,7 @@ export class GetLibraryComponent implements AfterViewInit {
   mustShowTab = (type: string) => !this.excludeType?.includes(type);
 
   buildSetTableColumns = async () => {
-    const setFields = ['name', 'reference', 'dimension', 'tags'];
-
+    const setFields = ['name', 'reference', 'dimensions', 'tags'];
     const tableColumnsProperties = {
       name: {
         ...this.defaultColDef,
@@ -127,8 +136,10 @@ export class GetLibraryComponent implements AfterViewInit {
         ...this.defaultColDef,
         width: 120
       },
-      dimension: {
-        ...this.defaultColDef
+      dimensions: {
+        ...this.defaultColDef,
+        width: 120,
+        cellRenderer: this.dimensionCellRender
       },
       tags: {
         ...this.defaultColDef,
@@ -156,7 +167,7 @@ export class GetLibraryComponent implements AfterViewInit {
   };
 
   buildPieceTableColumns = async () => {
-    const pieceFields = ['name', 'reference', 'dimension', 'tags'];
+    const pieceFields = ['name', 'reference', 'dimensions', 'tags'];
     const tableColumnsPropertiesPieces = {
       name: {
         ...this.defaultColDef,
@@ -166,8 +177,10 @@ export class GetLibraryComponent implements AfterViewInit {
         ...this.defaultColDef,
         width: 120
       },
-      dimension: {
-        ...this.defaultColDef
+      dimensions: {
+        ...this.defaultColDef,
+        width: 120,
+        cellRenderer: this.dimensionCellRender
       },
       tags: {
         ...this.defaultColDef,
@@ -192,7 +205,7 @@ export class GetLibraryComponent implements AfterViewInit {
   };
 
   buildComponentTableColumns = async () => {
-    const componentFields = ['name', 'reference', 'dimension', 'tags'];
+    const componentFields = ['name', 'reference', 'dimensions', 'tags'];
     const tableColumnsPropertiesComponents = {
       name: {
         ...this.defaultColDef,
@@ -202,8 +215,10 @@ export class GetLibraryComponent implements AfterViewInit {
         ...this.defaultColDef,
         width: 120
       },
-      dimension: {
-        ...this.defaultColDef
+      dimensions: {
+        ...this.defaultColDef,
+        width: 120,
+        cellRenderer: this.dimensionCellRender
       },
       tags: {
         ...this.defaultColDef,
@@ -302,6 +317,13 @@ export class GetLibraryComponent implements AfterViewInit {
   };
 
   getSet = async (obj: any = {}) => {
+    let validateSet: boolean = false;
+    validateSet = await this.api.validateSetInUse(obj.setId);
+    if (validateSet == true) {
+      this.toastr.warning(
+        'El módulo existe en un proyecto, no puede ser editado'
+      );
+    }
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = { obj };
@@ -317,7 +339,14 @@ export class GetLibraryComponent implements AfterViewInit {
     //console.log('Hola');
   };
 
-  getPiece = (obj: any = {}) => {
+  getPiece = async (obj: any = {}) => {
+    let validatePiece: boolean = false;
+    validatePiece = await this.api.validatePieceInUse(obj.pieceId);
+    if (validatePiece == true) {
+      this.toastr.warning(
+        'La pieza existe en un proyecto, no puede ser editada'
+      );
+    }
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = { obj };
@@ -333,7 +362,14 @@ export class GetLibraryComponent implements AfterViewInit {
       });
   };
 
-  getComponent = (obj: any = {}) => {
+  getComponent = async (obj: any = {}) => {
+    let validateComponent: boolean = false;
+    validateComponent = await this.api.validatePieceInUse(obj.pieceId);
+    if (validateComponent == true) {
+      this.toastr.warning(
+        'El componente existe en un proyecto, no puede ser editado'
+      );
+    }
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = { obj };
@@ -358,14 +394,42 @@ export class GetLibraryComponent implements AfterViewInit {
   }
 
   async deletePiece(pieceId: string, type: string) {
-    await this.api.deletePiece(pieceId);
-    this.loading = false;
-    this.loadPiecesByType(type, true);
+    let validatePiece: boolean = false;
+    validatePiece = await this.api.validatePieceInUse(pieceId);
+    if (validatePiece == true) {
+      if (type == 'piece') {
+        this.toastr.warning(
+          'La pieza existe en un proyecto, no puede ser eliminado'
+        );
+      } else {
+        this.toastr.warning(
+          'El Componente existe en un proyecto, no puede ser eliminado'
+        );
+      }
+    } else {
+      await this.api.deletePiece(pieceId);
+      this.loading = false;
+      this.loadPiecesByType(type, true);
+      if (type == 'piece') {
+        this.toastr.success('Pieza eliminada.');
+      } else {
+        this.toastr.success('Componente eliminado.');
+      }
+    }
   }
 
   async deleteSet(setId: string) {
-    await this.api.deleteSet(setId);
-    this.loading = false;
-    this.loadSets();
+    let validateSet: boolean = false;
+    validateSet = await this.api.validateSetInUse(setId);
+    if (validateSet == true) {
+      this.toastr.warning(
+        'El módulo existe en un proyecto, no puede ser eliminado'
+      );
+    } else {
+      await this.api.deleteSet(setId);
+      this.loading = false;
+      this.loadSets();
+      this.toastr.success('Módulo eliminado.');
+    }
   }
 }

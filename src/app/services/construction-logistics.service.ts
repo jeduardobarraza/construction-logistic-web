@@ -21,7 +21,7 @@ const ROUTE_CONTROLLER = 'route';
 })
 export class ConstructionLogisticsService {
   createProperty: any;
-  constructor(private apiHelper: ApiHelperService) { }
+  constructor(private apiHelper: ApiHelperService) {}
 
   ///////////////Projects
 
@@ -61,6 +61,15 @@ export class ConstructionLogisticsService {
       path: '' + projectId
     });
 
+  validateSetInUse = (setId: string) =>
+    this.apiHelper.getAsync(CONSTRUCTION_CONTROLLER, {
+      path: 'validateSet/' + setId
+    });
+
+  validatePieceInUse = (pieceId: string) =>
+    this.apiHelper.getAsync(CONSTRUCTION_CONTROLLER, {
+      path: 'validatePiece/' + pieceId
+    });
 
   //////////////////Sets
 
@@ -77,7 +86,6 @@ export class ConstructionLogisticsService {
   deleteSet = (setId: string) =>
     this.apiHelper.deleteAsync(SET_CONTROLLER, { path: '' + setId });
 
-
   ////////////////piece
 
   getPiecesByType = (type: string) =>
@@ -93,7 +101,6 @@ export class ConstructionLogisticsService {
 
   deletePiece = (pieceId: string) =>
     this.apiHelper.deleteAsync(PIECE_CONTROLLER, { path: '' + pieceId });
-
 
   //////////////////orders
 
@@ -115,7 +122,6 @@ export class ConstructionLogisticsService {
     this.apiHelper.postAsync(PROJECT_CONTROLLER, {
       path: '' + projectId + '/orders'
     });
-
 
   //////////////////locations
 
@@ -139,7 +145,6 @@ export class ConstructionLogisticsService {
       path: '' + projectId + '/locations/' + projectLocationId,
       body
     });
-
 
   //////////////////routes
 

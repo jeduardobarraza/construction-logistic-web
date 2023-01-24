@@ -118,13 +118,13 @@
         "setsTable": {
             "name": "Nombre",
             "reference": "Referencia",
-            "dimension": "Dimensiones",
+            "dimensions": "dimensions",
             "tags": "Etiqueta(s)"
         },
         "piecesTable": {
             "name": "Nombre",
             "reference": "Referencia",
-            "dimensions": "Dimensiones",
+            "dimensions": "dimensions",
             "tags": "Etiqueta(s)"
         },
         "modulesTable": {}
