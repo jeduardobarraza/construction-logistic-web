@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GetLibraryComponent } from './components/projects/get-library/get-library.component';
 import { GetProjectComponent } from './components/projects/get-project/get-project.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { ToastrService } from 'ngx-toastr';
 
 const PROJECTS_VIEW = 'PROJECTS';
 const ORDERS_VIEW = 'ORDERS';
@@ -20,7 +21,7 @@ export class AppComponent implements AfterViewInit {
   selectedView = '';
   viewLibraryTooltip = 'Ver biblioteca';
   addProjectTooltip = 'Crear obra';
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private toast: ToastrService) {}
 
   ngAfterViewInit(): void {
     setTimeout(async () => {
@@ -49,13 +50,15 @@ export class AppComponent implements AfterViewInit {
     dialogConfig.panelClass = 'custom-modal';
     const dialogRef = this.dialog.open(GetProjectComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(async (data) => {
+      console.log(data);
       if (data.refresh) {
-        await this.projectsComponent.loadProjects();
+        console.log('entró al if');
+        //await this.projectsComponent.loadProjects();
       }
     });
   };
 
-  getOrder = () => { };
+  getOrder = () => {};
 
   viewLibrary = async (project: any = null) => {
     const dialogConfig = new MatDialogConfig();
