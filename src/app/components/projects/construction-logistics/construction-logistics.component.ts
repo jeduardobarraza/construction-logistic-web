@@ -119,6 +119,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   totalsToOrder: any[] = [];
   totalsRoute: any[] = [];
   totalsToRegistry: any[] = [];
+  contractors: any = [];
 
   routes: any[] = [];
 
@@ -148,6 +149,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     this.asignLocation(this.saleUnitsList);
     this.listOrders();
     this.listRoutes();
+    this.getContractors();
   }
   asignLocation(list: any) {
     for (let set of this.setsItems) {
@@ -473,6 +475,11 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     console.log(this.saleUnitsTitles);
   }
   /////////
+
+  async getContractors() {
+    this.contractors = await this.api.getContractors();
+    console.log(this.contractors);
+  }
 
   manufacturingOrder = async (type: string, obj: any) => {
     const dialogConfig = new MatDialogConfig();

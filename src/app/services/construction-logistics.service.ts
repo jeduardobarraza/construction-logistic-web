@@ -15,6 +15,7 @@ const ORDER_CONTROLLER = 'order';
 const PROJECT_CONTROLLER = 'project';
 const LOCATION_CONTROLLER = 'locations';
 const ROUTE_CONTROLLER = 'route';
+const CONTRACTOR_CONTROLLER = 'contractor';
 
 @Injectable({
   providedIn: 'root'
@@ -168,4 +169,7 @@ export class ConstructionLogisticsService {
       path: '' + projectId + '/route/' + routeId,
       body
     });
+
+  ///////////////contractors
+  getContractors = () => this.apiHelper.getAsync(CONTRACTOR_CONTROLLER);
 }
