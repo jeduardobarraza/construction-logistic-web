@@ -18,7 +18,7 @@ import { SalesUnitLocationComponent } from '../sales-unit-location/sales-unit-lo
 export class GetManufacturingOrderComponent implements OnInit {
   show = true;
 
-  saleUnits: any[] = [];
+  saleUnitsList: any[] = [];
 
   obj: any = {
     projectId: undefined
@@ -35,9 +35,11 @@ export class GetManufacturingOrderComponent implements OnInit {
     const { obj } = data || {};
     console.log('obj>>>', obj);
     this.obj = obj;
-    if (obj) {
-      this.saleUnits = split(obj.unit, ';');
+    if (obj.orderId) {
+      this.saleUnitsList = obj.saleUnits;
     }
+
+    console.log('this.saleUnitsList', this.saleUnitsList);
   }
 
   ngOnInit(): void { }

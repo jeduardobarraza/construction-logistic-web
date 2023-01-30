@@ -77,16 +77,66 @@
                 <b> {{ obj.finish }} </b>
             </span>
         </div>
-        <div style="margin-top: 15px">
-            <div style="display: flex" *ngFor="let item of saleUnits">
-                <div class="unitSaleDiv">
-                    <span class="unitSaleCell"> {{ item }} Name of unit sale </span>
-                </div>
-                <div class="amount">
+        <div *ngIf="show">
+            <div style="margin-top: 15px" *ngFor="let item of saleUnitsList">
+                <div style="display: flex">
+                    <div class="unitSaleDiv">
+                        <span class="unitSaleCell"> <b> {{ item.saleUnitName }} </b> </span>
+                    </div>
+                    <!-- <div class="amount">
                     <span class="amountCell"> Cantidad </span>
-                    <input class="inputAmo" type="text" />
+                    <input class="inputAmo" type="text" placeholder="Cantidad" />
+                </div> -->
+                    <div class="amount">
+                        <span class="amountCell"> Cantidad </span>
+                    </div>
+                    <div class="amount">
+                        <span class="amountCell"> <b> {{ item.quantity }} </b> </span>
+                    </div>
+                </div>
+                <div style="display: flex">
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Cantidad </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Espesor </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Ancho </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Largo </span>
+                    </div>
+                    <div class="divSizeL">
+                        <span class="unitSaleCell"> Nombre del Componente </span>
+                    </div>
+                    <div class="divSizeL">
+                        <span class="unitSaleCell"> Observaciones </span>
+                    </div>
+                </div>
+                <div class="hgtCell" *ngFor="let piece of item.piecesList">
+                    <div class="divSize">
+                        <span class="unitSaleCell"> {{ piece.quantity }} </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> {{ piece.dimensions.depth }} </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> {{ piece.dimensions.width }} </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> {{ piece.dimensions.height }} </span>
+                    </div>
+                    <div class="divSizeL">
+                        <span class="unitSaleCell"> {{ piece.name }} </span>
+                    </div>
+                    <div class="divSizeL">
+                        <input class="inputAmo" type="text" />
+                    </div>
                 </div>
             </div>
+        </div>
+        <div style="margin-top: 15px" *ngIf="!show">
             <div style="display: flex">
                 <div class="divSize">
                     <span class="unitSaleCell"> Cantidad </span>
@@ -100,31 +150,33 @@
                 <div class="divSize">
                     <span class="unitSaleCell"> Largo </span>
                 </div>
-                <div class="divSizeL">
+                <div class="divSizeL" *ngIf="show">
                     <span class="unitSaleCell"> Nombre del Componente </span>
                 </div>
                 <div class="divSizeL">
                     <span class="unitSaleCell"> Observaciones </span>
                 </div>
             </div>
-            <div class="hgtCell">
-                <div class="divSize">
-                    <span class="unitSaleCell"> </span>
-                </div>
-                <div class="divSize">
-                    <span class="unitSaleCell"> </span>
-                </div>
-                <div class="divSize">
-                    <span class="unitSaleCell"> </span>
-                </div>
-                <div class="divSize">
-                    <span class="unitSaleCell"> </span>
-                </div>
-                <div class="divSizeL">
-                    <span class="unitSaleCell"> </span>
-                </div>
-                <div class="divSizeL">
-                    <input class="inputAmo" type="text" />
+            <div *ngFor="let item of saleUnitsList">
+                <div class="hgtCell" *ngFor="let piece of item.piecesList">
+                    <div class="divSize">
+                        <span class="unitSaleCell"> {{ piece.quantity }} </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> {{ piece.dimensions.depth }} </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> {{ piece.dimensions.width }} </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> {{ piece.dimensions.height }} </span>
+                    </div>
+                    <div class="divSizeL" *ngIf="show">
+                        <span class="unitSaleCell"> {{ piece.name }} </span>
+                    </div>
+                    <div class="divSizeL">
+                        <input class="inputAmo" type="text" />
+                    </div>
                 </div>
             </div>
         </div>
