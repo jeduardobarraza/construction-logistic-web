@@ -32,7 +32,7 @@
                 <input type="text" placeholder="Eliga un cliente" aria-label="Number" matInput [(ngModel)]="obj.tlClientName" [formControl]="clientListControl" [matAutocomplete]="autoCl" required />
                 <mat-autocomplete fxFlex="35%" autoActiveFirstOption #autoCl="matAutocomplete" [displayWith]="displayFn.bind(this)">
                     <mat-option *ngFor="let client of clientList | async" [value]="client">
-                        {{ client.nombre_completo }}
+                        {{ client.cliente }}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
@@ -48,10 +48,10 @@
             </mat-form-field>
             <mat-form-field fxFlex="33%" appearance="outline" *ngIf="this.id === 'P'">
                 <mat-label>Nombre del proyecto</mat-label>
-                <input type="text" placeholder="Proyecto" aria-label="Number" matInput [(ngModel)]="obj.tlProjectName" [formControl]="projectListControl" [matAutocomplete]="autoP" required (ngModelChange)="updateData()" />
+                <input type="text" placeholder="Proyecto" aria-label="Number" matInput [(ngModel)]="obj.tlProjectName" [formControl]="projectListControl" [matAutocomplete]="autoP" required />
                 <mat-autocomplete #autoP="matAutocomplete" [displayWith]="displayFnProject.bind(this)">
                     <mat-option *ngFor="let project of projectList | async" [value]="project">
-                        {{ project.nombre }}
+                        {{ project.obra }}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
@@ -62,7 +62,7 @@
             <mat-form-field fxFlex="33%" appearance="outline" *ngIf="this.id === 'P'">
                 <mat-label>Número de confirmación</mat-label>
                 <!--<input type="select" matInput placeholder="Confirmación" aria-label="Number" [(ngModel)]="obj.tlConfirmationNumber" [formControl]="confirmListControl" [matAutocomplete]="autoCon" required multiple />
-                 <mat-select-trigger>
+                  <mat-select-trigger>
                     {{confirmListControl.value?.[0] || ''}}
                     <span *ngIf="(confirmListControl.value?.length || 0) > 1" class="example-additional-selection">
             (+{{ (confirmListControl.value?.length || 0) - 1 }}
@@ -79,7 +79,7 @@
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around stretch">
             <mat-form-field fxFlex="33%" appearance="outline">
                 <mat-label>Responsable</mat-label>
-                <input type="text" matInput placeholder="Responsable" [(ngModel)]="obj.responsible" [formControl]="responListControl" [matAutocomplete]="autoR" required />
+                <input type="text" matInput placeholder="Responsable" [(ngModel)]="obj.responsible" [formControl]="responListControl" [matAutocomplete]="autoR" required (ngModelChange)="responsibleId()" />
                 <mat-autocomplete fxFlex="35%" #autoR="matAutocomplete">
                     <mat-option *ngFor="let r of responList | async" [value]="r.displayname">
                         {{ r.displayname }}

@@ -41,8 +41,11 @@ export class AppApiService {
     return this.http.get(url);
   }
 
-  getClients(id: number, idest: string) {
+  getClientsInformation(id: number, idest: string) {
     return this.getQuery(`ObtenerClientes?id=${id}&idest=${idest}`);
+  }
+  getClients() {
+    return this.getQuery(`ObtenerConfirTabla?esta=A`);
   }
 
   ObtenerClientesConfir(id: number, idest: string) {

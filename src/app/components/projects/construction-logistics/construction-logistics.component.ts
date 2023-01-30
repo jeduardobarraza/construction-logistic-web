@@ -98,6 +98,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   towerLocation = 'Torre';
   towerList: string[] = [];
   floorList: string[] = [];
+  towerNumber: string = ''; ///////////////////////
 
   ordersTable = {
     tlProjectId: '# de Pedido',
@@ -118,6 +119,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   totalsToOrder: any[] = [];
   totalsRoute: any[] = [];
   totalsToRegistry: any[] = [];
+  contractors: any = [];
 
   routes: any[] = [];
 
@@ -147,6 +149,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     this.asignLocation(this.saleUnitsList);
     this.listOrders();
     this.listRoutes();
+    this.getContractors();
   }
   asignLocation(list: any) {
     for (let set of this.setsItems) {
@@ -473,6 +476,11 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   }
   /////////
 
+  async getContractors() {
+    this.contractors = await this.api.getContractors();
+    console.log(this.contractors);
+  }
+
   manufacturingOrder = async (type: string, obj: any) => {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -489,7 +497,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       GetManufacturingOrderComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => { });
+    dialogRef.afterClosed().subscribe(async () => {});
   };
 
   getInvoiceHistory = async (type: string, obj: any = null) => {
@@ -508,7 +516,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       GetInvoiceHistoryComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => { });
+    dialogRef.afterClosed().subscribe(async () => {});
   };
 
   getRoute = async (type: string, obj: any = null) => {
@@ -524,7 +532,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     dialogConfig.width = '500px';
     dialogConfig.panelClass = 'custom-modal';
     const dialogRef = this.dialog.open(GetRouteComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(async () => { });
+    dialogRef.afterClosed().subscribe(async () => {});
   };
 
   onCellClicked(e: any) {
@@ -682,7 +690,6 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     console.log('pieceByProject', pieceByProject);
     console.log('this.piecesList', this.piecesList);
     console.log(this.piecesItems);
-
   };
 
   loadOrders = async () => {

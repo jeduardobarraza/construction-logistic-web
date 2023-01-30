@@ -6,7 +6,7 @@ import CommonCells from '../common-cell';
 export default class TableHelper {
   static getFieldsColumns = async (fields: string[], tableProperties: any) => {
     const columnDefs: ColDef[] = [];
-
+    console.log(fields);
     await fields.map(async (field) => {
       const headerName = field;
       const columnProperties = get(tableProperties, field, null);

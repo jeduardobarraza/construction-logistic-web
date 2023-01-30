@@ -63,6 +63,7 @@ export class GetSetComponent implements OnInit {
     pieces: [],
     quantity: 1
   };
+  validate: boolean = false;
 
   delCellRenderer = function () {
     let html = "<span style='font-size:21px; color:goldenrod;'>&#9733;</span>";
@@ -122,12 +123,19 @@ export class GetSetComponent implements OnInit {
     //   //this.tagList = split(obj.tags, ';');
     //   this.dimensions = this.obj.dimensions;
     // }
-
+    this.validation();
     this.settingsInit();
   }
 
   ngOnInit(): void {}
 
+  async validation() {
+    if (this.obj.setId) {
+      this.validate = await this.constructionLogisticsApi.validateSetInUse(
+        this.obj.setId
+      );
+    }
+  }
   settingsInit = async () => {
     this.columnDefsProperties = [
       {
@@ -230,12 +238,13 @@ export class GetSetComponent implements OnInit {
   };
 
   onCellClicked(par: any) {
+    console.log('parametro borrar>>>>>>>>', par);
     if (par.colDef.groupId == 'DelProBtn') {
-      this.delRow(par.data, 'delRowProperty');
+      this.delRow(par, 'delRowProperty');
     } else if (par.colDef.groupId == 'DelSModBtn') {
-      this.delRow(par.data, 'delRowMod');
+      this.delRow(par, 'delRowMod');
     } else if (par.colDef.groupId == 'DelPieceBtn') {
-      this.delRow(par.data, 'delRowPiece');
+      this.delRow(par, 'delRowPiece');
     }
   }
 

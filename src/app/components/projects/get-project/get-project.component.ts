@@ -283,22 +283,24 @@ export class GetProjectComponent implements OnInit {
     // );
   }
 
-  displayFn(cliente: { id: number; nombre_completo: any }) {
+  displayFn(cliente: { id: number; cliente: any; obra: string }) {
     console.log(cliente);
     if (cliente) {
       this.id_cliente = cliente.id;
       console.log('id_cliente [displayFN]: ' + this.id_cliente);
       this.SearchProject(this.id_cliente);
+      this.comboProject = [];
+      this.comboProject.push(cliente);
     }
-    return cliente ? cliente.nombre_completo : cliente;
+    return cliente ? cliente.cliente : cliente;
   }
 
   SearchProject(id_cliente: number) {
-    this.api
-      .ObtenerObrasClienteConfirmadas(id_cliente)
-      .subscribe((data: any) => {
-        this.comboProject = data;
-      });
+    console.log(id_cliente);
+    this.api.ObtenerObrasClienteConfirmadas(1).subscribe((data: any) => {
+      //this.comboProject = data;
+      console.log('ObtenerObrasClienteConfirmadas>>>>>>', data);
+    });
   }
 
   // displayFnProject(project: any): string {
@@ -315,25 +317,20 @@ export class GetProjectComponent implements OnInit {
   // }
 
   displayFnProject(project: any): string {
-    console.log('Method displayFnProject');
-    console.log(project);
     if (project) {
       this.id_project = project.id;
       //this.obj.projectId = project.id;
       console.log('this.id: ' + this.id);
       this.getConfirmaciones(this.id_project);
     }
-    return project ? project.nombre : project;
+    return project ? project.obra : project;
   }
 
   getConfirmaciones(id: number) {
-    this.api
-      .ObtenerConfirmacionesAgrup(this.id_project)
-      .subscribe((data: any) => {
-        //this.comboConf = data;
-        this.confirmList = data;
-        console.log(this.comboConf);
-      });
+    this.api.ObtenerConfirmacionesAgrup(id).subscribe((data: any) => {
+      //this.comboConf = data;
+      this.confirmList = data;
+    });
   }
 
   getClient() {
@@ -342,11 +339,13 @@ export class GetProjectComponent implements OnInit {
       idEst: 'A'
     };
 
-    this.api.getClients(params.id, params.idEst).subscribe((data: any) => {
+    this.api.getClients().subscribe((data: any) => {
       this.comboClients = data;
     });
-
-    this.SearchProject(this.prospect_get.id_cliente);
+    this.api
+      .getClientsInformation(params.id, params.idEst)
+      .subscribe((data: any) => {});
+    //this.SearchProject(this.prospect_get.id_cliente);
 
     this.api.GetCountries().subscribe((data: any) => {
       this.comboCountries = data;
@@ -354,12 +353,19 @@ export class GetProjectComponent implements OnInit {
 
     this.api.ObtenerUsuarios('COMERCIAL-DISEÑO').subscribe((data: any) => {
       this.cmbRespo = data;
+      console.log(this.cmbRespo);
     });
 
-    this.getConfirmaciones(this.id_project);
+    this.getConfirmaciones(this.id_cliente);
   }
 
-  updateData() {}
+  responsibleId() {
+    for (let i = 0; i < this.cmbRespo.length; i++) {
+      if (this.cmbRespo[i].displayname == this.obj.responsible) {
+        this.obj.responsibleId = this.cmbRespo[i].userid;
+      }
+    }
+  }
 
   // getClients = async () => {
   //   const clientList =
@@ -378,14 +384,14 @@ export class GetProjectComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.comboClients.filter((client) =>
-      client?.nombre_completo.toLowerCase().includes(filterValue)
+      client?.cliente.toLowerCase().includes(filterValue)
     );
   }
   private _filterProject(value: any): any[] {
     console.log('Method _filterProject');
     const filterProjectValue = value.toLowerCase();
     return this.comboProject.filter((project) =>
-      project?.nombre.toLowerCase().includes(filterProjectValue)
+      project?.obra.toLowerCase().includes(filterProjectValue)
     );
   }
 
@@ -403,10 +409,6 @@ export class GetProjectComponent implements OnInit {
     this.projectList = projectList;
     console.log(this.projectList);
   };
-
-  saveProjectObra() {
-    return null;
-  }
 
   isSelect(furniture: string) {
     return (
@@ -667,9 +669,9 @@ export class GetProjectComponent implements OnInit {
     if (this.id) {
       let client: any = this.obj.tlClientName;
       let project: any = this.obj.tlProjectName;
-      this.obj.tlClientName = client.nombre_completo;
+      this.obj.tlClientName = client.cliente;
       this.obj.tlClientId = client.id;
-      this.obj.tlProjectName = project.nombre;
+      this.obj.tlProjectName = project.obra;
       this.obj.tlProjectId = project.id.toString();
     }
   }
@@ -700,18 +702,32 @@ export class GetProjectComponent implements OnInit {
       projectId,
       body
     );
-    this.loading = false;
-    this.dialogRef.close({ ok: true });
-    window.location.reload();
-    this.toastr.success('Proyecto actualizado');
+    if (result.message) {
+      this.loading = false;
+      this.dialogRef.close({ ok: true });
+      window.location.reload();
+      this.toastr.error('Error al actualizar el proyecto');
+    } else {
+      this.loading = false;
+      this.dialogRef.close({ ok: true });
+      window.location.reload();
+      this.toastr.success('Proyecto actualizado');
+    }
   };
 
   createProject = async (body: IConstruction) => {
     const result = await this.constructionLogisticApi.createProject(body);
-    this.loading = false;
-    this.dialogRef.close({ ok: true });
-    //window.location.reload();
-    this.toastr.success('Nuevo proyecto creado');
+    if (result.message) {
+      this.toastr.error('Error al crear el proyecto');
+      this.loading = false;
+      this.dialogRef.close(result);
+    } else {
+      console.log(result);
+      this.toastr.success('Nuevo proyecto creado con éxito!');
+      this.loading = false;
+      this.dialogRef.close(result);
+      window.location.reload();
+    }
   };
 }
 

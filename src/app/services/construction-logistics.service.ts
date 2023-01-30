@@ -15,13 +15,14 @@ const ORDER_CONTROLLER = 'orders';
 const PROJECT_CONTROLLER = 'project';
 const LOCATION_CONTROLLER = 'locations';
 const ROUTE_CONTROLLER = 'route';
+const CONTRACTOR_CONTROLLER = 'contractor';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConstructionLogisticsService {
   createProperty: any;
-  constructor(private apiHelper: ApiHelperService) { }
+  constructor(private apiHelper: ApiHelperService) {}
 
   ///////////////Projects
 
@@ -46,21 +47,34 @@ export class ConstructionLogisticsService {
   //   });
 
   createProject = (body: IConstruction) => {
-    console.log(body);
-    this.apiHelper.postAsync(CONSTRUCTION_CONTROLLER, { body });
+    const result = this.apiHelper.postAsync(CONSTRUCTION_CONTROLLER, {
+      body
+    });
+    return result;
   };
 
-  updateProject = (projectId: string, body: IConstruction) =>
-    this.apiHelper.updateAsync(CONSTRUCTION_CONTROLLER, {
+  updateProject = (projectId: string, body: IConstruction) => {
+    const result = this.apiHelper.updateAsync(CONSTRUCTION_CONTROLLER, {
       path: projectId,
       body
     });
+    return result;
+  };
 
   deleteProject = (projectId: string) =>
     this.apiHelper.deleteAsync(CONSTRUCTION_CONTROLLER, {
       path: '' + projectId
     });
 
+  validateSetInUse = (setId: string) =>
+    this.apiHelper.getAsync(CONSTRUCTION_CONTROLLER, {
+      path: 'validateSet/' + setId
+    });
+
+  validatePieceInUse = (pieceId: string) =>
+    this.apiHelper.getAsync(CONSTRUCTION_CONTROLLER, {
+      path: 'validatePiece/' + pieceId
+    });
 
   //////////////////Sets
 
@@ -77,7 +91,6 @@ export class ConstructionLogisticsService {
   deleteSet = (setId: string) =>
     this.apiHelper.deleteAsync(SET_CONTROLLER, { path: '' + setId });
 
-
   ////////////////piece
 
   getPiecesByType = (type: string) =>
@@ -93,7 +106,6 @@ export class ConstructionLogisticsService {
 
   deletePiece = (pieceId: string) =>
     this.apiHelper.deleteAsync(PIECE_CONTROLLER, { path: '' + pieceId });
-
 
   //////////////////orders
 
@@ -115,7 +127,6 @@ export class ConstructionLogisticsService {
     this.apiHelper.postAsync(PROJECT_CONTROLLER, {
       path: '' + projectId + '/orders', body
     });
-
 
   //////////////////locations
 
@@ -140,7 +151,6 @@ export class ConstructionLogisticsService {
       body
     });
 
-
   //////////////////routes
 
   getProjectRoute = (projectId: any) =>
@@ -159,4 +169,7 @@ export class ConstructionLogisticsService {
       path: '' + projectId + '/route/' + routeId,
       body
     });
+
+  ///////////////contractors
+  getContractors = () => this.apiHelper.getAsync(CONTRACTOR_CONTROLLER);
 }
