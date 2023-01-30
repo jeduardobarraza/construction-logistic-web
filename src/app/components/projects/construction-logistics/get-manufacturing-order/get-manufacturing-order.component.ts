@@ -25,7 +25,7 @@ export class GetManufacturingOrderComponent implements OnInit {
   };
 
   pieceListTooltip = 'Lista de Piezas';
-  saleUnitLocationTooltip = '';
+  saleUnitLocationTooltip = 'Ubicación de las Unidades de Ventas';
 
   constructor(
     private api: ConstructionLogisticsService,
@@ -40,7 +40,7 @@ export class GetManufacturingOrderComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void {
     this.pieceListTooltip = 'Lista de Piezas';
@@ -60,7 +60,7 @@ export class GetManufacturingOrderComponent implements OnInit {
     dialogConfig.width = '500px';
     dialogConfig.panelClass = 'custom-modal';
     const dialogRef = this.dialog.open(GetRouteComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   LocationUnitSale = async (type: string, obj: any = null) => {
@@ -79,6 +79,6 @@ export class GetManufacturingOrderComponent implements OnInit {
       SalesUnitLocationComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 }

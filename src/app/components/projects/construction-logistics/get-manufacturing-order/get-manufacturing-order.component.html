@@ -17,58 +17,65 @@
                 </div>
                 <div class="divCell">
                     <span class="spanCell">
-            <b> {{ obj.orderNumber }} </b>
-          </span>
+                        <b> {{ obj.orderNumber }} </b>
+                    </span>
                     <span class="spanCell">
-            <b> {{ obj.confNumber }} </b>
-          </span>
+                        <b> {{ obj.confNumber }} </b>
+                    </span>
                 </div>
             </div>
         </div>
         <div style="display: flex">
             <span class="materialCell"> Fecha </span>
             <span class="dateCell">
-        <b> {{ obj.orderDate | date }} </b>
-      </span>
+                <b> {{ obj.orderDate | date }} </b>
+            </span>
         </div>
         <div style="display: flex">
             <span class="materialCell"> Producto </span>
             <span class="dateCell">
-        <b> {{ obj.product }} </b>
-      </span>
+                <b> {{ obj.product }} </b>
+            </span>
             <div class="inline-panel">
-                <button [matTooltip]="pieceListTooltip" *ngIf="show" mat-button color="primary" class="mat-elevation-z0" (click)="show = !show">
-          <mat-icon class="main-button"> filter_1 </mat-icon>
-        </button>
+                <button [matTooltip]="pieceListTooltip" *ngIf="show" mat-button color="primary" class="mat-elevation-z0"
+                    (click)="show = !show">
+                    <mat-icon class="main-button"> filter_1 </mat-icon>
+                </button>
             </div>
         </div>
         <div class="marginDiv" *ngIf="show">
             <span class="materialCell"> Obra </span>
-            <ng-select class="constrCell"> </ng-select>
+            <!-- <ng-select class="constrCell"> </ng-select> -->
+            <div class="projectUnitS">
+                <span class="projectCell">
+                    <b>{{ obj.tlProjectName }}</b>
+                </span>
+            </div>
 
             <div class="inline-panel">
-                <button mat-dialog-close (click)="LocationUnitSale('')" mat-button color="primary" class="mat-elevation-z0" [matTooltip]="saleUnitLocationTooltip">
-          <mat-icon class="main-button"> arrow_drop_down_circle </mat-icon>
-        </button>
+                <button mat-dialog-close (click)="LocationUnitSale('')" mat-button color="primary"
+                    class="mat-elevation-z0" [matTooltip]="saleUnitLocationTooltip">
+                    <mat-icon class="main-button"> arrow_drop_down_circle </mat-icon>
+                </button>
             </div>
         </div>
         <div class="marginDiv" *ngIf="!show">
             <span class="materialCell"> Obra </span>
-            <div class="divSizeConst">
+            <div class="projectPiece">
                 <span class="unitSaleCell">
-          <b>{{ obj.projectId }}</b>
-        </span>
+                    <b>{{ obj.tlProjectName }}</b>
+                </span>
             </div>
         </div>
         <div style="display: flex">
             <span class="materialCell"> Material </span>
             <span class="finishCell">
-        <b> {{ obj.material }} </b>
-      </span>
+                <b> {{ obj.material }} </b>
+            </span>
             <span class="materialCell"> Acabado </span>
             <span class="finishCell">
-        <b> {{ obj.finish }} </b>
-      </span>
+                <b> {{ obj.finish }} </b>
+            </span>
         </div>
         <div style="margin-top: 15px">
             <div style="display: flex" *ngFor="let item of saleUnits">
@@ -127,22 +134,22 @@
                 <h3>Elaborado por</h3>
             </div>
             <span class="authorCell">
-        <b> {{ obj.author }}</b>
-      </span>
+                <b> {{ obj.author }}</b>
+            </span>
         </div>
     </div>
     <div class="app-modal-actions">
         <button align="end" mat-stroked-button color="primary" *ngIf="!show" (click)="show = !show">
-      Cancelar
-    </button>
+            Cancelar
+        </button>
         <button align="end" mat-stroked-button color="primary" mat-dialog-close *ngIf="show">
-      Cancelar
-    </button>
+            Cancelar
+        </button>
         <button align="end" mat-raised-button color="primary" mat-dialog-close>
-      Guardar Borrador
-    </button>
+            Guardar Borrador
+        </button>
         <button align="end" mat-raised-button color="primary" mat-dialog-close (click)="getRoute('')">
-      Generar
-    </button>
+            Generar
+        </button>
     </div>
 </div>

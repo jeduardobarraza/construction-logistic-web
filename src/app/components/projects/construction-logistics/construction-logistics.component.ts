@@ -100,7 +100,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   floorList: string[] = [];
 
   ordersTable = {
-    orderNumber: '# de Pedido',
+    tlProjectId: '# de Pedido',
     orderStatus: 'Estado de Pedido',
     workshopStatus: 'Estado Taller'
   };
@@ -529,13 +529,13 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
 
   onCellClicked(e: any) {
     console.log('cellClicked', e);
-    if (e.colDef.colId === 'btnArchive') {
+    if (e.colDef.colId === 'tlProjectId') {
       this.manufacturingOrder(e.data.type, e.data);
     }
   }
 
   buildTableColumns = async () => {
-    const fields = ['orderNumber'];
+    const fields = ['tlProjectId'];
     const columnDefs: ColDef[] = [];
 
     fields.map(async (field) => {
