@@ -18,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 import { IProjectRoute } from '../../../interfaces/projectRoute.interface';
 import { I } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
+import { ContractorComponent } from './contractor/contractor.component';
 @Component({
   selector: 'app-construction-logistics',
   templateUrl: './construction-logistics.component.html',
@@ -480,6 +481,23 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     this.contractors = await this.api.getContractors();
     console.log(this.contractors);
   }
+
+  createContractor = async (projectId: string = this.obj.projectId) => {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      projectId
+    };
+
+    dialogConfig.height = '450px';
+    dialogConfig.width = '500px';
+    dialogConfig.panelClass = 'custom-modal';
+    const dialogRef = this.dialog.open(ContractorComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(async () => {
+      this.getContractors();
+    });
+  };
 
   manufacturingOrder = async (type: string, obj: any) => {
     const dialogConfig = new MatDialogConfig();

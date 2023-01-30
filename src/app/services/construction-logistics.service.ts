@@ -6,6 +6,7 @@ import { IConstruction } from '../interfaces/construction.interface';
 import { IProjectLocation } from '../interfaces/projectLocation.interface';
 import { IProjectRoute } from '../interfaces/projectRoute.interface';
 import { IOrder } from '../interfaces/order.interface';
+import { IContractor } from '../interfaces/contractor.interface';
 
 const CONSTRUCTION_CONTROLLER = 'project';
 const PIECE_CONTROLLER = 'piece';
@@ -172,4 +173,19 @@ export class ConstructionLogisticsService {
 
   ///////////////contractors
   getContractors = () => this.apiHelper.getAsync(CONTRACTOR_CONTROLLER);
+
+  createContractor = (body: IContractor) =>
+    this.apiHelper.postAsync(CONTRACTOR_CONTROLLER, {
+      body
+    });
+
+  getContractorById = (contractorId: any) =>
+    this.apiHelper.getAsync(CONTRACTOR_CONTROLLER, {
+      path: '/' + contractorId
+    });
+
+  deleteContractor = (contractorId: string) =>
+    this.apiHelper.deleteAsync(CONTRACTOR_CONTROLLER, {
+      path: '/' + contractorId
+    });
 }

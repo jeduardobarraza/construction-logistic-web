@@ -1,0 +1,53 @@
+<div class="app-modal-container">
+    <div class="app-modal-label">
+        <p>
+            {{ tittle }}
+        </p>
+    </div>
+
+    <div class="app-modal-content" fxLayoutGap="10px" fxLayout="column" fxLayoutAlign="space-around stretch">
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around stretch">
+            <mat-form-field fxFlex="67%" appearance="outline">
+                <mat-label>Nombre del contratista</mat-label>
+                <input type="text" placeholder="Nombre" aria-label="Number" matInput [(ngModel)]="obj.name" [formControl]="contractorControl" required autocomplete="off" />
+            </mat-form-field>
+            <mat-form-field fxFlex="33%" appearance="outline">
+                <mat-label>Numero de identidad</mat-label>
+                <input type="text" placeholder="Numero de identidad" aria-label="Number" matInput [(ngModel)]="obj.dni" [formControl]="contractorControl" required autocomplete="off" />
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around stretch">
+            <mat-form-field fxFlex="30%" appearance="outline">
+                <mat-label>NIT</mat-label>
+                <input type="text" placeholder="NIT" aria-label="Number" matInput [(ngModel)]="obj.nit" [formControl]="contractorControl" autocomplete="off" />
+            </mat-form-field>
+            <mat-form-field fxFlex="30%" appearance="outline">
+                <mat-label>Teléfono</mat-label>
+                <input type="text" placeholder="Teléfono" aria-label="Number" matInput [(ngModel)]="obj.phone" [formControl]="contractorControl" required autocomplete="off" />
+            </mat-form-field>
+            <mat-form-field fxFlex="40%" appearance="outline">
+                <mat-label>Correo electrónico</mat-label>
+                <input type="text" placeholder="correo electrónico" aria-label="Number" matInput [(ngModel)]="obj.email" [formControl]="contractorControl" required autocomplete="off" />
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around stretch">
+            <mat-form-field fxFlex="33%" appearance="outline">
+                <mat-label>Área</mat-label>
+                <input type="text" placeholder="área" aria-label="Number" matInput [(ngModel)]="obj.area" [formControl]="contractorControl" required autocomplete="off" />
+            </mat-form-field>
+            <mat-form-field fxFlex="67%" appearance="outline">
+                <mat-label>Equipo de trabajo</mat-label>
+                <input type="text" placeholder="equipo de trabajo" aria-label="Number" matInput [(ngModel)]="team" [formControl]="contractorControl" required autocomplete="off" />
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="app-modal-actions">
+        <button align="end" mat-stroked-button color="primary" mat-dialog-close>
+      Cancelar
+    </button>
+        <button align="end" mat-raised-button color="primary" type="submit" (click)="onSave()">
+      Guardar
+    </button>
+    </div>
+</div>
