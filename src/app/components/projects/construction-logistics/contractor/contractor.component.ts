@@ -41,7 +41,7 @@ export class ContractorComponent implements OnInit {
       // detail: saleUnitSelected
     };
     const contractor = await this.api.createContractor(projectObject);
-    console.log('constractor>>>>', contractor);
+    //console.log('constractor>>>>', contractor);
     this.dialogRef.close({ ok: true });
   }
 }

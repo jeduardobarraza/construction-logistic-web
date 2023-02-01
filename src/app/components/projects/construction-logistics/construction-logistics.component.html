@@ -145,12 +145,11 @@
             <!-- route section -->
             <mat-tab>
                 <ng-template mat-tab-label> Recorridos </ng-template>
-
                 <div class="historyButton">
                     <mat-form-field appearance="fill">
                         <mat-label>Elija un Contratista</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let contract of contractors" [value]="contract.name">{{ contract.name }}</mat-option>
+                        <mat-select [(ngModel)]="contractor">
+                            <mat-option *ngFor="let contract of contractors" [value]="contract.contractorId">{{ contract.name }}</mat-option>
                             <mat-option (click)="createContractor()">nuevo contratista</mat-option>
                         </mat-select>
                     </mat-form-field>

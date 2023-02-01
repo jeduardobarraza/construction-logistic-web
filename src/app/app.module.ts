@@ -39,6 +39,7 @@ import { GetShowItComponent } from './components/projects/get-library/get-show-i
 import { GetPieceComponent } from './components/projects/get-library/get-piece/get-piece.component';
 import { GetComponentComponent } from './components/projects/get-library/get-component/get-component.component';
 import { ContractorComponent } from './components/projects/construction-logistics/contractor/contractor.component';
+import { GetContractComponent } from './components/projects/construction-logistics/get-contract/get-contract.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { ContractorComponent } from './components/projects/construction-logistic
     GetInvoicePdfComponent,
     SalesUnitLocationComponent,
     GetInvoiceHistoryComponent,
-    ContractorComponent
+    ContractorComponent,
+    GetContractComponent
   ],
   imports: [
     BrowserModule,
