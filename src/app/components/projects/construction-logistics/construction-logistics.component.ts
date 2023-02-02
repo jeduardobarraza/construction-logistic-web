@@ -481,12 +481,12 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     console.log(this.contractors);
   }
 
-  manufacturingOrder = async (type: string, obj: any) => {
+  manufacturingOrder = async (obj: any = null) => {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      type,
+      //type,
       obj
     };
 
@@ -538,7 +538,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   onCellClicked(e: any) {
     console.log('cellClicked', e);
     if (e.colDef.colId === 'orderNumber') {
-      this.manufacturingOrder(e.data.type, e.data);
+      this.manufacturingOrder(e.data);
     }
   }
 

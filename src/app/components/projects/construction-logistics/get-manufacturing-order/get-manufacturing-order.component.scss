@@ -58,16 +58,30 @@
     justify-content: space-around;
 }
 
-.spanCell {
+.orderNCell {
     display: flex;
     flex-direction: column;
     border-style: solid;
     border-color: lightgray;
     border-width: 0.1px;
     text-align: center;
-    width: 100px;
+    width: auto;
     padding: 5px;
-    height: 18px
+    // height: 18px;
+    font-weight: bold;
+}
+
+.confNCell {
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.1px;
+    text-align: center;
+    // width: 100px;
+    padding: 5px;
+    // height: 18px;
+    font-weight: bold;
 }
 
 .projectPiece {
@@ -125,7 +139,8 @@
     text-align: center;
     width: 20%;
     padding: 6px;
-    margin: 0px
+    margin: 0px;
+    font-weight: bold;
 }
 
 .inputCell {
@@ -187,8 +202,8 @@
 }
 
 .amount {
-    // display: flex;
-    width: 15%
+    display: flex;
+    width: 30%
 }
 
 .amountCell {
@@ -203,11 +218,24 @@
     margin: 0px
 }
 
+.inputMaterial {
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.1px;
+    width: 38%;
+    margin: 0px;
+    text-align: center;
+    font-weight: bold;
+}
+
 .inputAmo {
     border-style: solid;
     border-color: lightgray;
     border-width: 0.1px;
-    width: 100%;
+    // width: 100%;
+    margin: 0px;
+    text-align: center;
+    font-weight: bold;
 }
 
 .divSize {

@@ -19,6 +19,10 @@ export class GetManufacturingOrderComponent implements OnInit {
   show = true;
 
   saleUnitsList: any[] = [];
+  confNumberList: any[] = [];
+  tlConfNumberList: any[] = [];
+  productList: any[] = [];
+  tlProductList: any[] = [];
 
   obj: any = {
     projectId: undefined
@@ -35,11 +39,17 @@ export class GetManufacturingOrderComponent implements OnInit {
     const { obj } = data || {};
     console.log('obj>>>', obj);
     this.obj = obj;
-    if (obj.orderId) {
+    if (obj) {
       this.saleUnitsList = obj.saleUnits;
+      this.confNumberList = obj.confNumber; //split(obj.confNumber, ';');
+      this.tlConfNumberList = obj.tlConfirmationNumber;
+      this.productList = obj.product;
+      this.tlProductList = obj.detail;
     }
+    console.log('saleUnitsList', this.saleUnitsList);
+    console.log(this.confNumberList);
+    console.log(this.productList);
 
-    console.log('this.saleUnitsList', this.saleUnitsList);
   }
 
   ngOnInit(): void { }
