@@ -38,6 +38,8 @@ import { GetConfirmComponent } from './components/projects/get-library/get-confi
 import { GetShowItComponent } from './components/projects/get-library/get-show-it/get-show-it.component';
 import { GetPieceComponent } from './components/projects/get-library/get-piece/get-piece.component';
 import { GetComponentComponent } from './components/projects/get-library/get-component/get-component.component';
+import { ContractorComponent } from './components/projects/construction-logistics/contractor/contractor.component';
+import { GetContractComponent } from './components/projects/construction-logistics/get-contract/get-contract.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { GetComponentComponent } from './components/projects/get-library/get-com
     GetInvoicingComponent,
     GetInvoicePdfComponent,
     SalesUnitLocationComponent,
-    GetInvoiceHistoryComponent
+    GetInvoiceHistoryComponent,
+    ContractorComponent,
+    GetContractComponent
   ],
   imports: [
     BrowserModule,
@@ -87,4 +91,4 @@ import { GetComponentComponent } from './components/projects/get-library/get-com
   providers: [ApiHelperService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -18,6 +18,9 @@ import { ToastrService } from 'ngx-toastr';
 import { IProjectRoute } from '../../../interfaces/projectRoute.interface';
 import { I } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
+import { ContractorComponent } from './contractor/contractor.component';
+import { GetContractComponent } from './get-contract/get-contract.component';
+import { IContractor } from '../../../interfaces/contractor.interface';
 @Component({
   selector: 'app-construction-logistics',
   templateUrl: './construction-logistics.component.html',
@@ -56,6 +59,8 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     saleUnits: {},
     quantity: 0
   };
+
+  contractor: string = '';
 
   details = [];
 
@@ -403,6 +408,9 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   /////////
   addProjectRoute = async () => {
     this.route.detail = this.locationsRoute;
+    for (let i = 0; i < this.route.detail.length; i++) {
+      this.route.detail[i].contractorId = this.contractor;
+    }
     this.updateRoute();
     let validate: boolean = true;
     this.route.routeDate = new Date().toISOString();
@@ -478,8 +486,41 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
 
   async getContractors() {
     this.contractors = await this.api.getContractors();
-    console.log(this.contractors);
+    //console.log(this.contractors);
   }
+
+  createContractor = async () => {
+    let projectId: string = this.obj.projectId;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      projectId
+    };
+
+    dialogConfig.height = '450px';
+    dialogConfig.width = '500px';
+    dialogConfig.panelClass = 'custom-modal';
+    const dialogRef = this.dialog.open(ContractorComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(async () => {
+      this.getContractors();
+    });
+  };
+
+  getContractor = async (contractId: string) => {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      contractId
+    };
+
+    dialogConfig.height = '650px';
+    dialogConfig.width = '500px';
+    dialogConfig.panelClass = 'custom-modal';
+    const dialogRef = this.dialog.open(GetContractComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(async () => {});
+  };
 
   manufacturingOrder = async (type: string, obj: any) => {
     const dialogConfig = new MatDialogConfig();
@@ -702,6 +743,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
 
   loadOrderByProject = async () => {
     const orderByProject = await this.api.getProjectOrders(this.obj.projectId);
+    console.log(orderByProject);
     this.agGrid.api.setRowData(orderByProject);
     this.loading = false;
     this.ordersByProject = orderByProject;

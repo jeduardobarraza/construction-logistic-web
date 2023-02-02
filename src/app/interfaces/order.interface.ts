@@ -6,7 +6,9 @@ export interface IOrder {
   confNumber: string[];
   orderDate: string;
   product: string[];
+  projectId: string;
   material: string;
   finish: string;
   saleUnits: ISaleUnit;
+  author: string;
 }
