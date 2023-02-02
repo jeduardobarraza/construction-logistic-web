@@ -238,13 +238,16 @@
                                             <span>$ {{ saleUnit.installValue | number }} </span>
                                         </div>
                                         <div *ngFor="let location of locationsRoute; index as i">
-                                            <!-- <mat-form-field class="inputCell" appearance="outline">
+                                            <mat-form-field class="inputCell" appearance="outline">
                                                 <div *ngFor="let unit of location.saleUnits; index as j">
                                                     <div *ngIf="unit.saleUnit.name == saleUnit.name">
-                                                        <input style="text-align: center" matInput type="number" [(ngModel)]="unit.quantity" [disabled]="location.location == ''" autocomplete="off" (ngModelChange)="totalLocations()" />
+                                                        <input style="text-align: center" matInput type="number"
+                                                            [(ngModel)]="unit.quantity"
+                                                            [disabled]="location.location == ''" autocomplete="off"
+                                                            (ngModelChange)="totalLocations()" />
                                                     </div>
                                                 </div>
-                                            </mat-form-field> -->
+                                            </mat-form-field>
                                         </div>
                                         <div class="itemCell total-value">
                                             <span> {{ saleUnit.quantity | number }} </span>
