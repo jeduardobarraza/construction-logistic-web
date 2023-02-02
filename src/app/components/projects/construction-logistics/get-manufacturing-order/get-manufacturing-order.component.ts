@@ -18,14 +18,18 @@ import { SalesUnitLocationComponent } from '../sales-unit-location/sales-unit-lo
 export class GetManufacturingOrderComponent implements OnInit {
   show = true;
 
-  saleUnits: any[] = [];
+  saleUnitsList: any[] = [];
+  confNumberList: any[] = [];
+  tlConfNumberList: any[] = [];
+  productList: any[] = [];
+  tlProductList: any[] = [];
 
   obj: any = {
     projectId: undefined
   };
 
   pieceListTooltip = 'Lista de Piezas';
-  saleUnitLocationTooltip = '';
+  saleUnitLocationTooltip = 'Ubicación de las Unidades de Ventas';
 
   constructor(
     private api: ConstructionLogisticsService,
@@ -36,11 +40,19 @@ export class GetManufacturingOrderComponent implements OnInit {
     console.log('obj>>>', obj);
     this.obj = obj;
     if (obj) {
-      this.saleUnits = split(obj.unit, ';');
+      this.saleUnitsList = obj.saleUnits;
+      this.confNumberList = obj.confNumber; //split(obj.confNumber, ';');
+      this.tlConfNumberList = obj.tlConfirmationNumber;
+      this.productList = obj.product;
+      this.tlProductList = obj.detail;
     }
+    console.log('saleUnitsList', this.saleUnitsList);
+    console.log(this.confNumberList);
+    console.log(this.productList);
+
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void {
     this.pieceListTooltip = 'Lista de Piezas';
@@ -60,7 +72,7 @@ export class GetManufacturingOrderComponent implements OnInit {
     dialogConfig.width = '500px';
     dialogConfig.panelClass = 'custom-modal';
     const dialogRef = this.dialog.open(GetRouteComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   LocationUnitSale = async (type: string, obj: any = null) => {
@@ -79,6 +91,6 @@ export class GetManufacturingOrderComponent implements OnInit {
       SalesUnitLocationComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 }

@@ -79,7 +79,7 @@ export class ProjectsComponent implements AfterViewInit {
   constructor(
     private api: ConstructionLogisticsService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     setTimeout(async () => {
@@ -179,6 +179,8 @@ export class ProjectsComponent implements AfterViewInit {
     const projectsList = await this.api.getProjects();
     this.agGrid.api.setRowData(projectsList);
     this.loading = false;
+    console.log('projectsList', projectsList);
+
   };
 
   openDialog(
@@ -224,7 +226,7 @@ export class ProjectsComponent implements AfterViewInit {
       ConstructionLogisticsComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   editProject = async (obj: any = null) => {
@@ -250,7 +252,7 @@ export class DialogAnimations {
   constructor(
     public dialogRef: MatDialogRef<DialogAnimations>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
+  ) { }
 
   onConfirmClick(): void {
     this.data.confirm = true;
