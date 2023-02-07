@@ -146,9 +146,6 @@
             <mat-tab>
                 <ng-template mat-tab-label> Recorridos </ng-template>
                 <div class="historyButton">
-                    <button mat-icon-button color="primary" [matTooltip]="saveRoute" (click)="getRouteReport()">
-            <mat-icon>grid_on</mat-icon>
-          </button>
                     <mat-form-field appearance="fill">
                         <mat-label>Elija un recorrido</mat-label>
                         <mat-select [(ngModel)]="routeSelected" (ngModelChange)="routeSelect()">
@@ -169,6 +166,9 @@
           </button>
                     <button mat-icon-button color="primary" [matTooltip]="deleteRoute" (click)="deleteProjectRoute()">
             <mat-icon>delete_forever</mat-icon>
+          </button>
+                    <button mat-icon-button color="primary" [matTooltip]="saveRoute" (click)="getRouteReport()">
+            <mat-icon>grid_on</mat-icon>
           </button>
                 </div>
                 <div class="formLabel" id="routes">

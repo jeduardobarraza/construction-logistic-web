@@ -4,6 +4,7 @@ import { cloneDeep } from 'lodash';
 import { IProjectRoute } from 'src/app/interfaces/projectRoute.interface';
 import { ConstructionLogisticsService } from 'src/app/services/construction-logistics.service';
 import { ConstructionLogisticsComponent } from '../construction-logistics.component';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-get-contract',
@@ -28,6 +29,7 @@ export class GetContractComponent implements OnInit {
     routeDate: '',
     detail: []
   };
+  name = 'ExcelSheet.xlsx';
   constructor(
     public dialogRef: MatDialogRef<ConstructionLogisticsComponent>,
     private api: ConstructionLogisticsService,
@@ -150,4 +152,16 @@ export class GetContractComponent implements OnInit {
     console.log('saleUnitsList>>>', this.saleUnitsList);
     console.log('saleUnitsTitles>>>>', this.saleUnitsTitles);
   };
+
+  exportToExcel(): void {
+    let element = document.getElementById('Recorridos');
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+      this.locationsListRoute
+    );
+
+    const book: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(book, worksheet, 'Recorridos');
+
+    XLSX.writeFile(book, this.name);
+  }
 }
