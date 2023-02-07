@@ -26,7 +26,9 @@ export class ContractorComponent implements OnInit {
   constructor(
     private api: ConstructionLogisticsService,
     public dialogRef: MatDialogRef<ConstructionLogisticsComponent>
-  ) {}
+  ) {
+    console.log('contractor Component');
+  }
 
   ngOnInit(): void {}
 

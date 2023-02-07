@@ -20,7 +20,8 @@ import { I } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { ContractorComponent } from './contractor/contractor.component';
 import { GetContractComponent } from './get-contract/get-contract.component';
-import { IContractor } from '../../../interfaces/contractor.interface';
+//import { IContractor } from '../../../interfaces/contractor.interface';
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-construction-logistics',
   templateUrl: './construction-logistics.component.html',
@@ -60,8 +61,8 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     quantity: 0
   };
 
-  contractor: string = '';
-
+  contractor: any = {};
+  routeSelected: string = '';
   details = [];
 
   totales: any[] = [];
@@ -99,6 +100,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   newOrderTooltip = 'Nuevo Pedido';
   saveLocations = 'Guardar localizaciones';
   saveRoute = 'Guardar Recorrido';
+  deleteRoute = 'Eliminar Recorrido';
   floorLocation = 'Piso';
   towerLocation = 'Torre';
   towerList: string[] = [];
@@ -125,10 +127,10 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   totalsRoute: any[] = [];
   totalsToRegistry: any[] = [];
   contractors: any = [];
-
   routes: any[] = [];
 
   disableSelect = new FormControl(false);
+
   constructor(
     private api: ConstructionLogisticsService,
     private dialog: MatDialog,
@@ -348,6 +350,11 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   }
   /////////
   listRoutes = async () => {
+    console.log('listRoute Function>>>>>>');
+    this.locationsQuantityRoute = [];
+    this.locationsRoute = [];
+    this.route.detail = [];
+    this.route.routeId = '';
     for (let saleUnitTitle of this.saleUnitsTitles) {
       for (let saleUnit of this.saleUnitsList[saleUnitTitle]) {
         this.locationsQuantityRoute.push(saleUnit);
@@ -357,11 +364,12 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     this.locationsListRoute = await this.api.getProjectRoute(
       this.obj.projectId
     );
+    console.log(this.locationsListRoute);
     if (this.locationsListRoute.length > 0) {
       for (let route of this.locationsListRoute) {
         console.log(route);
         if (route.projectId == this.obj.projectId) {
-          this.createRoute = false;
+          //this.createRoute = false;
           this.route.routeId = route.routeId;
           for (let detail of route.detail) {
             this.locationsRoute.push(detail);
@@ -407,44 +415,51 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   };
   /////////
   addProjectRoute = async () => {
-    this.route.detail = this.locationsRoute;
-    for (let i = 0; i < this.route.detail.length; i++) {
-      this.route.detail[i].contractorId = this.contractor;
-    }
-    this.updateRoute();
-    let validate: boolean = true;
-    this.route.routeDate = new Date().toISOString();
-    this.route.routeNumber = '1';
-    for (let saleUnitTitle of this.saleUnitsTitles) {
-      for (let saleUnit of this.saleUnitsList[saleUnitTitle]) {
-        console.log(saleUnit);
-        for (let unit of this.totalsRoute) {
-          if (unit.saleUnit.name == saleUnit.name) {
-            if (unit.quantity > saleUnit.quantity) {
-              validate = false;
+    console.log('this.contractor>>>>>', this.contractor);
+
+    if (this.contractor.contractorId) {
+      this.route.detail = this.locationsRoute;
+      for (let i = 0; i < this.route.detail.length; i++) {
+        this.route.detail[i].contractorId = this.contractor.contractorId;
+      }
+      this.updateRoute();
+      let validate: boolean = true;
+      this.route.routeDate = new Date().toISOString();
+      this.route.routeNumber = '1';
+      for (let saleUnitTitle of this.saleUnitsTitles) {
+        for (let saleUnit of this.saleUnitsList[saleUnitTitle]) {
+          console.log(saleUnit);
+          for (let unit of this.totalsRoute) {
+            if (unit.saleUnit.name == saleUnit.name) {
+              if (unit.quantity > saleUnit.quantity) {
+                validate = false;
+              }
             }
           }
         }
       }
-    }
-    if (validate) {
-      if (this.createRoute) {
-        await this.api.createRoute(this.route.projectId, this.route);
-        this.toastr.success('Recorrido creado con éxito!');
-        console.log('route Create');
-      } else {
-        await this.api.updateRoute(
-          this.route.projectId,
-          this.route.routeId,
-          this.route
+      if (validate) {
+        if (this.createRoute) {
+          await this.api.createRoute(this.route.projectId, this.route);
+          this.listRoutes();
+          this.toastr.success('Recorrido creado con éxito!');
+          console.log('route Create');
+        } else {
+          await this.api.updateRoute(
+            this.route.projectId,
+            this.route.routeId,
+            this.route
+          );
+          this.toastr.success('Recorrido actualizado con éxito!');
+          console.log('route Update');
+        }
+      } else
+        this.toastr.error(
+          'El numero de Unidades de venta es mayor a los contratados'
         );
-        this.toastr.success('Recorrido actualizado con éxito!');
-        console.log('route Update');
-      }
-    } else
-      this.toastr.error(
-        'El numero de Unidades de venta es mayor a los contratados'
-      );
+    } else {
+      this.toastr.warning('Eliga un contratista!');
+    }
   };
 
   updateRoute() {
@@ -482,6 +497,47 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     console.log(this.totalsToRegistry);
     console.log(this.saleUnitsTitles);
   }
+
+  //////////////
+  async routeSelect() {
+    if (this.routeSelected == 'nuevo') {
+      this.newRoute();
+    } else {
+      console.log(this.routeSelected);
+      const route = await this.api.getProjectRouteById(
+        this.obj.projectId,
+        this.routeSelected
+      );
+      this.locationsRoute = route.detail;
+      const contractorSelected = await this.api.getContractorById(
+        route.detail[0].contractorId
+      );
+      this.contractor = contractorSelected;
+      console.log(route);
+      console.log(this.contractor);
+    }
+  }
+
+  newRoute = async () => {
+    await this.listRoutes();
+    this.contractor = {};
+    console.log('newRoute Function');
+    //this.locationsRoute = [{ location: '', saleUnits: [] }];
+  };
+
+  deleteProjectRoute = async () => {
+    const result = await this.api.deleteRoute(
+      this.obj.projectId,
+      this.routeSelected
+    );
+
+    if (result.routeId) {
+      this.listRoutes();
+      this.toastr.success('Recorrido eliminado');
+    } else {
+      this.toastr.error('Error al eliminar recorrido!');
+    }
+  };
   /////////
 
   async getContractors() {
@@ -507,16 +563,16 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     });
   };
 
-  getContractor = async (contractId: string) => {
+  getRouteReport = async () => {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      contractId
+      obj: this.obj
     };
 
     dialogConfig.height = '650px';
-    dialogConfig.width = '500px';
+    dialogConfig.width = '1000px';
     dialogConfig.panelClass = 'custom-modal';
     const dialogRef = this.dialog.open(GetContractComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(async () => {});

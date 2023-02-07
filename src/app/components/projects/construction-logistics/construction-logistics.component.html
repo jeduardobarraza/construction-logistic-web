@@ -147,17 +147,31 @@
                 <ng-template mat-tab-label> Recorridos </ng-template>
                 <div class="historyButton">
                     <mat-form-field appearance="fill">
+                        <mat-label>Elija un recorrido</mat-label>
+                        <mat-select [(ngModel)]="routeSelected" (ngModelChange)="routeSelect()">
+                            <mat-option *ngFor="let route of locationsListRoute" [value]="route.routeId">Recorrido: {{ route.routeDate | date : 'medium' }}
+                            </mat-option>
+                            <mat-option value="nuevo">nuevo recorrido</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
                         <mat-label>Elija un Contratista</mat-label>
                         <mat-select [(ngModel)]="contractor">
-                            <mat-option *ngFor="let contract of contractors" [value]="contract.contractorId">{{ contract.name }}</mat-option>
+                            <mat-option *ngFor="let contract of contractors" [value]="contract">{{ contract.name }}</mat-option>
                             <mat-option (click)="createContractor()">nuevo contratista</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <button mat-icon-button color="primary" [matTooltip]="saveRoute" (click)="addProjectRoute()">
             <mat-icon>done_outline</mat-icon>
           </button>
+                    <button mat-icon-button color="primary" [matTooltip]="deleteRoute" (click)="deleteProjectRoute()">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+                    <button mat-icon-button color="primary" [matTooltip]="saveRoute" (click)="getRouteReport()">
+            <mat-icon>grid_on</mat-icon>
+          </button>
                 </div>
-                <div class="formLabel">
+                <div class="formLabel" id="routes">
                     <div class="totalUnitSale">
                         <div class="sumInst">
                             <div style="margin-bottom: 25px; text-align: right">
@@ -178,7 +192,7 @@
                                 <div class="addButton">
                                     <mat-icon class="delAddIcon" color="primary" (click)="addRoute(i)">add
                                     </mat-icon>
-                                    <mat-icon class="delAddIcon" color="primary" (click)="removeRoute(i)" *ngIf="locations.length !== 1">
+                                    <mat-icon class="delAddIcon" color="primary" (click)="removeRoute(i)" *ngIf="locationsRoute.length !== 1">
                                         delete_forever
                                     </mat-icon>
                                 </div>
@@ -186,8 +200,6 @@
                         </div>
                         <div class="totalUnit">
                             <span style="font-size: large"> TOTAL </span>
-                            <span style="font-size: large"> TOTAL PEDIDOS </span>
-                            <span style="font-size: large"> ARTICULOS POR PEDIR </span>
                         </div>
                     </div>
 
@@ -234,18 +246,8 @@
                                                 </div>
                                             </mat-form-field>
                                         </div>
-                                        <div class="itemCell total-value">
-                                            <span> {{ saleUnit.quantity | number }} </span>
-                                        </div>
                                         <div class="itemCell">
                                             <div *ngFor="let unit of totalsRoute">
-                                                <div *ngIf="unit.saleUnit.name == saleUnit.name">
-                                                    <span>{{ unit.quantity | number }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="itemCell">
-                                            <div *ngFor="let unit of totalsToRegistry">
                                                 <div *ngIf="unit.saleUnit.name == saleUnit.name">
                                                     <span>{{ unit.quantity | number }}</span>
                                                 </div>
@@ -281,8 +283,6 @@
 
                         <div class="totalPiece">
                             <span style="font-size: large"> TOTAL </span>
-                            <!-- <span style="font-size: large"> TOTAL PEDIDOS </span>
-                            <span style="font-size: large"> MODULOS POR PEDIR </span> -->
                         </div>
                     </div>
                     <div style="display: flex">
@@ -292,18 +292,15 @@
                                     <span> {{ saleUnitTitle }} </span>
                                 </div>
                                 <div style="display: flex">
-                                    <!-- <div *ngFor="let set of setsItems"> -->
                                     <div *ngFor="let item of setsList[saleUnitTitle]; let j = index">
                                         <div *ngFor="let set of item.sets; let i = index">
                                             <div class="itemCell">
-                                                <!-- <span>{{ set.name }}</span> -->
                                                 <span> {{ set.name }} </span>
                                                 <span>{{ set.dimensions.height }}x{{
                             set.dimensions.width
                           }}</span
                         >
                       </div>
-                      <!--</div> -->
                       <div *ngFor="let saleUnitTitle of saleUnitsTitles">
                         <div
                           *ngFor="let saleUnit of saleUnitsList[saleUnitTitle]"
@@ -321,13 +318,6 @@
                                 <div class="itemCell" style="margin-top: 20px">
                                     <span>{{ set.amount }}</span>
                                 </div>
-                                <!-- <div class="itemCell">
-                                                    <span>{{ set.amount }}</span>
-                                                </div>
-                                                <div class="itemCell">
-                                                    <span>{{ set.amount }}</span>
-                                                </div> -->
-                                <!-- </div> -->
                             </div>
                         </div>
                     </div>

@@ -1,1 +1,129 @@
-<p>get-contract works!</p>
+<div class="app-modal-container">
+    <div class="app-modal-content" style="height: 95%">
+        <mat-tab-group mat-stretch-tabs style="height: 100%">
+            <mat-tab>
+                <ng-template mat-tab-label> Recorridos </ng-template>
+                <div class="historyButton">
+                    <!-- <mat-form-field appearance="fill">
+                        <mat-label>Elija un recorrido</mat-label>
+                        <mat-select [(ngModel)]="routeSelected" (ngModelChange)="routeSelect()">
+                            <mat-option *ngFor="let route of locationsListRoute" [value]="route.routeId">Recorrido: {{ route.routeDate | date : 'medium' }}
+                            </mat-option>
+                            <mat-option value="nuevo">nuevo recorrido</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Elija un Contratista</mat-label>
+                        <mat-select [(ngModel)]="contractor">
+                            <mat-option *ngFor="let contract of contractors" [value]="contract">{{ contract.name }}</mat-option>
+                            <mat-option (click)="createContractor()">nuevo contratista</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-icon-button color="primary" [matTooltip]="saveRoute" (click)="addProjectRoute()">
+            <mat-icon>done_outline</mat-icon>
+          </button>
+                    <button mat-icon-button color="primary" [matTooltip]="deleteRoute" (click)="deleteProjectRoute()">
+            <mat-icon>delete_forever</mat-icon>
+          </button> -->
+                </div>
+                <div class="formLabel" id="routes">
+                    <div class="totalUnitSale">
+                        <div class="sumInst">
+                            <div style="margin-bottom: 25px; text-align: right">
+                                <span>Área</span>
+                            </div>
+                            <div style="margin-bottom: 25px">
+                                <span>Valor suministro</span>
+                            </div>
+                            <div style="margin-bottom: 12px">
+                                <span>Valor instalación</span>
+                            </div>
+                        </div>
+                        <div class="inputRowAdd">
+                            <div class="inputFormRow" *ngFor="let location of locationsRoute; index as i">
+                                <mat-form-field appearance="outline" style="width: 50%">
+                                    <input matInput [(ngModel)]="location.location" autocomplete="off" required />
+                                </mat-form-field>
+                                <div class="addButton">
+                                    <!-- <mat-icon class="delAddIcon" color="primary" (click)="addRoute(i)">add
+                                    </mat-icon>
+                                    <mat-icon class="delAddIcon" color="primary" (click)="removeRoute(i)" *ngIf="locationsRoute.length !== 1">
+                                        delete_forever
+                                    </mat-icon> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="totalUnit">
+                            <span style="font-size: large"> TOTAL </span>
+                            <span style="font-size: large"> TOTAL PEDIDOS </span>
+                            <!-- <span style="font-size: large"> ARTICULOS POR PEDIR </span> -->
+                        </div>
+                    </div>
+                    <div style="display: flex">
+                        <div class="unitSale" *ngFor="let saleUnitTitle of saleUnitsTitles">
+                            <div class="unitSaleForm">
+                                <div class="borderLabel">
+                                    <span>
+                    <b> {{ saleUnitTitle }} </b>
+                  </span>
+                                </div>
+                                <div style="display: flex">
+                                    <div *ngFor="
+                      let saleUnit of saleUnitsList[saleUnitTitle];
+                      index as i
+                    ">
+                                        <div class="itemCell">
+                                            <span> {{ saleUnit.name }} </span>
+                                            <span>
+                        {{
+                          ((saleUnit.dimensions?.width | number) || '-') +
+                            ' x ' +
+                            ((saleUnit.dimensions?.height | number) || '-')
+                        }}
+                      </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <span>
+                        {{ (saleUnit.dimensions?.area | number) || '-' }} mm2
+                      </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <span>$ {{ saleUnit.supplyValue | number }} </span>
+                                        </div>
+                                        <div class="itemCell">
+                                            <span>$ {{ saleUnit.installValue | number }} </span>
+                                        </div>
+                                        <div *ngFor="let location of locationsRoute; index as i">
+                                            <mat-form-field class="inputCell" appearance="outline">
+                                                <div *ngFor="let unit of location.saleUnits; index as j">
+                                                    <div *ngIf="unit.saleUnit.name == saleUnit.name">
+                                                        <input style="text-align: center" matInput type="number" [(ngModel)]="unit.quantity" [disabled]="location.location == ''" autocomplete="off" />
+                                                    </div>
+                                                </div>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="itemCell">
+                                            <div *ngFor="let unit of totalsRoute">
+                                                <div *ngIf="unit.saleUnit.name == saleUnit.name">
+                                                    <span>{{ unit.quantity | number }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-modal-actions">
+                    <button align="end" mat-stroked-button color="primary" mat-dialog-close>
+            Cancelar
+          </button>
+                    <button align="end" mat-raised-button color="primary" type="submit" (click)="onSave()">
+            Guardar
+          </button>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

@@ -159,6 +159,11 @@ export class ConstructionLogisticsService {
       path: '' + projectId + '/route'
     });
 
+  getProjectRouteById = (projectId: string, routeId: string) =>
+    this.apiHelper.getAsync(PROJECT_CONTROLLER, {
+      path: '' + projectId + '/route/' + routeId
+    });
+
   createRoute = (projectId: any, body: IProjectRoute) =>
     this.apiHelper.postAsync(PROJECT_CONTROLLER, {
       path: '' + projectId + '/route',
@@ -171,6 +176,11 @@ export class ConstructionLogisticsService {
       body
     });
 
+  deleteRoute = (projectId: string, routeId: string) =>
+    this.apiHelper.deleteAsync(PROJECT_CONTROLLER, {
+      path: projectId + '/route/' + routeId
+    });
+
   ///////////////contractors
   getContractors = () => this.apiHelper.getAsync(CONTRACTOR_CONTROLLER);
 
@@ -181,7 +191,7 @@ export class ConstructionLogisticsService {
 
   getContractorById = (contractorId: any) =>
     this.apiHelper.getAsync(CONTRACTOR_CONTROLLER, {
-      path: '/' + contractorId
+      path: contractorId
     });
 
   deleteContractor = (contractorId: string) =>
