@@ -16,108 +16,303 @@
                     <h3 style="margin: 0px">CONF Nº</h3>
                 </div>
                 <div class="divCell">
-                    <span class="spanCell">
-            <b> {{ obj.orderNumber }} </b>
-          </span>
-                    <span class="spanCell">
-            <b> {{ obj.confNumber }} </b>
-          </span>
+                    <input class="orderNCell" matInput value="{{ obj.orderNumber }}" placeholder="Número Pedido"
+                        autocomplete="off">
+                    <!-- <span class="spanCell">
+                        <b> {{ obj.orderNumber }} </b>
+                    </span> -->
+
+                    <span class="confNCell">
+                        <mat-select *ngIf="saleUnitsList !== undefined" value="{{ obj.confNumber }}">
+                            <mat-option *ngFor="let obj of confNumberList" [value]="obj">
+                                <b> {{obj}} </b>
+                            </mat-option>
+                        </mat-select>
+                        <mat-select *ngIf="saleUnitsList == undefined">
+                            <mat-option *ngFor="let obj of tlConfNumberList" [value]="obj">
+                                <b> {{obj}} </b>
+                            </mat-option>
+                        </mat-select>
+                        <!-- <b> {{ obj.confNumber }} </b> -->
+                    </span>
                 </div>
             </div>
         </div>
         <div style="display: flex">
             <span class="materialCell"> Fecha </span>
             <span class="dateCell">
-        <b> {{ obj.orderDate | date }} </b>
-      </span>
+                <b *ngIf="saleUnitsList !== undefined"> {{ obj.orderDate | date }} </b>
+                <b *ngIf="saleUnitsList == undefined"> {{ obj.updatedAt | date }} </b>
+            </span>
         </div>
         <div style="display: flex">
             <span class="materialCell"> Producto </span>
             <span class="dateCell">
-        <b> {{ obj.product }} </b>
-      </span>
+                <mat-select *ngIf="saleUnitsList !== undefined" value="{{ obj.product }}">
+                    <mat-option *ngFor="let obj of productList" [value]="obj">
+                        <b> {{obj}} </b>
+                    </mat-option>
+                </mat-select>
+                <mat-select *ngIf="saleUnitsList == undefined">
+                    <mat-option *ngFor="let obj of tlProductList" [value]="obj.group">
+                        <b> {{obj.group}} </b>
+                    </mat-option>
+                </mat-select>
+                <!-- <b> {{ obj.product }} </b> -->
+            </span>
             <div class="inline-panel">
-                <button [matTooltip]="pieceListTooltip" *ngIf="show" mat-button color="primary" class="mat-elevation-z0" (click)="show = !show">
-          <mat-icon class="main-button"> filter_1 </mat-icon>
-        </button>
+                <button [matTooltip]="pieceListTooltip" *ngIf="show" mat-button color="primary" class="mat-elevation-z0"
+                    (click)="show = !show">
+                    <mat-icon class="main-button"> filter_1 </mat-icon>
+                </button>
             </div>
         </div>
         <div class="marginDiv" *ngIf="show">
             <span class="materialCell"> Obra </span>
-            <ng-select class="constrCell"> </ng-select>
+            <!-- <ng-select class="constrCell"> </ng-select> -->
+            <div class="projectUnitS">
+                <span class="projectCell">
+                    <b>{{ obj.tlProjectName }}</b>
+                </span>
+            </div>
 
             <div class="inline-panel">
-                <button mat-dialog-close (click)="LocationUnitSale('')" mat-button color="primary" class="mat-elevation-z0" [matTooltip]="saleUnitLocationTooltip">
-          <mat-icon class="main-button"> arrow_drop_down_circle </mat-icon>
-        </button>
+                <button mat-dialog-close (click)="LocationUnitSale('')" mat-button color="primary"
+                    class="mat-elevation-z0" [matTooltip]="saleUnitLocationTooltip">
+                    <mat-icon class="main-button"> arrow_drop_down_circle </mat-icon>
+                </button>
             </div>
         </div>
         <div class="marginDiv" *ngIf="!show">
             <span class="materialCell"> Obra </span>
-            <div class="divSizeConst">
+            <div class="projectPiece">
                 <span class="unitSaleCell">
-          <b>{{ obj.projectId }}</b>
-        </span>
+                    <b>{{ obj.tlProjectName }}</b>
+                </span>
             </div>
         </div>
         <div style="display: flex">
             <span class="materialCell"> Material </span>
-            <span class="finishCell">
-        <b> {{ obj.material }} </b>
-      </span>
+            <input class="inputMaterial" matInput value="{{ obj.material }}" placeholder="Tipo de material">
+            <!-- <span class="finishCell">
+                <b> {{ obj.material }} </b>
+            </span> -->
             <span class="materialCell"> Acabado </span>
-            <span class="finishCell">
-        <b> {{ obj.finish }} </b>
-      </span>
+            <input class="inputMaterial" matInput value="{{ obj.finish }}" placeholder="Nombre de Acabado">
+            <!-- <span class="finishCell">
+                <b> {{ obj.finish }} </b>
+            </span> -->
         </div>
-        <div style="margin-top: 15px">
-            <div style="display: flex" *ngFor="let item of saleUnits">
-                <div class="unitSaleDiv">
-                    <span class="unitSaleCell"> {{ item }} Name of unit sale </span>
-                </div>
-                <div class="amount">
-                    <span class="amountCell"> Cantidad </span>
-                    <input class="inputAmo" type="text" />
+        <div *ngIf="saleUnitsList !== undefined">
+            <div *ngIf="show">
+                <div style="margin-top: 15px" *ngFor="let item of saleUnitsList">
+                    <div style="display: flex">
+                        <div class="unitSaleDiv">
+                            <!-- <span class="unitSaleCell"> <b> {{ item.saleUnitName }} </b> </span> -->
+                            <input class="inputAmo" matInput value="{{item.saleUnitName}}"
+                                placeholder="Name of unit sale">
+                        </div>
+                        <div class="amount">
+                            <span class="amountCell"> Cantidad </span>
+                            <input class="inputAmo" matInput value="{{item.quantity}}" placeholder="Cantidad">
+                        </div>
+                        <!-- <div class="amount">
+                        <span class="amountCell"> Cantidad </span>
+                    </div>
+                    <div class="amount">
+                        <span class="amountCell"> <b> {{ item.quantity }} </b> </span>
+                    </div> -->
+                    </div>
+                    <div style="display: flex">
+                        <div class="divSize">
+                            <span class="unitSaleCell"> Cantidad </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> Espesor </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> Ancho </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> Largo </span>
+                        </div>
+                        <div class="divSizeL">
+                            <span class="unitSaleCell"> Nombre del Componente </span>
+                        </div>
+                        <div class="divSizeL">
+                            <span class="unitSaleCell"> Observaciones </span>
+                        </div>
+                    </div>
+                    <div class="hgtCell" *ngFor="let piece of item.piecesList">
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> {{ piece.quantity }} </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> {{ piece.dimensions.depth }} </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> {{ piece.dimensions.width }} </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> {{ piece.dimensions.height }} </b> </span>
+                        </div>
+                        <div class="divSizeL">
+                            <span class="unitSaleCell"> <b> {{ piece.name }} </b> </span>
+                        </div>
+                        <div class="divSizeL">
+                            <input class="inputAmo" matInput placeholder="Ingresar texto">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div style="display: flex">
-                <div class="divSize">
-                    <span class="unitSaleCell"> Cantidad </span>
-                </div>
-                <div class="divSize">
-                    <span class="unitSaleCell"> Espesor </span>
-                </div>
-                <div class="divSize">
-                    <span class="unitSaleCell"> Ancho </span>
-                </div>
-                <div class="divSize">
-                    <span class="unitSaleCell"> Largo </span>
-                </div>
-                <div class="divSizeL">
+            <div style="margin-top: 15px" *ngIf="!show">
+                <div style="display: flex">
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Cantidad </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Espesor </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Ancho </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Largo </span>
+                    </div>
+                    <!-- <div class="divSizeL" *ngIf="show">
                     <span class="unitSaleCell"> Nombre del Componente </span>
+                </div> -->
+                    <div class="divSizeL">
+                        <span class="unitSaleCell"> Observaciones </span>
+                    </div>
                 </div>
-                <div class="divSizeL">
-                    <span class="unitSaleCell"> Observaciones </span>
+                <div *ngFor="let item of saleUnitsList">
+                    <div class="hgtCell" *ngFor="let piece of item.piecesList">
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> {{ piece.quantity }} </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> {{ piece.dimensions.depth }} </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> {{ piece.dimensions.width }} </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> {{ piece.dimensions.height }} </b> </span>
+                        </div>
+                        <!-- <div class="divSizeL" *ngIf="show">
+                        <span class="unitSaleCell"> {{ piece.name }} </span>
+                    </div> -->
+                        <div class="divSizeL">
+                            <input class="inputAmo" matInput placeholder="Ingresar texto">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="hgtCell">
-                <div class="divSize">
-                    <span class="unitSaleCell"> </span>
+        </div>
+        <div *ngIf="saleUnitsList == undefined">
+            <div *ngIf="show">
+                <div style="margin-top: 15px">
+                    <div style="display: flex">
+                        <div class="unitSaleDiv">
+                            <!-- <span class="unitSaleCell"> <b> {{ item.saleUnitName }} </b> </span> -->
+                            <input class="inputAmo" matInput placeholder="Name of unit sale">
+                        </div>
+                        <div class="amount">
+                            <span class="amountCell"> Cantidad </span>
+                            <input class="inputAmo" matInput placeholder="Cantidad">
+                        </div>
+                        <!-- <div class="amount">
+                        <span class="amountCell"> Cantidad </span>
+                    </div>
+                    <div class="amount">
+                        <span class="amountCell"> <b> {{ item.quantity }} </b> </span>
+                    </div> -->
+                    </div>
+                    <div style="display: flex">
+                        <div class="divSize">
+                            <span class="unitSaleCell"> Cantidad </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> Espesor </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> Ancho </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> Largo </span>
+                        </div>
+                        <div class="divSizeL">
+                            <span class="unitSaleCell"> Nombre del Componente </span>
+                        </div>
+                        <div class="divSizeL">
+                            <span class="unitSaleCell"> Observaciones </span>
+                        </div>
+                    </div>
+                    <div class="hgtCell">
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> </b> </span>
+                        </div>
+                        <div class="divSizeL">
+                            <span class="unitSaleCell"> <b> </b> </span>
+                        </div>
+                        <div class="divSizeL">
+                            <input class="inputAmo" matInput placeholder="Ingresar texto">
+                        </div>
+                    </div>
                 </div>
-                <div class="divSize">
-                    <span class="unitSaleCell"> </span>
+            </div>
+            <div style="margin-top: 15px" *ngIf="!show">
+                <div style="display: flex">
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Cantidad </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Espesor </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Ancho </span>
+                    </div>
+                    <div class="divSize">
+                        <span class="unitSaleCell"> Largo </span>
+                    </div>
+                    <!-- <div class="divSizeL" *ngIf="show">
+                    <span class="unitSaleCell"> Nombre del Componente </span>
+                </div> -->
+                    <div class="divSizeL">
+                        <span class="unitSaleCell"> Observaciones </span>
+                    </div>
                 </div>
-                <div class="divSize">
-                    <span class="unitSaleCell"> </span>
-                </div>
-                <div class="divSize">
-                    <span class="unitSaleCell"> </span>
-                </div>
-                <div class="divSizeL">
-                    <span class="unitSaleCell"> </span>
-                </div>
-                <div class="divSizeL">
-                    <input class="inputAmo" type="text" />
+                <div>
+                    <div class="hgtCell">
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> </b> </span>
+                        </div>
+                        <div class="divSize">
+                            <span class="unitSaleCell"> <b> </b> </span>
+                        </div>
+                        <!-- <div class="divSizeL" *ngIf="show">
+                        <span class="unitSaleCell"> {{ piece.name }} </span>
+                    </div> -->
+                        <div class="divSizeL">
+                            <input class="inputAmo" matInput placeholder="Ingresar texto">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -127,22 +322,22 @@
                 <h3>Elaborado por</h3>
             </div>
             <span class="authorCell">
-        <b> {{ obj.author }}</b>
-      </span>
+                <b> {{ obj.author }}</b>
+            </span>
         </div>
     </div>
     <div class="app-modal-actions">
         <button align="end" mat-stroked-button color="primary" *ngIf="!show" (click)="show = !show">
-      Cancelar
-    </button>
+            Cancelar
+        </button>
         <button align="end" mat-stroked-button color="primary" mat-dialog-close *ngIf="show">
-      Cancelar
-    </button>
+            Cancelar
+        </button>
         <button align="end" mat-raised-button color="primary" mat-dialog-close>
-      Guardar Borrador
-    </button>
+            Guardar Borrador
+        </button>
         <button align="end" mat-raised-button color="primary" mat-dialog-close (click)="getRoute('')">
-      Generar
-    </button>
+            Generar
+        </button>
     </div>
 </div>

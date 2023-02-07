@@ -1,12 +1,12 @@
 .labelStyle {
     font-size: 20px;
-    font-weight: 500;  
-    font: 500 20px/32px Roboto,"Helvetica Neue", sans-serif;  
+    font-weight: 500;
+    font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
     padding-top: 50px;
     display: flex;
     flex-direction: column;
-    align-items: center; 
-    color: teal;   
+    align-items: center;
+    color: teal;
 }
 
 .itemCell {
@@ -19,26 +19,30 @@
     text-align: center;
     margin: 3px;
 }
+
 .content {
-    padding-right: 50px; 
+    padding-right: 50px;
     padding-left: 50px
 }
 
 .logo {
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
     justify-content: space-between
 }
+
 .cfric {
     margin-left: 70px;
     color: brown;
     margin-top: -10px;
     font-size: small;
 }
+
 .orderN {
-    display: flex;      
+    display: flex;
     margin-bottom: -50px
 }
+
 .confN {
     margin-right: 10px;
     display: flex;
@@ -46,76 +50,122 @@
     height: 90px;
     justify-content: space-around;
 }
+
 .divCell {
     display: flex;
     flex-direction: column;
     height: 90px;
     justify-content: space-around;
 }
-.spanCell {
+
+.orderNCell {
     display: flex;
     flex-direction: column;
     border-style: solid;
     border-color: lightgray;
-    border-width: 0.1px;    
-    text-align: center;    
-    width: 100px; 
-    padding: 5px; 
-    height: 18px
+    border-width: 0.1px;
+    text-align: center;
+    width: auto;
+    padding: 5px;
+    // height: 18px;
+    font-weight: bold;
 }
+
+.confNCell {
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.1px;
+    text-align: center;
+    // width: 100px;
+    padding: 5px;
+    // height: 18px;
+    font-weight: bold;
+}
+
+.projectPiece {
+    display: flex;
+    width: 89%
+}
+
+.projectUnitS {
+    display: flex;
+    width: 50%
+}
+
+.projectCell {
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.1px;
+    text-align: center;
+    width: 97%;
+    padding: 6px;
+    margin: 0px
+}
+
 .materialCell {
     display: flex;
     flex-direction: column;
     border-style: solid;
     border-color: lightgray;
-    border-width: 0.1px;    
-    text-align: center;    
-    width: 10%; 
-    padding: 6px; 
+    border-width: 0.1px;
+    text-align: center;
+    width: 10%;
+    padding: 6px;
     margin: 0px
 }
+
 .finishCell {
     display: flex;
     flex-direction: column;
     border-style: solid;
     border-color: lightgray;
-    border-width: 0.1px;    
-    text-align: center;    
-    width: 37%; 
-    padding: 6px; 
+    border-width: 0.1px;
+    text-align: center;
+    width: 37%;
+    padding: 6px;
     margin: 0px
 }
+
 .dateCell {
     display: flex;
     flex-direction: column;
     border-style: solid;
     border-color: lightgray;
-    border-width: 0.1px;    
-    text-align: center;    
-    width: 20%; 
-    padding: 6px; 
-    margin: 0px
+    border-width: 0.1px;
+    text-align: center;
+    width: 20%;
+    padding: 6px;
+    margin: 0px;
+    font-weight: bold;
 }
+
 .inputCell {
     padding: 7px;
     border-style: solid;
     border-color: lightgray;
     border-width: 0.1px;
 }
+
 .prodSelect {
     display: flex;
     flex-direction: column;
-    justify-content: center;   
+    justify-content: center;
     border-style: solid;
     border-color: lightgray;
-    border-width: 0.1px;    
-    width: 137px;        
+    border-width: 0.1px;
+    width: 137px;
     height: 35px;
 }
+
 .marginDiv {
-    display: flex; 
+    display: flex;
     margin-top: 15px
 }
+
 .constrCell {
     display: flex;
     flex-direction: column;
@@ -126,90 +176,111 @@
     width: 50%;
     height: 36px;
 }
+
 .inputMat {
     border-style: solid;
     border-color: lightgray;
     border-width: 0.1px;
     width: 37%;
 }
-.unitSaleCell{
+
+.unitSaleCell {
     display: flex;
     flex-direction: column;
     border-style: solid;
     border-color: lightgray;
-    border-width: 0.1px;    
+    border-width: 0.1px;
     text-align: center;
-    padding: 6px; 
-    margin: 0px; 
+    padding: 6px;
+    margin: 0px;
     width: 100%
 }
+
 .unitSaleDiv {
-    display: flex; 
+    display: flex;
     width: 78%
 }
+
 .amount {
-    display: flex; 
+    display: flex;
     width: 30%
 }
+
 .amountCell {
     display: flex;
     flex-direction: column;
     border-style: solid;
     border-color: lightgray;
-    border-width: 0.1px;    
-    text-align: center;    
-    width: 30%; 
-    padding: 6px; 
+    border-width: 0.1px;
+    text-align: center;
+    // width: 30%;
+    padding: 6px;
     margin: 0px
 }
+
+.inputMaterial {
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.1px;
+    width: 38%;
+    margin: 0px;
+    text-align: center;
+    font-weight: bold;
+}
+
 .inputAmo {
     border-style: solid;
     border-color: lightgray;
     border-width: 0.1px;
-    width: 100%;
+    // width: 100%;
+    margin: 0px;
+    text-align: center;
+    font-weight: bold;
 }
+
 .divSize {
-    display: flex; 
+    display: flex;
     width: 40%
 }
+
 .divSizeL {
-    display: flex; 
+    display: flex;
     width: 100%
 }
+
 .hgtCell {
-    display: flex; 
+    display: flex;
     height: 35px
 }
+
 .prodCell {
     display: flex;
     //align-items: baseline;
     margin-top: 50px;
     margin-left: 20px;
 }
+
 .inputProd {
     border-style: solid;
     border-color: lightgray;
     border-width: 0.1px;
     height: 25px;
 }
-.divSizeConst {
-    display: flex; 
-    width: 89%
-}
+
 .authorCell {
     display: flex;
     flex-direction: column;
     border-style: solid;
     border-color: lightgray;
-    border-width: 0.1px;    
-    text-align: center;  
+    border-width: 0.1px;
+    text-align: center;
     padding: 5px;
-    min-width: 20%; 
+    min-width: 20%;
     padding-right: 10px;
-    padding-left: 10px; 
+    padding-left: 10px;
     height: 15px;
 }
 
 .example-section {
     margin: 12px 0;
-  }
+}

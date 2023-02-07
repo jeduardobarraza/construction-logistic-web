@@ -12,7 +12,7 @@ const CONSTRUCTION_CONTROLLER = 'project';
 const PIECE_CONTROLLER = 'piece';
 const SET_CONTROLLER = 'set';
 const SALE_UNIT_CONTROLLER = 'saleUnit';
-const ORDER_CONTROLLER = 'order';
+const ORDER_CONTROLLER = 'orders';
 const PROJECT_CONTROLLER = 'project';
 const LOCATION_CONTROLLER = 'locations';
 const ROUTE_CONTROLLER = 'route';
@@ -126,7 +126,7 @@ export class ConstructionLogisticsService {
 
   createOrder = (projectId: any, body: IOrder) =>
     this.apiHelper.postAsync(PROJECT_CONTROLLER, {
-      path: '' + projectId + '/orders'
+      path: '' + projectId + '/orders', body
     });
 
   //////////////////locations

@@ -34,7 +34,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
   tagList: string[] = [];
   saleUnitsList: any[] = [];
   setsList: any[] = [];
-  piecesList: any[] = [];
+  // piecesList: any[] = [];
   ordersList: any[] = [];
   ordersQuantity: any[] = [];
   ordersByProject: any[] = [];
@@ -144,7 +144,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       this.tagList = split(obj.tags, ';');
       this.transformSalesUnitView();
       this.loadSetsByProject();
-      this.loadPiecesByProject();
+      //this.loadPiecesByProject();
     }
 
     this.location.projectId = obj.projectId;
@@ -575,15 +575,15 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     dialogConfig.width = '1000px';
     dialogConfig.panelClass = 'custom-modal';
     const dialogRef = this.dialog.open(GetContractComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
-  manufacturingOrder = async (type: string, obj: any) => {
+  manufacturingOrder = async (obj: any) => {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      type,
+      //type,
       obj
     };
 
@@ -594,7 +594,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       GetManufacturingOrderComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   getInvoiceHistory = async (type: string, obj: any = null) => {
@@ -613,7 +613,7 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
       GetInvoiceHistoryComponent,
       dialogConfig
     );
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   getRoute = async (type: string, obj: any = null) => {
@@ -629,13 +629,13 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     dialogConfig.width = '500px';
     dialogConfig.panelClass = 'custom-modal';
     const dialogRef = this.dialog.open(GetRouteComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(async () => {});
+    dialogRef.afterClosed().subscribe(async () => { });
   };
 
   onCellClicked(e: any) {
     console.log('cellClicked', e);
-    if (e.colDef.colId === 'btnArchive') {
-      this.manufacturingOrder(e.data.type, e.data);
+    if (e.colDef.colId === 'orderNumber') {
+      this.manufacturingOrder(e.data);
     }
   }
 
@@ -775,19 +775,19 @@ export class ConstructionLogisticsComponent implements AfterViewInit {
     console.log(this.setsItems);
   };
 
-  loadPiecesByProject = async () => {
-    const pieceByProject: any = {};
+  // loadPiecesByProject = async () => {
+  //   const pieceByProject: any = {};
 
-    (this.obj?.detail || []).map((piece: any) => {
-      if (!pieceByProject[piece.group]) pieceByProject[piece.group] = [];
-      pieceByProject[piece.group].push(piece);
-    });
+  //   (this.obj?.detail || []).map((piece: any) => {
+  //     if (!pieceByProject[piece.group]) pieceByProject[piece.group] = [];
+  //     pieceByProject[piece.group].push(piece);
+  //   });
 
-    this.piecesList = pieceByProject;
-    console.log('pieceByProject', pieceByProject);
-    console.log('this.piecesList', this.piecesList);
-    console.log(this.piecesItems);
-  };
+  //   this.piecesList = pieceByProject;
+  //   console.log('pieceByProject', pieceByProject);
+  //   console.log('this.piecesList', this.piecesList);
+  //   console.log(this.piecesItems);
+  // };
 
   loadOrders = async () => {
     const oderList = await this.api.getOrder();
